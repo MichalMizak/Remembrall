@@ -1,4 +1,4 @@
-package sk.upjs.paz1c.nezabudal;
+package sk.upjs.paz1c.nezabudal.forms;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
