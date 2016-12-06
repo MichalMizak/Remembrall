@@ -13,7 +13,7 @@ public interface CategoryDao {
     
     public Category getById(Long id);
      
-    public void getAttributes();
+    public List<String> getAttributes();
     
     public void saveOrEdit(Category kategoria);  
     

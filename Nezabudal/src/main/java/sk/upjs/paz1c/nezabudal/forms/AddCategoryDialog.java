@@ -1,6 +1,6 @@
 package sk.upjs.paz1c.nezabudal.forms;
 
-import sk.upjs.paz1c.nezabudal.gui.models.CategoryAttributeNameTableModel;
+import sk.upjs.paz1c.nezabudal.gui.models.AttributeNameTableModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -53,7 +53,7 @@ public class AddCategoryDialog extends javax.swing.JDialog {
 
         attributesLabel.setText("Vlastnosti:");
 
-        categoryAttributeNameTable.setModel(new CategoryAttributeNameTableModel());
+        categoryAttributeNameTable.setModel(new AttributeNameTableModel());
         jScrollPane1.setViewportView(categoryAttributeNameTable);
 
         addCategoryButton.setText("Pridaj");

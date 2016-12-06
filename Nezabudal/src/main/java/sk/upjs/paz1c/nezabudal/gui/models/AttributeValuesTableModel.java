@@ -1,21 +1,42 @@
-package old;
+package sk.upjs.paz1c.nezabudal.gui.models;
 
 
+import sk.upjs.paz1c.nezabudal.dummy.data.DummyCategoryDao;
 import old.Attribute;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
+import sk.upjs.paz1c.nezabudal.dao.CategoryDao;
+import sk.upjs.paz1c.nezabudal.entity.Category;
 
-public class AttributesTableModel extends AbstractTableModel {
+public class AttributeValuesTableModel extends AbstractTableModel {
 
-    private AttributesDao attributeDao = new AttributesDao();
-
+    private CategoryDao attributeDao = DummyCategoryDao.INSTANCE;
+    
+    private Category category;
+    
+    private String[] attributeValues;
+    
     private static final String[] NAZVY_STLPCOV = {"Vlastnosť", ""};
 
     private static final int POCET_STLPCOV = NAZVY_STLPCOV.length;
 
+    public AttributeValuesTableModel(Category category) {
+        initialize(category);
+    }
+    
+    public void initialize(Category category) {
+        this.category = category;
+        if (category == null || category.getAttributes() == null) {
+            category = attributeDao.getById(0L);
+        } 
+        List<String> attr = category.getAttributes();
+        int size = attr.size();
+        attributeValues = new String[size];
+    }
+      
     @Override
     public int getRowCount() {
-        return attributeDao.getAttributes().size();
+        return category.getAttributes().size();
     }
 
     @Override
@@ -25,12 +46,12 @@ public class AttributesTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Attribute attribute = attributeDao.getAttributes().get(rowIndex);
+        
         switch (columnIndex) {
             case 0:
-                return attribute.getName();
+                return category.getAttributes().get(rowIndex);
             case 1:
-                return attribute.getValue();
+                return attributeValues[rowIndex];
             default:
                 return null;
         }
@@ -47,10 +68,8 @@ public class AttributesTableModel extends AbstractTableModel {
 
     @Override
     public void setValueAt(Object value, int row, int col) {
-        Attribute attribute = attributeDao.getAttributes().get(row);
-        switch (col) {
-            case 1: attribute.setValue((String) value);
-        }
+       
+        attributeValues[row] = (String) value;
         
         fireTableCellUpdated(row, col);
     }

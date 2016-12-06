@@ -206,11 +206,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Pridaj predmet"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addItemButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JCheckBox" name="notBorrowedCheckBox">
       <Properties>
         <Property name="text" type="java.lang.String" value="Nepo&#x17e;i&#x10d;an&#xe9;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="notBorrowedCheckBoxActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

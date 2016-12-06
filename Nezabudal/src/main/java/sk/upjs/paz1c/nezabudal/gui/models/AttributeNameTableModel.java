@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
-public class CategoryAttributeNameTableModel extends AbstractTableModel {
+public class AttributeNameTableModel extends AbstractTableModel {
 
     private List<String> attributeNames = new ArrayList<>();
 
     private static final int COLUMN_COUNT = 1;
     
-    public CategoryAttributeNameTableModel() {
+    public AttributeNameTableModel() {
         attributeNames.add("");
     }
 

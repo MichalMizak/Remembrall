@@ -5,7 +5,6 @@ package sk.upjs.paz1c.nezabudal.forms;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Mikey
@@ -17,6 +16,7 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
      */
     public CategoryAndLoanListForm() {
         initComponents();
+        // toto checkbox ked je sam
     }
 
     /**
@@ -114,8 +114,18 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
         removeItemButton.setText("Odstráň predmet");
 
         addItemButton.setText("Pridaj predmet");
+        addItemButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addItemButtonActionPerformed(evt);
+            }
+        });
 
         notBorrowedCheckBox.setText("Nepožičané");
+        notBorrowedCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                notBorrowedCheckBoxActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -194,7 +204,11 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
     }//GEN-LAST:event_lentCheckBoxActionPerformed
 
     private void lentCheckBoxMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lentCheckBoxMousePressed
-        ownedCheckBox.doClick();
+        if (ownedCheckBox.isSelected()) {
+            ownedCheckBox.doClick();
+        } else if (notBorrowedCheckBox.isSelected()) {
+            notBorrowedCheckBox.doClick();
+        }
     }//GEN-LAST:event_lentCheckBoxMousePressed
 
     private void ownedCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ownedCheckBoxActionPerformed
@@ -202,7 +216,11 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
     }//GEN-LAST:event_ownedCheckBoxActionPerformed
 
     private void ownedCheckBoxMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ownedCheckBoxMousePressed
-        lentCheckBox.doClick();
+        if (lentCheckBox.isSelected()) {
+            lentCheckBox.doClick();
+        } else if (notBorrowedCheckBox.isSelected()) {
+            notBorrowedCheckBox.doClick();
+        }
     }//GEN-LAST:event_ownedCheckBoxMousePressed
 
     private void addLoanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLoanButtonActionPerformed
@@ -217,6 +235,22 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
         //----
         // ( (KategoriaComboBoxModel) kategoriaComboBox.getModel() ).refresh();
     }//GEN-LAST:event_addCategoryButtonActionPerformed
+
+    private void addItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addItemButtonActionPerformed
+        AddItemDialog itemDialog = new AddItemDialog(this, true);
+
+        // refresh model
+        itemDialog.setVisible(true);
+
+    }//GEN-LAST:event_addItemButtonActionPerformed
+
+    private void notBorrowedCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notBorrowedCheckBoxActionPerformed
+        if (lentCheckBox.isSelected()) {
+            lentCheckBox.doClick();
+        } else if (ownedCheckBox.isSelected()) {
+            ownedCheckBox.doClick();
+        } 
+    }//GEN-LAST:event_notBorrowedCheckBoxActionPerformed
 
     /**
      * @param args the command line arguments

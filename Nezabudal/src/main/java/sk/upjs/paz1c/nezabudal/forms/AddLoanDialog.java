@@ -1,6 +1,10 @@
 package sk.upjs.paz1c.nezabudal.forms;
 
-import old.AttributesTableModel;
+import java.util.ArrayList;
+import java.util.List;
+import sk.upjs.paz1c.nezabudal.entity.Category;
+import sk.upjs.paz1c.nezabudal.gui.models.AttributeValuesTableModel;
+import sk.upjs.paz1c.nezabudal.gui.models.CategoryComboBoxModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -20,7 +24,13 @@ public class AddLoanDialog extends javax.swing.JDialog {
      */
     public AddLoanDialog(java.awt.Frame parent, boolean modal) {
         super(parent, MODALITY);
+        
         initComponents();
+       // attributesTable.setModel();
+        
+      //  AttributeValuesTableModel tableModel = (AttributeValuesTableModel) attributesTable.getModel();
+      //  tableModel.initialize(category);
+        
     }
 
     /**
@@ -33,19 +43,15 @@ public class AddLoanDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         addLoanButton = new javax.swing.JButton();
+        addLoanButton1 = new javax.swing.JButton();
+        categoryComboBox = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         attributesTable = new javax.swing.JTable();
-        addLoanButton1 = new javax.swing.JButton();
-        kategoriaComboBox = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
 
         addLoanButton.setText("Pridaj");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        attributesTable.setModel(new AttributesTableModel());
-        attributesTable.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(attributesTable);
 
         addLoanButton1.setText("Pridaj");
         addLoanButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -54,53 +60,72 @@ public class AddLoanDialog extends javax.swing.JDialog {
             }
         });
 
-        kategoriaComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        categoryComboBox.setModel(new CategoryComboBoxModel());
+        categoryComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                categoryComboBoxActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Kategória");
+
+        attributesTable.setModel(new AttributeValuesTableModel((Category) categoryComboBox.getSelectedItem()));
+        attributesTable.setToolTipText("");
+        attributesTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(attributesTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(317, 317, 317)
-                                .addComponent(addLoanButton1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(kategoriaComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addGap(317, 317, 317)
+                        .addComponent(addLoanButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(categoryComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(kategoriaComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(categoryComboBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(300, 300, 300)
                 .addComponent(addLoanButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(53, 53, 53)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(53, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void addLoanButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLoanButton1ActionPerformed
+
+        // validate and save
+
         setVisible(false);
         dispose();
     }//GEN-LAST:event_addLoanButton1ActionPerformed
+
+    private void categoryComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_categoryComboBoxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -148,8 +173,8 @@ public class AddLoanDialog extends javax.swing.JDialog {
     private javax.swing.JButton addLoanButton;
     private javax.swing.JButton addLoanButton1;
     private javax.swing.JTable attributesTable;
+    private javax.swing.JComboBox<Category> categoryComboBox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JComboBox<String> kategoriaComboBox;
     // End of variables declaration//GEN-END:variables
 }
