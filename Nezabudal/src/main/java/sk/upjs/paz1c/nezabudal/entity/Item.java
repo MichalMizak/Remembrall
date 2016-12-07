@@ -16,49 +16,23 @@ public class Item {
 
     private String itemState;
 
-    private Loan loan;
-
-    public Loan getLoan() {
-        return loan;
-    }
-
-    public void setLoan(Loan loan) {
-        this.loan = loan;
-    }
+    private boolean isBorrowed;
     
     private Category category;
     
     // the values of the category attributes
     private List<String> attributeValues;
 
-    public boolean isBorrowed() {
-        return loan == null;
-    }
-    
-    public List<String> getAttributeValues() {
-        return attributeValues;
-    }
-
-    public void setAttributeValues(List<String> attributeValues) {
+    public Item(String itemName, String itemDescription, String itemState, boolean isBorrowed, Category category, List<String> attributeValues) {
+        this.itemName = itemName;
+        this.itemDescription = itemDescription;
+        this.itemState = itemState;
+        this.isBorrowed = isBorrowed;
+        this.category = category;
         this.attributeValues = attributeValues;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    
     public String getItemName() {
         return itemName;
     }
@@ -81,6 +55,37 @@ public class Item {
 
     public void setItemState(String itemState) {
         this.itemState = itemState;
+    }
+
+    public boolean isIsBorrowed() {
+        return isBorrowed;
+    }
+
+    public void setIsBorrowed(boolean isBorrowed) {
+        this.isBorrowed = isBorrowed;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public List<String> getAttributeValues() {
+        return attributeValues;
+    }
+
+    public void setAttributeValues(List<String> attributeValues) {
+        this.attributeValues = attributeValues;
+    }
+
+   
+
+    @Override
+    public String toString() {
+        return itemName;
     }
 
     

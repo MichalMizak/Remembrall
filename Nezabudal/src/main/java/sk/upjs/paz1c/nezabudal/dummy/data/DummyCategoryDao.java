@@ -13,6 +13,7 @@ public class DummyCategoryDao implements CategoryDao {
 
     private Category category;
     private Category category2;
+    private Category category3;
 
     public DummyCategoryDao() {
 
@@ -24,7 +25,7 @@ public class DummyCategoryDao implements CategoryDao {
         list.add("attr3");
         list.add("attr4");
         category.setAttributes(list);
-        
+
         category2 = new Category();
         category2.setTitle("wat2");
         List<String> list2 = new ArrayList<>();
@@ -32,19 +33,32 @@ public class DummyCategoryDao implements CategoryDao {
         list2.add("attr2");
         list2.add("attr3");
         category2.setAttributes(list2);
+        
+        
+        category3= new Category();
+        category3.setTitle("wat3");
+        List<String> list3 = new ArrayList<>();
+        list3.add("attr1");
+        list3.add("attr2");
+        category3.setAttributes(list2);
     }
 
     @Override
     public List<Category> getCategories() {
-        List<Category> list2 = new ArrayList<>();
-        list2.add(category);
-        list2.add(category2);
-        return list2;
+        List<Category> list = new ArrayList<>();
+        list.add(category);
+        list.add(category2);
+        list.add(category3);               
+        return list;
     }
 
     @Override
     public Category getById(Long id) {
-        return category;
+        if (id.equals(0L)) {
+            return category;
+        } else {
+            return category2;
+        }
     }
 
     @Override

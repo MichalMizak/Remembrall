@@ -1,7 +1,5 @@
 package sk.upjs.paz1c.nezabudal.gui.models;
 
-import sk.upjs.paz1c.nezabudal.dummy.data.DummyCategoryDao;
-import old.Attribute;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import sk.upjs.paz1c.nezabudal.dao.CategoryDao;
@@ -16,9 +14,9 @@ public class AttributeValuesTableModel extends AbstractTableModel {
 
     private String[] attributeValues;
 
-    private static final String[] NAZVY_STLPCOV = {"Vlastnosť", ""};
+    private static final String[] COLUMN_VALUES = {"Vlastnosť", ""};
 
-    private static final int POCET_STLPCOV = NAZVY_STLPCOV.length;
+    private static final int COLUMN_COUNT = COLUMN_VALUES.length;
 
     public AttributeValuesTableModel(Category category) {
         initialize(category);
@@ -48,7 +46,7 @@ public class AttributeValuesTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return POCET_STLPCOV;
+        return COLUMN_COUNT;
     }
 
     @Override
@@ -83,7 +81,7 @@ public class AttributeValuesTableModel extends AbstractTableModel {
 
     @Override
     public String getColumnName(int columnIndex) {
-        return NAZVY_STLPCOV[columnIndex];
+        return COLUMN_VALUES[columnIndex];
     }
 
     @Override

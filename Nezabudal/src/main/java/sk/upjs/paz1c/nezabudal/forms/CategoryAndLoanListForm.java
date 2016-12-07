@@ -1,5 +1,9 @@
 package sk.upjs.paz1c.nezabudal.forms;
 
+import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
+import sk.upjs.paz1c.nezabudal.entity.Category;
+import sk.upjs.paz1c.nezabudal.gui.models.CategoryComboBoxModel;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -36,12 +40,12 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
         ownedCheckBox = new javax.swing.JCheckBox();
         loanLabel = new javax.swing.JLabel();
         categoryLabel = new javax.swing.JLabel();
-        kategoriaComboBox = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         itemListTable = new javax.swing.JTable();
         removeItemButton = new javax.swing.JButton();
         addItemButton = new javax.swing.JButton();
         notBorrowedCheckBox = new javax.swing.JCheckBox();
+        categoryComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Remembrall");
@@ -56,6 +60,11 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
         });
 
         removeCategoryButton.setText("Odstráň kategóriu");
+        removeCategoryButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeCategoryButtonActionPerformed(evt);
+            }
+        });
 
         addLoanButton.setText("Pridaj pôžičku");
         addLoanButton.addActionListener(new java.awt.event.ActionListener() {
@@ -65,6 +74,11 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
         });
 
         removeLoanButton.setText("Odstráň pôžičku");
+        removeLoanButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeLoanButtonActionPerformed(evt);
+            }
+        });
 
         lentCheckBox.setText("Požičal som");
         lentCheckBox.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -96,8 +110,6 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
 
         categoryLabel.setText("Kategória");
 
-        kategoriaComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         itemListTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -112,6 +124,11 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
         jScrollPane1.setViewportView(itemListTable);
 
         removeItemButton.setText("Odstráň predmet");
+        removeItemButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeItemButtonActionPerformed(evt);
+            }
+        });
 
         addItemButton.setText("Pridaj predmet");
         addItemButton.addActionListener(new java.awt.event.ActionListener() {
@@ -127,6 +144,13 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
             }
         });
 
+        categoryComboBox.setModel(ObjectFactory.INSTANCE.getCategoryComboBoxModel());
+        categoryComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                categoryComboBoxActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -136,12 +160,12 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(removeItemButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(addLoanButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(removeLoanButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(addItemButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(removeItemButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(addItemButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(addLoanButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(removeLoanButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(categoryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -155,12 +179,12 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(notBorrowedCheckBox))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(kategoriaComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(addCategoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(12, 12, 12)
+                                .addComponent(categoryComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(addCategoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(3, 3, 3)
                                 .addComponent(removeCategoryButton)))
-                        .addGap(0, 33, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -170,8 +194,8 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(categoryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addCategoryButton)
-                    .addComponent(kategoriaComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(removeCategoryButton))
+                    .addComponent(removeCategoryButton)
+                    .addComponent(categoryComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(loanLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -180,7 +204,6 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
                     .addComponent(notBorrowedCheckBox))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(addItemButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -188,7 +211,8 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(addLoanButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(removeLoanButton)))
+                        .addComponent(removeLoanButton))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -252,6 +276,28 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
         } 
     }//GEN-LAST:event_notBorrowedCheckBoxActionPerformed
 
+    private void categoryComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryComboBoxActionPerformed
+        // AttributeValuesTableModel model = (AttributeValuesTableModel ) attributesTable.getModel();
+        // model.aktualizovat(getSelectedCategory());
+
+        // attributesTable.setModel(new AttributeValuesTableModel(getSelectedCategory()));
+    }//GEN-LAST:event_categoryComboBoxActionPerformed
+
+    private void removeCategoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeCategoryButtonActionPerformed
+        CategoryRemoveDialog categoryRemoveDialog = new CategoryRemoveDialog(this, true);
+        categoryRemoveDialog.setVisible(true);
+    }//GEN-LAST:event_removeCategoryButtonActionPerformed
+
+    private void removeItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeItemButtonActionPerformed
+        ItemRemoveDialog itemRemoveDialog = new ItemRemoveDialog(this, true);
+        itemRemoveDialog.setVisible(true);
+    }//GEN-LAST:event_removeItemButtonActionPerformed
+
+    private void removeLoanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeLoanButtonActionPerformed
+        LoanRemoveDialog loanRemoveDialog = new LoanRemoveDialog(this, true);
+        loanRemoveDialog.setVisible(true);
+    }//GEN-LAST:event_removeLoanButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -294,10 +340,10 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
     private javax.swing.JButton addCategoryButton;
     private javax.swing.JButton addItemButton;
     private javax.swing.JButton addLoanButton;
+    private javax.swing.JComboBox<Category> categoryComboBox;
     private javax.swing.JLabel categoryLabel;
     private javax.swing.JTable itemListTable;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JComboBox<String> kategoriaComboBox;
     private javax.swing.JCheckBox lentCheckBox;
     private javax.swing.JLabel loanLabel;
     private javax.swing.JCheckBox notBorrowedCheckBox;

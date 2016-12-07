@@ -13,6 +13,9 @@ import sk.upjs.paz1c.nezabudal.dummy.data.DummyItemDao;
 import sk.upjs.paz1c.nezabudal.dummy.data.DummyItemDao;
 import sk.upjs.paz1c.nezabudal.dummy.data.DummyLoanDao;
 import sk.upjs.paz1c.nezabudal.dummy.data.DummyLoanDao;
+import sk.upjs.paz1c.nezabudal.gui.models.CategoryComboBoxModel;
+import sk.upjs.paz1c.nezabudal.gui.models.ItemComboBoxModel;
+import sk.upjs.paz1c.nezabudal.gui.models.LoanComboBoxModel;
 
 
 
@@ -24,6 +27,8 @@ public enum ObjectFactory {
     private CategoryDao categoryDao;
     private LoanDao loanDao;
     private ItemDao itemDao;
+    
+    private CategoryComboBoxModel categoryComboBoxModel;
     
    /* public JdbcTemplate getJdbcTemplate() {
         if (jdbcTemplate == null) {
@@ -56,5 +61,12 @@ public enum ObjectFactory {
         }
         return itemDao;
     }
+      
+      public CategoryComboBoxModel getCategoryComboBoxModel() {
+          if (categoryComboBoxModel == null) {
+              categoryComboBoxModel = new CategoryComboBoxModel();
+          }
+          return categoryComboBoxModel;
+      }
     
 }

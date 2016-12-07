@@ -1,10 +1,12 @@
 package sk.upjs.paz1c.nezabudal.dummy.data;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import sk.upjs.paz1c.nezabudal.dao.LoanDao;
 import sk.upjs.paz1c.nezabudal.entity.Loan;
 import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
+import sk.upjs.paz1c.nezabudal.entity.Item;
 
 /**
  *
@@ -14,11 +16,8 @@ public class DummyLoanDao implements LoanDao {
     Loan loan;
 
     public DummyLoanDao() {
-        Loan loan = new Loan();
-        loan.setItem(ObjectFactory.INSTANCE.getItemDao().getById(0L));
-        loan.setBorrowedToMe(true);
-        loan.setPerson("Mike");
-        loan.setSpecification("Dummy loan spec");
+        loan = new Loan(ObjectFactory.INSTANCE.getItemDao().getById(0L), 
+                "Dummy loan spec", true, "Mike", LocalDateTime.now(), LocalDateTime.MIN);
     }
 
     @Override
@@ -46,5 +45,10 @@ public class DummyLoanDao implements LoanDao {
     @Override
     public void delete(Loan loan) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Loan getByItem(Item item) {
+        return getById(0L);
     }
 }

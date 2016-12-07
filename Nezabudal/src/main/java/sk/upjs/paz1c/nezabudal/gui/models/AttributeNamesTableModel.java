@@ -5,14 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
-public class AttributeNameTableModel extends AbstractTableModel {
+public class AttributeNamesTableModel extends AbstractTableModel {
 
     private List<String> attributeNames = new ArrayList<>();
 
     private static final int COLUMN_COUNT = 1;
     
-    public AttributeNameTableModel() {
+    public AttributeNamesTableModel() {
         attributeNames.add("");
+    }
+    
+    public List<String> getAttributeNames() {
+        return attributeNames;
     }
 
     @Override

@@ -1,8 +1,14 @@
 package sk.upjs.paz1c.nezabudal.forms;
 
+import java.time.LocalDateTime;
+import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.entity.Category;
+import sk.upjs.paz1c.nezabudal.entity.Item;
+import sk.upjs.paz1c.nezabudal.entity.Loan;
 import sk.upjs.paz1c.nezabudal.gui.models.AttributeValuesTableModel;
 import sk.upjs.paz1c.nezabudal.gui.models.CategoryComboBoxModel;
+import sk.upjs.paz1c.nezabudal.gui.models.ItemComboBoxModel;
+import sk.upjs.paz1c.nezabudal.gui.models.LoanTableModel;
 
 /**
  *
@@ -10,14 +16,43 @@ import sk.upjs.paz1c.nezabudal.gui.models.CategoryComboBoxModel;
  */
 public class AddLoanDialog extends javax.swing.JDialog {
 
+    private static final int IS_BORROWED_ROW = 2;
     /**
      * Creates new form AddItemDialog
      */
     public AddLoanDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setDesign("Windows");
     }
 
+    private void setDesign(String design) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if (design.equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(AddLoanDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(AddLoanDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(AddLoanDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(AddLoanDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,31 +64,22 @@ public class AddLoanDialog extends javax.swing.JDialog {
 
         categoryLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        attributeValuesTable = new javax.swing.JTable();
+        loanTable = new javax.swing.JTable();
         categoryComboBox = new javax.swing.JComboBox<>();
         addLoanButton1 = new javax.swing.JButton();
         itemLabel = new javax.swing.JLabel();
         itemComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Nová pôžička");
         setModal(true);
 
         categoryLabel.setText("Kategória");
 
-        attributeValuesTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(attributeValuesTable);
+        loanTable.setModel(new LoanTableModel());
+        jScrollPane1.setViewportView(loanTable);
 
-        categoryComboBox.setModel(new CategoryComboBoxModel());
+        categoryComboBox.setModel(ObjectFactory.INSTANCE.getCategoryComboBoxModel());
         categoryComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 categoryComboBoxActionPerformed(evt);
@@ -69,7 +95,7 @@ public class AddLoanDialog extends javax.swing.JDialog {
 
         itemLabel.setText("Predmet");
 
-        itemComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        itemComboBox.setModel(new ItemComboBoxModel(getSelectedCategory()));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -115,49 +141,46 @@ public class AddLoanDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void categoryComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryComboBoxActionPerformed
-        // AttributeValuesTableModel model = (AttributeValuesTableModel ) attributeValuesTable.getModel();
-        // model.aktualizovat(getSelectedCategory());
-
-        // attributesTable.setModel(new AttributeValuesTableModel(getSelectedCategory()));
+        ((ItemComboBoxModel)itemComboBox.getModel()).refresh(getSelectedCategory());
+        
     }//GEN-LAST:event_categoryComboBoxActionPerformed
 
     private void addLoanButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLoanButton1ActionPerformed
 
-        // validate and save
-
+        // TODO proper validation
+        String[] secondRowValues = ((LoanTableModel) loanTable.getModel()).getSecondColumnValues();
+        
+        // potentially will be made into a checkbox
+       String isBorrowedString = secondRowValues[IS_BORROWED_ROW-1];
+       boolean isBorrowed;
+                System.out.println(isBorrowedString);
+        if (!(isBorrowedString == null) && (isBorrowedString.toLowerCase().equals("ano") || isBorrowedString.toLowerCase().equals("áno"))) {
+            isBorrowed = true;
+        } else if (!(isBorrowedString == null) && isBorrowedString.toLowerCase().equals("nie")) {
+            isBorrowed = false;
+        } else {
+            WarningDialog warningDialog = new WarningDialog(this, true, "Nesprávny formát riadka \"Požičané mne\"");
+            warningDialog.setVisible(true);
+           return;
+        }
+        
+      // only after validation
+      // Loan loan = new Loan(getSelectedItem(), secondRowValues[0], isBorrowed, secondRowValues[2], LocalDateTime.parse(secondRowValues[3]), LocalDateTime.parse(secondRowValues[4]));
+        
         setVisible(false);
         dispose();
     }//GEN-LAST:event_addLoanButton1ActionPerformed
+
+    private Item getSelectedItem() {
+        // validate
+        return (Item)((ItemComboBoxModel) itemComboBox.getModel()).getSelectedItem();
+    }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddLoanDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddLoanDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddLoanDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddLoanDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+        
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -176,12 +199,12 @@ public class AddLoanDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addLoanButton1;
-    private javax.swing.JTable attributeValuesTable;
     private javax.swing.JComboBox<Category> categoryComboBox;
     private javax.swing.JLabel categoryLabel;
-    private javax.swing.JComboBox<String> itemComboBox;
+    private javax.swing.JComboBox<Item> itemComboBox;
     private javax.swing.JLabel itemLabel;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable loanTable;
     // End of variables declaration//GEN-END:variables
 
     private Category getSelectedCategory() {

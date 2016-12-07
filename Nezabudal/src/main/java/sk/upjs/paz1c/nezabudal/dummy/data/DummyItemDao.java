@@ -7,7 +7,6 @@ import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;
 import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
 
-
 /**
  *
  * @author Mikey
@@ -15,23 +14,21 @@ import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
 public class DummyItemDao implements ItemDao {
 
     private Item item;
+    private Item item2;
 
     public DummyItemDao() {
-        item = new Item();
-        item.setItemDescription("Dummy item description");
-        item.setItemName("Dummy item name");
-        item.setCategory(ObjectFactory.INSTANCE.getCategoryDao().getById(0L));
-        item.setItemState("No problem");
-        item.setLoan(ObjectFactory.INSTANCE.getLoanDao().getById(0L));
 
-        List<String> list = new ArrayList<>();
-        list.add("attr1");
-        list.add("attr2");
-        list.add("attr3");
-        list.add("attr4");
+//        List<String> list = new ArrayList<>();
+//        list.add("attr1");
+//        list.add("attr2");
+//        list.add("attr3");
+//        list.add("attr4");
+        Category category = ObjectFactory.INSTANCE.getCategoryDao().getById(0L);
 
-        item.setAttributeValues(list);
+        item = new Item("Dummy item description", "Dummy item name", "No problem", true, category, category.getAttributes());
+        Category category2 = ObjectFactory.INSTANCE.getCategoryDao().getById(1L);
 
+        item2 = new Item("Dummy item description 2", "Dummy item name 2", "No problem 2", false, category2, category2.getAttributes());
     }
 
     @Override
@@ -48,8 +45,14 @@ public class DummyItemDao implements ItemDao {
 
     @Override
     public List<Item> getByCategory(Category category) {
-
-        return getItems();
+        List<Item> list = new ArrayList<>();
+        if (item.getCategory().equals(category)) {
+            list.add(item);
+        }
+        if (item2.getCategory().equals(category)) {
+            list.add(item2);
+        }
+        return list;
     }
 
     @Override

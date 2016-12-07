@@ -13,6 +13,7 @@ import sk.upjs.paz1c.nezabudal.entity.Category;
  */
     
 public class CategoryComboBoxModel extends DefaultComboBoxModel<Category>  {
+    
    private CategoryDao categoryDao = ObjectFactory.INSTANCE.getCategoryDao();
 
     public CategoryComboBoxModel() {        

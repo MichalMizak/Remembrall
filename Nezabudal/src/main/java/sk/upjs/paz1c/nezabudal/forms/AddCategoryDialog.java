@@ -1,6 +1,9 @@
 package sk.upjs.paz1c.nezabudal.forms;
 
-import sk.upjs.paz1c.nezabudal.gui.models.AttributeNameTableModel;
+import sk.upjs.paz1c.nezabudal.dao.CategoryDao;
+import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
+import sk.upjs.paz1c.nezabudal.entity.Category;
+import sk.upjs.paz1c.nezabudal.gui.models.AttributeNamesTableModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -14,6 +17,7 @@ import sk.upjs.paz1c.nezabudal.gui.models.AttributeNameTableModel;
  */
 public class AddCategoryDialog extends javax.swing.JDialog {
 
+    CategoryDao categoryDao = ObjectFactory.INSTANCE.getCategoryDao();
     /**
      * Creates new form AddCategoryDialog
      */
@@ -21,7 +25,6 @@ public class AddCategoryDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         categoryAttributeNameTable.getTableHeader().setUI(null);
-
     }
 
     /**
@@ -53,7 +56,7 @@ public class AddCategoryDialog extends javax.swing.JDialog {
 
         attributesLabel.setText("Vlastnosti:");
 
-        categoryAttributeNameTable.setModel(new AttributeNameTableModel());
+        categoryAttributeNameTable.setModel(new AttributeNamesTableModel());
         jScrollPane1.setViewportView(categoryAttributeNameTable);
 
         addCategoryButton.setText("Pridaj");
@@ -114,8 +117,10 @@ public class AddCategoryDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_categoryTitleTextFieldActionPerformed
 
     private void addCategoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCategoryButtonActionPerformed
-       
-       // kategoriaDao.uloz(kategoria);
+        Category category = new Category();
+        category.setTitle(categoryTitleTextField.getText());
+        category.setAttributes(((AttributeNamesTableModel)categoryAttributeNameTable.getModel()).getAttributeNames());
+        categoryDao.saveOrEdit(category);
         
         setVisible(false);
         dispose();

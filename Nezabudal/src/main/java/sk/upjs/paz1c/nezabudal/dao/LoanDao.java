@@ -1,6 +1,7 @@
 package sk.upjs.paz1c.nezabudal.dao;
 
 import java.util.List;
+import sk.upjs.paz1c.nezabudal.entity.Item;
 import sk.upjs.paz1c.nezabudal.entity.Loan;
 
 /**
@@ -16,6 +17,8 @@ public interface LoanDao {
     
     // the loans where I (the app user) lent an item
     List<Loan> getNotOwnedLoans();
+    
+    Loan getByItem(Item item);
     
     Loan getById(Long id);  
     

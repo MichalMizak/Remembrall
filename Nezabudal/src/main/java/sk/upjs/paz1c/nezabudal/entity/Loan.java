@@ -24,6 +24,16 @@ public class Loan {
     private LocalDateTime startDate;
     
     private LocalDateTime returnDate;
+
+    public Loan(Item item, String specification, boolean borrowedToMe, String person, LocalDateTime startDate, LocalDateTime returnDate) {
+        this.item = item;
+        this.specification = specification;
+        this.borrowedToMe = borrowedToMe;
+        this.person = person;
+        this.startDate = startDate;
+        this.returnDate = returnDate;
+    }
+    
     
     public String getSpecification() {
         return specification;
@@ -81,4 +91,10 @@ public class Loan {
         this.returnDate = returnDate;
     }
 
+    @Override
+    public String toString() {
+        return specification;
+    }
+
+    
 }

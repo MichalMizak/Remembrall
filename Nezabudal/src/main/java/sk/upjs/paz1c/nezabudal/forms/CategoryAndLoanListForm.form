@@ -33,12 +33,12 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="removeItemButton" alignment="0" max="32767" attributes="0"/>
-                          <Component id="addLoanButton" alignment="0" max="32767" attributes="0"/>
-                          <Component id="removeLoanButton" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="removeItemButton" max="32767" attributes="0"/>
                           <Component id="addItemButton" max="32767" attributes="0"/>
+                          <Component id="addLoanButton" alignment="0" max="32767" attributes="0"/>
+                          <Component id="removeLoanButton" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -48,22 +48,22 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <Component id="lentCheckBox" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="ownedCheckBox" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="notBorrowedCheckBox" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="kategoriaComboBox" min="-2" pref="202" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="addCategoryButton" min="-2" pref="159" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="categoryComboBox" min="-2" pref="183" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                              <Component id="addCategoryButton" min="-2" pref="165" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
                               <Component id="removeCategoryButton" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="0" pref="33" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -77,8 +77,8 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="categoryLabel" alignment="3" min="-2" pref="14" max="-2" attributes="0"/>
                   <Component id="addCategoryButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="kategoriaComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="removeCategoryButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="categoryComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -89,7 +89,6 @@
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane1" min="-2" pref="267" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="addItemButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -99,6 +98,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="removeLoanButton" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="jScrollPane1" min="-2" pref="267" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -118,6 +118,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Odstr&#xe1;&#x148; kateg&#xf3;riu"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeCategoryButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="addLoanButton">
       <Properties>
@@ -131,6 +134,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Odstr&#xe1;&#x148; p&#xf4;&#x17e;i&#x10d;ku"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeLoanButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JCheckBox" name="lentCheckBox">
       <Properties>
@@ -161,21 +167,6 @@
         <Property name="text" type="java.lang.String" value="Kateg&#xf3;ria"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="kategoriaComboBox">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
-          </StringArray>
-        </Property>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-      </AuxValues>
-    </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
@@ -201,6 +192,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Odstr&#xe1;&#x148; predmet"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeItemButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="addItemButton">
       <Properties>
@@ -217,6 +211,19 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="notBorrowedCheckBoxActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="categoryComboBox">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="ObjectFactory.INSTANCE.getCategoryComboBoxModel()" type="code"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="categoryComboBoxActionPerformed"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Category&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>
