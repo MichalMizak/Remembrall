@@ -5,6 +5,7 @@ import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import sk.upjs.paz1c.nezabudal.dao.CategoryDao;
 import sk.upjs.paz1c.nezabudal.dao.ItemDao;
+import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.dummy.data.DummyCategoryDao;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;
@@ -19,7 +20,7 @@ public class ItemComboBoxModel extends DefaultComboBoxModel<Item>{
  *
  * @author Mikey
  */  
-    private ItemDao itemDao = DummyItemDao.INSTANCE;
+    private ItemDao itemDao = ObjectFactory.INSTANCE.getItemDao();
 
     public ItemComboBoxModel() {        
         refresh();

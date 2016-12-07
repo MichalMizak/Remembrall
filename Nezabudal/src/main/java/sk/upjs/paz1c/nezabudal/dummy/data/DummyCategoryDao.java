@@ -9,13 +9,12 @@ import sk.upjs.paz1c.nezabudal.entity.Category;
  *
  * @author Mikey
  */
-public enum DummyCategoryDao implements CategoryDao {
-
-    INSTANCE;
+public class DummyCategoryDao implements CategoryDao {
 
     private Category category;
+    private Category category2;
 
-    private DummyCategoryDao() {
+    public DummyCategoryDao() {
 
         category = new Category();
         category.setTitle("wat");
@@ -25,12 +24,21 @@ public enum DummyCategoryDao implements CategoryDao {
         list.add("attr3");
         list.add("attr4");
         category.setAttributes(list);
+        
+        category2 = new Category();
+        category2.setTitle("wat2");
+        List<String> list2 = new ArrayList<>();
+        list2.add("attr1");
+        list2.add("attr2");
+        list2.add("attr3");
+        category2.setAttributes(list2);
     }
 
     @Override
     public List<Category> getCategories() {
         List<Category> list2 = new ArrayList<>();
         list2.add(category);
+        list2.add(category2);
         return list2;
     }
 

@@ -10,6 +10,8 @@ import sk.upjs.paz1c.nezabudal.entity.Item;
  */
 public interface ItemDao {
     List<Item> getItems();
+    
+    Item getById(Long id);
 
     void saveOrUpdate(Item item);
     

@@ -1,17 +1,36 @@
 package sk.upjs.paz1c.nezabudal.forms;
 
+import java.util.ArrayList;
+import java.util.List;
+import sk.upjs.paz1c.nezabudal.entity.Category;
+import sk.upjs.paz1c.nezabudal.gui.models.AttributeValuesTableModel;
+import sk.upjs.paz1c.nezabudal.gui.models.CategoryComboBoxModel;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 /**
  *
  * @author Mikey
  */
 public class AddItemDialog extends javax.swing.JDialog {
 
+    public static final boolean MODALITY = true;
+
     /**
-     * Creates new form AddItemDialog
+     * Creates new form AddLoanDialog
      */
     public AddItemDialog(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+        super(parent, MODALITY);
+        
         initComponents();
+       // attributesTable.setModel();
+        
+      //  AttributeValuesTableModel tableModel = (AttributeValuesTableModel) attributesTable.getModel();
+      //  tableModel.initialize(category);
+        
     }
 
     /**
@@ -23,17 +42,32 @@ public class AddItemDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        kategoriaComboBox = new javax.swing.JComboBox<>();
-        categoryLabel = new javax.swing.JLabel();
-        addItemButton = new javax.swing.JButton();
+        addLoanButton = new javax.swing.JButton();
+        categoryComboBox = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        attributeValuesTable = new javax.swing.JTable();
+        attributesTable = new javax.swing.JTable();
+        addItemButton = new javax.swing.JButton();
+
+        addLoanButton.setText("Pridaj");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Nová pôžička");
+        setModal(true);
 
-        kategoriaComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        categoryComboBox.setModel(new CategoryComboBoxModel());
+        categoryComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                categoryComboBoxActionPerformed(evt);
+            }
+        });
 
-        categoryLabel.setText("Kategória");
+        jLabel1.setText("Kategória");
+
+        attributesTable.setModel(new AttributeValuesTableModel(getSelectedCategory()));
+        attributesTable.setToolTipText("");
+        attributesTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(attributesTable);
 
         addItemButton.setText("Vytvor predmet");
         addItemButton.addActionListener(new java.awt.event.ActionListener() {
@@ -41,19 +75,6 @@ public class AddItemDialog extends javax.swing.JDialog {
                 addItemButtonActionPerformed(evt);
             }
         });
-
-        attributeValuesTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(attributeValuesTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -63,35 +84,52 @@ public class AddItemDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(addItemButton)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(categoryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(kategoriaComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(categoryComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(19, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(kategoriaComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(categoryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(categoryComboBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(297, 297, 297)
                 .addComponent(addItemButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(53, 53, 53)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(56, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void categoryComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryComboBoxActionPerformed
+        AttributeValuesTableModel model = (AttributeValuesTableModel ) attributesTable.getModel();
+        model.aktualizovat(getSelectedCategory());
+        
+        // attributesTable.setModel(new AttributeValuesTableModel(getSelectedCategory()));
+    }//GEN-LAST:event_categoryComboBoxActionPerformed
+
     private void addItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addItemButtonActionPerformed
         // add item
         dispose();
     }//GEN-LAST:event_addItemButtonActionPerformed
+
+    private Category getSelectedCategory() {
+        return (Category) ((CategoryComboBoxModel) categoryComboBox.getModel()).getSelectedItem();
+    }
 
     /**
      * @param args the command line arguments
@@ -104,7 +142,7 @@ public class AddItemDialog extends javax.swing.JDialog {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -118,6 +156,7 @@ public class AddItemDialog extends javax.swing.JDialog {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(AddItemDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
@@ -137,9 +176,10 @@ public class AddItemDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addItemButton;
-    private javax.swing.JTable attributeValuesTable;
-    private javax.swing.JLabel categoryLabel;
+    private javax.swing.JButton addLoanButton;
+    private javax.swing.JTable attributesTable;
+    private javax.swing.JComboBox<Category> categoryComboBox;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JComboBox<String> kategoriaComboBox;
     // End of variables declaration//GEN-END:variables
 }

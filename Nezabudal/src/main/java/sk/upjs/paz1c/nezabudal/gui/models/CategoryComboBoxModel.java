@@ -4,6 +4,7 @@ import sk.upjs.paz1c.nezabudal.dummy.data.DummyCategoryDao;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import sk.upjs.paz1c.nezabudal.dao.CategoryDao;
+import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 
 /**
@@ -12,7 +13,7 @@ import sk.upjs.paz1c.nezabudal.entity.Category;
  */
     
 public class CategoryComboBoxModel extends DefaultComboBoxModel<Category>  {
-   private CategoryDao categoryDao = DummyCategoryDao.INSTANCE;
+   private CategoryDao categoryDao = ObjectFactory.INSTANCE.getCategoryDao();
 
     public CategoryComboBoxModel() {        
         refresh();
@@ -26,7 +27,7 @@ public class CategoryComboBoxModel extends DefaultComboBoxModel<Category>  {
         for(Category category : categories) {
             addElement(category);
         }        
-    }
+}
 }
 
 

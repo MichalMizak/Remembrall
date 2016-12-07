@@ -7,6 +7,7 @@ import sk.upjs.paz1c.nezabudal.dao.ItemDao;
 import sk.upjs.paz1c.nezabudal.entity.Item;
 import sk.upjs.paz1c.nezabudal.entity.Loan;
 import sk.upjs.paz1c.nezabudal.dao.LoanDao;
+import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
 
 /**
  *
@@ -18,7 +19,7 @@ public class LoanComboBoxModel extends DefaultComboBoxModel<Loan>{
  *
  * @author Mikey
  */  
-    private LoanDao loanDao = DummyLoanDao.INSTANCE;
+    private LoanDao loanDao = ObjectFactory.INSTANCE.getLoanDao();
 
     public LoanComboBoxModel() {        
         refresh();

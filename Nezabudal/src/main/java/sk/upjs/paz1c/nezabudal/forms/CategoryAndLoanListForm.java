@@ -224,7 +224,7 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
     }//GEN-LAST:event_ownedCheckBoxMousePressed
 
     private void addLoanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLoanButtonActionPerformed
-        AddLoanDialog loanDialog = new AddLoanDialog(this, true);
+        AddItemDialog loanDialog = new AddItemDialog(this, true);
         loanDialog.setVisible(true);
     }//GEN-LAST:event_addLoanButtonActionPerformed
 
@@ -237,7 +237,7 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
     }//GEN-LAST:event_addCategoryButtonActionPerformed
 
     private void addItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addItemButtonActionPerformed
-        AddItemDialog itemDialog = new AddItemDialog(this, true);
+        AddLoanDialog itemDialog = new AddLoanDialog(this, true);
 
         // refresh model
         itemDialog.setVisible(true);
