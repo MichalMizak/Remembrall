@@ -2,10 +2,12 @@ package sk.upjs.paz1c.nezabudal.forms;
 
 import javax.swing.ComboBoxModel;
 import sk.upjs.paz1c.nezabudal.dao.CategoryDao;
-import sk.upjs.paz1c.nezabudal.dao.ItemDao;
 import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.gui.models.CategoryComboBoxModel;
+import sk.upjs.paz1c.nezabudal.dao.ItemDao;
+import sk.upjs.paz1c.nezabudal.managers.CategoryManager;
+import sk.upjs.paz1c.nezabudal.managers.ItemManager;
 
 /**
  *
@@ -15,8 +17,9 @@ public class CategoryRemoveDialog extends javax.swing.JDialog {
 
     public static final boolean MODALITY = true;
     
-    private CategoryDao categoryDao = ObjectFactory.INSTANCE.getCategoryDao();
-    private ItemDao itemDao = ObjectFactory.INSTANCE.getItemDao();
+    private CategoryManager categoryManager = ObjectFactory.INSTANCE.getCategoryManager();
+    
+    private ItemManager itemManager = ObjectFactory.INSTANCE.getItemManager();
     /**
      * Creates new form RemoveDialog
      */
@@ -24,7 +27,6 @@ public class CategoryRemoveDialog extends javax.swing.JDialog {
         super(parent, MODALITY);
         initComponents();
         initializeDesign("Windows");
-
     }
 
     private void initializeDesign(String look) {
@@ -112,8 +114,9 @@ public class CategoryRemoveDialog extends javax.swing.JDialog {
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
         Category category = getSelectedCategory();
-        if (itemDao.getByCategory(category).isEmpty()) {
-            categoryDao.delete(category);
+        if (itemManager.getByCategory(category).isEmpty()) {
+            categoryManager.delete(category);
+           ((CategoryComboBoxModel) categoryComboBox.getModel()).refresh();
             dispose();
         } else {
             WarningDialog warningDialog = new WarningDialog(this, true, "Kategória musí byť prázdna!");

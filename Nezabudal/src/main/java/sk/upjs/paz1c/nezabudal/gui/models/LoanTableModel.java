@@ -69,12 +69,7 @@ public class LoanTableModel extends AbstractTableModel{
 
     @Override
     public boolean isCellEditable(int row, int column) {
-        switch (column) {
-            case 1:
-                return true;
-            default:
-                return false;
-        }
+        return column == 1;
     }
     
 }

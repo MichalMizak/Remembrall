@@ -5,10 +5,11 @@ import javax.swing.table.AbstractTableModel;
 import sk.upjs.paz1c.nezabudal.dao.CategoryDao;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
+import sk.upjs.paz1c.nezabudal.managers.CategoryManager;
 
 public class AttributeValuesTableModel extends AbstractTableModel {
 
-    private CategoryDao categoryDao = ObjectFactory.INSTANCE.getCategoryDao();
+    private CategoryManager categoryManager = ObjectFactory.INSTANCE.getCategoryManager();
 
     private Category category;
 
@@ -51,7 +52,6 @@ public class AttributeValuesTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-
         switch (columnIndex) {
             case 0:
                 return category.getAttributes().get(rowIndex);
@@ -86,12 +86,11 @@ public class AttributeValuesTableModel extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int row, int column) {
-        switch (column) {
-            case 1:
-                return true;
-            default:
-                return false;
-        }
+        return column == 1;
+    }
+
+    public String[] getSecondColumnValues() {
+        return attributeValues;
     }
 
 }

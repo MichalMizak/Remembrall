@@ -62,11 +62,6 @@ public class DummyCategoryDao implements CategoryDao {
     }
 
     @Override
-    public List<String> getAttributes() {
-        return category.getAttributes();
-    }
-
-    @Override
     public void saveOrEdit(Category kategoria) {
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

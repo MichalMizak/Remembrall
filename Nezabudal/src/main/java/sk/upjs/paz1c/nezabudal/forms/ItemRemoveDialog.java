@@ -1,11 +1,13 @@
 package sk.upjs.paz1c.nezabudal.forms;
 
 import sk.upjs.paz1c.nezabudal.dao.CategoryDao;
-import sk.upjs.paz1c.nezabudal.dao.ItemDao;
 import sk.upjs.paz1c.nezabudal.dao.LoanDao;
 import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.entity.Item;
 import sk.upjs.paz1c.nezabudal.gui.models.ItemComboBoxModel;
+import sk.upjs.paz1c.nezabudal.dao.ItemDao;
+import sk.upjs.paz1c.nezabudal.managers.ItemManager;
+import sk.upjs.paz1c.nezabudal.managers.LoanManager;
 
 /**
  *
@@ -13,8 +15,8 @@ import sk.upjs.paz1c.nezabudal.gui.models.ItemComboBoxModel;
  */
 public class ItemRemoveDialog extends javax.swing.JDialog {
 
-    private LoanDao loanDao = ObjectFactory.INSTANCE.getLoanDao();
-    private ItemDao itemDao = ObjectFactory.INSTANCE.getItemDao();
+    private LoanManager loanManager = ObjectFactory.INSTANCE.getLoanManager();
+    private ItemManager itemManager = ObjectFactory.INSTANCE.getItemManager();
 
     /**
      * Creates new form ItemRemoveDialog
@@ -74,7 +76,7 @@ public class ItemRemoveDialog extends javax.swing.JDialog {
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
         Item item = getSelectedItem();
         if (!item.isIsBorrowed()) {
-            itemDao.delete(item);
+            itemManager.delete(item);
             dispose();
         } else {
             WarningDialog warningDialog = new WarningDialog(this, true, "Predmet nesmie byť zapožičaný!");
@@ -82,47 +84,6 @@ public class ItemRemoveDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_removeButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ItemRemoveDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ItemRemoveDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ItemRemoveDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ItemRemoveDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                ItemRemoveDialog dialog = new ItemRemoveDialog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 
     private Item getSelectedItem() {
         // validate

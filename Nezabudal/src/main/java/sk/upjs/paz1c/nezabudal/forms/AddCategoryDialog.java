@@ -1,23 +1,27 @@
 package sk.upjs.paz1c.nezabudal.forms;
 
+import java.util.List;
 import sk.upjs.paz1c.nezabudal.dao.CategoryDao;
 import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.gui.models.AttributeNamesTableModel;
+import sk.upjs.paz1c.nezabudal.managers.CategoryManager;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Mikey
  */
 public class AddCategoryDialog extends javax.swing.JDialog {
 
-    CategoryDao categoryDao = ObjectFactory.INSTANCE.getCategoryDao();
+    Category category;
+
+    CategoryManager categoryManager = ObjectFactory.INSTANCE.getCategoryManager();
+
     /**
      * Creates new form AddCategoryDialog
      */
@@ -25,6 +29,15 @@ public class AddCategoryDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         categoryAttributeNameTable.getTableHeader().setUI(null);
+        category = new Category();
+    }
+
+    public AddCategoryDialog(java.awt.Frame parent, boolean modal, Category category) {
+        this(parent, modal);
+        this.category = category;
+        categoryTitleTextField.setText(category.getTitle());
+        getAttributeTableModel().setAttributeNames(category.getAttributes());
+        addCategoryButton.setText("Uprav");
     }
 
     /**
@@ -117,57 +130,27 @@ public class AddCategoryDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_categoryTitleTextFieldActionPerformed
 
     private void addCategoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCategoryButtonActionPerformed
-        Category category = new Category();
-        category.setTitle(categoryTitleTextField.getText());
-        category.setAttributes(((AttributeNamesTableModel)categoryAttributeNameTable.getModel()).getAttributeNames());
-        categoryDao.saveOrEdit(category);
-        
-        setVisible(false);
-        dispose();
-        
+       
+        // VALIDATE
+        if (category.getAttributes()== null) {
+            category.setTitle(categoryTitleTextField.getText());
+
+            List<String> attributeNames = getAttributeTableModel().getAttributeNames();
+            category.setAttributes((attributeNames));
+
+            categoryManager.saveOrEdit(category);
+
+            setVisible(false);
+            dispose();
+        } else {
+            WarningDialog warningDialog = new WarningDialog(this, true, "Kategória musí byť prázdna");
+        }
     }//GEN-LAST:event_addCategoryButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddCategoryDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddCategoryDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddCategoryDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddCategoryDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                AddCategoryDialog dialog = new AddCategoryDialog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+    private AttributeNamesTableModel getAttributeTableModel() {
+        return (AttributeNamesTableModel) categoryAttributeNameTable.getModel();
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel TitleLabel;

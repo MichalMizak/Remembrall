@@ -5,6 +5,7 @@ import sk.upjs.paz1c.nezabudal.dao.LoanDao;
 import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.entity.Loan;
 import sk.upjs.paz1c.nezabudal.gui.models.LoanComboBoxModel;
+import sk.upjs.paz1c.nezabudal.managers.LoanManager;
 
 /**
  *
@@ -12,7 +13,7 @@ import sk.upjs.paz1c.nezabudal.gui.models.LoanComboBoxModel;
  */
 public class LoanRemoveDialog extends javax.swing.JDialog {
 
-    private LoanDao loanDao = ObjectFactory.INSTANCE.getLoanDao();
+    private LoanManager loanManager = ObjectFactory.INSTANCE.getLoanManager();
 
     /** Creates new form LoanRemoveDialog */
     public LoanRemoveDialog(java.awt.Frame parent, boolean modal) {
@@ -69,7 +70,7 @@ public class LoanRemoveDialog extends javax.swing.JDialog {
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
         Loan loan = getSelectedItem();
-        loanDao.delete(loan);
+        loanManager.delete(loan);
     }//GEN-LAST:event_removeButtonActionPerformed
 
     /**

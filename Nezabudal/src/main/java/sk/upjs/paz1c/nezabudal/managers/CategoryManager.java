@@ -1,13 +1,13 @@
-package sk.upjs.paz1c.nezabudal.dao;
+package sk.upjs.paz1c.nezabudal.managers;
 
-import sk.upjs.paz1c.nezabudal.entity.Category;
 import java.util.List;
+import sk.upjs.paz1c.nezabudal.entity.Category;
 
 /**
  *
  * @author Mikey
  */
-public interface CategoryDao {
+public interface CategoryManager {
     
     public List<Category> getCategories();
     

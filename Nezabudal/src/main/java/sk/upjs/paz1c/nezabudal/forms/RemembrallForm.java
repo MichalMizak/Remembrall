@@ -1,8 +1,10 @@
 package sk.upjs.paz1c.nezabudal.forms;
 
+import java.time.zone.ZoneRulesProvider;
 import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.gui.models.CategoryComboBoxModel;
+import sk.upjs.paz1c.nezabudal.gui.models.ItemTableModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -13,12 +15,12 @@ import sk.upjs.paz1c.nezabudal.gui.models.CategoryComboBoxModel;
  *
  * @author Mikey
  */
-public class CategoryAndLoanListForm extends javax.swing.JFrame {
+public class RemembrallForm extends javax.swing.JFrame {
 
     /**
      * Creates new form NewJFrame
      */
-    public CategoryAndLoanListForm() {
+    public RemembrallForm() {
         initComponents();
         // toto checkbox ked je sam
     }
@@ -32,20 +34,23 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        jProgressBar1 = new javax.swing.JProgressBar();
         addCategoryButton = new javax.swing.JButton();
         removeCategoryButton = new javax.swing.JButton();
-        addLoanButton = new javax.swing.JButton();
+        addItemButton = new javax.swing.JButton();
         removeLoanButton = new javax.swing.JButton();
         lentCheckBox = new javax.swing.JCheckBox();
         ownedCheckBox = new javax.swing.JCheckBox();
         loanLabel = new javax.swing.JLabel();
         categoryLabel = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        itemListTable = new javax.swing.JTable();
         removeItemButton = new javax.swing.JButton();
-        addItemButton = new javax.swing.JButton();
+        addLoanButton = new javax.swing.JButton();
         notBorrowedCheckBox = new javax.swing.JCheckBox();
         categoryComboBox = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        itemTable = new javax.swing.JTable();
+        editCategoryButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Remembrall");
@@ -66,10 +71,10 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
             }
         });
 
-        addLoanButton.setText("Pridaj pôžičku");
-        addLoanButton.addActionListener(new java.awt.event.ActionListener() {
+        addItemButton.setText("Pridaj predmet");
+        addItemButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addLoanButtonActionPerformed(evt);
+                addItemButtonActionPerformed(evt);
             }
         });
 
@@ -110,19 +115,6 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
 
         categoryLabel.setText("Kategória");
 
-        itemListTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(itemListTable);
-
         removeItemButton.setText("Odstráň predmet");
         removeItemButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -130,10 +122,10 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
             }
         });
 
-        addItemButton.setText("Pridaj predmet");
-        addItemButton.addActionListener(new java.awt.event.ActionListener() {
+        addLoanButton.setText("Pridaj pôžičku");
+        addLoanButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addItemButtonActionPerformed(evt);
+                addLoanButtonActionPerformed(evt);
             }
         });
 
@@ -151,6 +143,16 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
             }
         });
 
+        itemTable.setModel(new ItemTableModel(getSelectedCategory()));
+        jScrollPane1.setViewportView(itemTable);
+
+        editCategoryButton.setText("Uprav kategóriu");
+        editCategoryButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editCategoryButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -158,14 +160,6 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(removeItemButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(addItemButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(addLoanButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(removeLoanButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(categoryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -177,15 +171,26 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(ownedCheckBox)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(notBorrowedCheckBox))
+                                .addComponent(notBorrowedCheckBox)
+                                .addGap(190, 375, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(categoryComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(addCategoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(3, 3, 3)
-                                .addComponent(removeCategoryButton)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addComponent(removeCategoryButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(editCategoryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap())))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addItemButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(addLoanButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(removeLoanButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(removeItemButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -195,7 +200,8 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
                     .addComponent(categoryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addCategoryButton)
                     .addComponent(removeCategoryButton)
-                    .addComponent(categoryComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(categoryComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editCategoryButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(loanLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -206,13 +212,13 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(addItemButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(11, 11, 11)
                         .addComponent(removeItemButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(addLoanButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(removeLoanButton))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -247,11 +253,6 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_ownedCheckBoxMousePressed
 
-    private void addLoanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLoanButtonActionPerformed
-        AddItemDialog loanDialog = new AddItemDialog(this, true);
-        loanDialog.setVisible(true);
-    }//GEN-LAST:event_addLoanButtonActionPerformed
-
     private void addCategoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCategoryButtonActionPerformed
         AddCategoryDialog kategoriaForm = new AddCategoryDialog(this, true);
         kategoriaForm.setVisible(true);
@@ -259,14 +260,6 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
         //----
         // ( (KategoriaComboBoxModel) kategoriaComboBox.getModel() ).refresh();
     }//GEN-LAST:event_addCategoryButtonActionPerformed
-
-    private void addItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addItemButtonActionPerformed
-        AddLoanDialog itemDialog = new AddLoanDialog(this, true);
-
-        // refresh model
-        itemDialog.setVisible(true);
-
-    }//GEN-LAST:event_addItemButtonActionPerformed
 
     private void notBorrowedCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notBorrowedCheckBoxActionPerformed
         if (lentCheckBox.isSelected()) {
@@ -281,6 +274,9 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
         // model.aktualizovat(getSelectedCategory());
 
         // attributesTable.setModel(new AttributeValuesTableModel(getSelectedCategory()));
+        
+        ((ItemTableModel) itemTable.getModel()).refresh(getSelectedCategory());
+    
     }//GEN-LAST:event_categoryComboBoxActionPerformed
 
     private void removeCategoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeCategoryButtonActionPerformed
@@ -288,15 +284,32 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
         categoryRemoveDialog.setVisible(true);
     }//GEN-LAST:event_removeCategoryButtonActionPerformed
 
+    private void removeLoanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeLoanButtonActionPerformed
+        LoanRemoveDialog loanRemoveDialog = new LoanRemoveDialog(this, true);
+        loanRemoveDialog.setVisible(true);
+    }//GEN-LAST:event_removeLoanButtonActionPerformed
+
+    private void addLoanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLoanButtonActionPerformed
+        AddLoanDialog itemDialog = new AddLoanDialog(this, true);
+
+        // refresh model
+        itemDialog.setVisible(true);
+    }//GEN-LAST:event_addLoanButtonActionPerformed
+
     private void removeItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeItemButtonActionPerformed
         ItemRemoveDialog itemRemoveDialog = new ItemRemoveDialog(this, true);
         itemRemoveDialog.setVisible(true);
     }//GEN-LAST:event_removeItemButtonActionPerformed
 
-    private void removeLoanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeLoanButtonActionPerformed
-        LoanRemoveDialog loanRemoveDialog = new LoanRemoveDialog(this, true);
-        loanRemoveDialog.setVisible(true);
-    }//GEN-LAST:event_removeLoanButtonActionPerformed
+    private void addItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addItemButtonActionPerformed
+        AddItemDialog loanDialog = new AddItemDialog(this, true);
+        loanDialog.setVisible(true);
+    }//GEN-LAST:event_addItemButtonActionPerformed
+
+    private void editCategoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editCategoryButtonActionPerformed
+        AddCategoryDialog kategoriaForm = new AddCategoryDialog(this, true, getSelectedCategory());
+        kategoriaForm.setVisible(true);
+    }//GEN-LAST:event_editCategoryButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -315,14 +328,18 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CategoryAndLoanListForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RemembrallForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CategoryAndLoanListForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RemembrallForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CategoryAndLoanListForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RemembrallForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CategoryAndLoanListForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RemembrallForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -331,18 +348,25 @@ public class CategoryAndLoanListForm extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CategoryAndLoanListForm().setVisible(true);
+                new RemembrallForm().setVisible(true);
             }
         });
     }
 
+      private Category getSelectedCategory() {
+        return (Category) ((CategoryComboBoxModel) categoryComboBox.getModel()).getSelectedItem();
+    }
+      
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addCategoryButton;
     private javax.swing.JButton addItemButton;
     private javax.swing.JButton addLoanButton;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<Category> categoryComboBox;
     private javax.swing.JLabel categoryLabel;
-    private javax.swing.JTable itemListTable;
+    private javax.swing.JButton editCategoryButton;
+    private javax.swing.JTable itemTable;
+    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JCheckBox lentCheckBox;
     private javax.swing.JLabel loanLabel;

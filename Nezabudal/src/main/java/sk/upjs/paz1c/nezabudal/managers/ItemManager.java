@@ -1,4 +1,4 @@
-package sk.upjs.paz1c.nezabudal.dao;
+package sk.upjs.paz1c.nezabudal.managers;
 
 import java.util.List;
 import sk.upjs.paz1c.nezabudal.entity.Category;
@@ -8,7 +8,7 @@ import sk.upjs.paz1c.nezabudal.entity.Item;
  *
  * @author Mikey
  */
-public interface ItemDao {
+public interface ItemManager {
 
     List<Item> getItems();
 
@@ -16,12 +16,14 @@ public interface ItemDao {
 
     void saveOrUpdate(Item item);
 
-    void delete(Item item);
-
     List<Item> getByCategory(Category category);
 
-    List<Item> getBorrowedItems();
-    
+    void delete(Item item);
+
     List<Item> getUnborrowedItems();
+
+    List<Item> getItemsBorrowedToMe();
+
+    List<Item> getItemsLentByMe();
 
 }

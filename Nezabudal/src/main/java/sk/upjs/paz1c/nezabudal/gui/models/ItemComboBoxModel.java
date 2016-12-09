@@ -4,11 +4,12 @@ import sk.upjs.paz1c.nezabudal.dummy.data.DummyItemDao;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import sk.upjs.paz1c.nezabudal.dao.CategoryDao;
-import sk.upjs.paz1c.nezabudal.dao.ItemDao;
 import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.dummy.data.DummyCategoryDao;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;
+import sk.upjs.paz1c.nezabudal.dao.ItemDao;
+import sk.upjs.paz1c.nezabudal.managers.ItemManager;
 
 /**
  *
@@ -20,7 +21,7 @@ public class ItemComboBoxModel extends DefaultComboBoxModel<Item> {
      *
      * @author Mikey
      */
-    private ItemDao itemDao = ObjectFactory.INSTANCE.getItemDao();
+    private ItemManager itemManager = ObjectFactory.INSTANCE.getItemManager();
 
     public ItemComboBoxModel(Category category) {
         refresh(category);
@@ -33,7 +34,7 @@ public class ItemComboBoxModel extends DefaultComboBoxModel<Item> {
     public void refresh(Category category) {
         removeAllElements();
 
-        List<Item> items = itemDao.getByCategory(category);
+        List<Item> items = itemManager.getByCategory(category);
 
         for (Item item : items) {
             addElement(item);
@@ -43,7 +44,7 @@ public class ItemComboBoxModel extends DefaultComboBoxModel<Item> {
     private void refresh() {
         removeAllElements();
 
-        List<Item> items = itemDao.getItems();
+        List<Item> items = itemManager.getItems();
 
         for (Item item : items) {
             addElement(item);
