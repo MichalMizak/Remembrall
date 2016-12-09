@@ -6,6 +6,7 @@ import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.gui.models.AttributeNamesTableModel;
 import sk.upjs.paz1c.nezabudal.managers.CategoryManager;
+import sk.upjs.paz1c.nezabudal.other.Validator;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -16,7 +17,7 @@ import sk.upjs.paz1c.nezabudal.managers.CategoryManager;
  *
  * @author Mikey
  */
-public class AddCategoryDialog extends javax.swing.JDialog {
+public class CategoryDialog extends javax.swing.JDialog {
 
     Category category;
 
@@ -25,19 +26,21 @@ public class AddCategoryDialog extends javax.swing.JDialog {
     /**
      * Creates new form AddCategoryDialog
      */
-    public AddCategoryDialog(java.awt.Frame parent, boolean modal) {
+    public CategoryDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         categoryAttributeNameTable.getTableHeader().setUI(null);
         category = new Category();
+        saveOrEditCategoryButton.setText("Pridaj");
+
     }
 
-    public AddCategoryDialog(java.awt.Frame parent, boolean modal, Category category) {
+    public CategoryDialog(java.awt.Frame parent, boolean modal, Category category) {
         this(parent, modal);
         this.category = category;
         categoryTitleTextField.setText(category.getTitle());
         getAttributeTableModel().setAttributeNames(category.getAttributes());
-        addCategoryButton.setText("Uprav");
+        saveOrEditCategoryButton.setText("Uprav");
     }
 
     /**
@@ -54,7 +57,7 @@ public class AddCategoryDialog extends javax.swing.JDialog {
         attributesLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         categoryAttributeNameTable = new javax.swing.JTable();
-        addCategoryButton = new javax.swing.JButton();
+        saveOrEditCategoryButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setModal(true);
@@ -69,13 +72,13 @@ public class AddCategoryDialog extends javax.swing.JDialog {
 
         attributesLabel.setText("Vlastnosti:");
 
-        categoryAttributeNameTable.setModel(new AttributeNamesTableModel());
+        categoryAttributeNameTable.setModel(new sk.upjs.paz1c.nezabudal.gui.models.AttributeNamesTableModel());
         jScrollPane1.setViewportView(categoryAttributeNameTable);
 
-        addCategoryButton.setText("Pridaj");
-        addCategoryButton.addActionListener(new java.awt.event.ActionListener() {
+        saveOrEditCategoryButton.setText("Pridaj");
+        saveOrEditCategoryButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addCategoryButtonActionPerformed(evt);
+                saveOrEditCategoryButtonActionPerformed(evt);
             }
         });
 
@@ -97,7 +100,7 @@ public class AddCategoryDialog extends javax.swing.JDialog {
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap(275, Short.MAX_VALUE)
-                        .addComponent(addCategoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(saveOrEditCategoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(82, 82, 82)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
@@ -118,7 +121,7 @@ public class AddCategoryDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addCategoryButton)
+                .addComponent(saveOrEditCategoryButton)
                 .addContainerGap())
         );
 
@@ -129,11 +132,15 @@ public class AddCategoryDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_categoryTitleTextFieldActionPerformed
 
-    private void addCategoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCategoryButtonActionPerformed
-       
+    private void saveOrEditCategoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveOrEditCategoryButtonActionPerformed
+
         // VALIDATE
-        if (category.getAttributes()== null) {
-            category.setTitle(categoryTitleTextField.getText());
+        String title = categoryTitleTextField.getText();
+        String validation = Validator.validateCategory(category, title);
+
+        if (validation == null) {
+
+            category.setTitle(title);
 
             List<String> attributeNames = getAttributeTableModel().getAttributeNames();
             category.setAttributes((attributeNames));
@@ -142,10 +149,12 @@ public class AddCategoryDialog extends javax.swing.JDialog {
 
             setVisible(false);
             dispose();
+
         } else {
-            WarningDialog warningDialog = new WarningDialog(this, true, "Kategória musí byť prázdna");
+            WarningDialog warningDialog = new WarningDialog(this, true, validation);
+            warningDialog.setVisible(true);
         }
-    }//GEN-LAST:event_addCategoryButtonActionPerformed
+    }//GEN-LAST:event_saveOrEditCategoryButtonActionPerformed
 
     private AttributeNamesTableModel getAttributeTableModel() {
         return (AttributeNamesTableModel) categoryAttributeNameTable.getModel();
@@ -154,10 +163,10 @@ public class AddCategoryDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel TitleLabel;
-    private javax.swing.JButton addCategoryButton;
     private javax.swing.JLabel attributesLabel;
     private javax.swing.JTable categoryAttributeNameTable;
     private javax.swing.JTextField categoryTitleTextField;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton saveOrEditCategoryButton;
     // End of variables declaration//GEN-END:variables
 }

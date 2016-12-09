@@ -3,6 +3,7 @@ package sk.upjs.paz1c.nezabudal.gui.models;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
+import sk.upjs.paz1c.nezabudal.forms.RemembrallForm;
 
 public class AttributeNamesTableModel extends AbstractTableModel {
 
@@ -22,6 +23,13 @@ public class AttributeNamesTableModel extends AbstractTableModel {
     }
 
     public List<String> getAttributeNames() {
+        
+        for (int i = 0; i < attributeNames.size(); i++) {
+            String attribute = attributeNames.get(i);
+            if (attribute != null && attribute.trim().equals("")) {
+                attributeNames.remove(i);               
+            }
+        }
         return attributeNames;
     }
 

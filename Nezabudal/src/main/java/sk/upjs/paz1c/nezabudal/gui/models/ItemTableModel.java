@@ -15,9 +15,9 @@ import sk.upjs.paz1c.nezabudal.managers.ItemManager;
 public class ItemTableModel extends AbstractTableModel {
 
     private final ItemManager itemManager = ObjectFactory.INSTANCE.getItemManager();
-    
+
     private List<Item> itemList;
-    
+
     private Category category;
 
     private String[] columnTitles;
@@ -25,39 +25,42 @@ public class ItemTableModel extends AbstractTableModel {
     private int columnCount;
 
     private int rowCount;
-    
+
     private static final boolean EDITABILITY = false;
-    
+
     public ItemTableModel(Category category) {
         refresh(category);
     }
 
     public void refresh(Category category) {
         this.category = category;
+
+        fireTableDataChanged();
         setColumnTitles(category.getAttributes().toArray(new String[0]));
+        
         itemList = itemManager.getByCategory(category);
-        columnCount = columnTitles.length;    
-        setRowCount() ;
+        columnCount = columnTitles.length;
+       
         fireTableStructureChanged();
         fireTableDataChanged();
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-       Item item = itemList.get(rowIndex);
-       return item.getAttributeValues().get(columnIndex);
+        Item item = itemList.get(rowIndex);
+        return item.getAttributeValues().get(columnIndex);
     }
-    
+
     @Override
     public boolean isCellEditable(int row, int column) {
         return EDITABILITY;
     }
- 
+
     @Override
     public int getRowCount() {
         return rowCount;
     }
-       
+
     private void setRowCount() {
         rowCount = itemList.size();
     }
@@ -66,6 +69,7 @@ public class ItemTableModel extends AbstractTableModel {
     public int getColumnCount() {
         return columnCount;
     }
+
     @Override
     public String getColumnName(int columnIndex) {
         return columnTitles[columnIndex];
@@ -81,5 +85,5 @@ public class ItemTableModel extends AbstractTableModel {
 
     private void setCategory(Category category) {
         this.category = category;
-    }    
+    }
 }

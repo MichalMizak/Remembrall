@@ -45,12 +45,13 @@ public class DefaultItemManager implements ItemManager {
         return itemDao.getById(id);
     }
 
-    // filters
     @Override
     public List<Item> getUnborrowedItems() {
         return itemDao.getUnborrowedItems();
     }
 
+    // other filters
+    
     @Override
     public List<Item> getItemsBorrowedToMe() {
         List<Item> borrowedItems = itemDao.getBorrowedItems();

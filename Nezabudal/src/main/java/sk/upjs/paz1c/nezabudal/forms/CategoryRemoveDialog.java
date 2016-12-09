@@ -8,6 +8,7 @@ import sk.upjs.paz1c.nezabudal.gui.models.CategoryComboBoxModel;
 import sk.upjs.paz1c.nezabudal.dao.ItemDao;
 import sk.upjs.paz1c.nezabudal.managers.CategoryManager;
 import sk.upjs.paz1c.nezabudal.managers.ItemManager;
+import sk.upjs.paz1c.nezabudal.other.Validator;
 
 /**
  *
@@ -16,10 +17,11 @@ import sk.upjs.paz1c.nezabudal.managers.ItemManager;
 public class CategoryRemoveDialog extends javax.swing.JDialog {
 
     public static final boolean MODALITY = true;
-    
+
     private CategoryManager categoryManager = ObjectFactory.INSTANCE.getCategoryManager();
-    
+
     private ItemManager itemManager = ObjectFactory.INSTANCE.getItemManager();
+
     /**
      * Creates new form RemoveDialog
      */
@@ -83,6 +85,11 @@ public class CategoryRemoveDialog extends javax.swing.JDialog {
                 categoryComboBoxActionPerformed(evt);
             }
         });
+        categoryComboBox.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                categoryComboBoxPropertyChange(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -114,24 +121,33 @@ public class CategoryRemoveDialog extends javax.swing.JDialog {
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
         Category category = getSelectedCategory();
-        if (itemManager.getByCategory(category).isEmpty()) {
+        String validation = Validator.categoryHasNoItems(category);
+        if (validation == null) {
+
+            categoryComboBox.removeItem(category);
             categoryManager.delete(category);
-           ((CategoryComboBoxModel) categoryComboBox.getModel()).refresh();
+
+            ((CategoryComboBoxModel) categoryComboBox.getModel()).refresh();
+
+            setVisible(false);
             dispose();
         } else {
-            WarningDialog warningDialog = new WarningDialog(this, true, "Kategória musí byť prázdna!");
+            WarningDialog warningDialog = new WarningDialog(this, true, validation);
             warningDialog.setVisible(true);
         }
     }//GEN-LAST:event_removeButtonActionPerformed
 
+    private void categoryComboBoxPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_categoryComboBoxPropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_categoryComboBoxPropertyChange
+
     /**
      * @param args the command line arguments
      */
-
-     private Category getSelectedCategory() {
+    private Category getSelectedCategory() {
         return (Category) ((CategoryComboBoxModel) categoryComboBox.getModel()).getSelectedItem();
     }
-     
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<Category> categoryComboBox;
     private javax.swing.JButton removeButton;

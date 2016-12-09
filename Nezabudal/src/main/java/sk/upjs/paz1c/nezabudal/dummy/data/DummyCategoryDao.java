@@ -40,7 +40,7 @@ public class DummyCategoryDao implements CategoryDao {
         List<String> list3 = new ArrayList<>();
         list3.add("attr1");
         list3.add("attr2");
-        category3.setAttributes(list2);
+        category3.setAttributes(list3);
     }
 
     @Override

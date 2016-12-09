@@ -31,7 +31,7 @@ public class DefaultCategoryManager implements CategoryManager{
 
     @Override
     public void delete(Category category) {
-        delete(category);
+        categoryDao.delete(category);
     }
     
 }

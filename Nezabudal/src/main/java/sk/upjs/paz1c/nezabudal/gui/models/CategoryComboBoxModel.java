@@ -24,7 +24,6 @@ public class CategoryComboBoxModel extends DefaultComboBoxModel<Category>  {
         removeAllElements();
      
         List<Category> categories = categoryManager.getCategories();
-        
         for(Category category : categories) {
             addElement(category);
         }        

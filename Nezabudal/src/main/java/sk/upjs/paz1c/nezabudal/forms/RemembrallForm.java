@@ -1,6 +1,5 @@
 package sk.upjs.paz1c.nezabudal.forms;
 
-import java.time.zone.ZoneRulesProvider;
 import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.gui.models.CategoryComboBoxModel;
@@ -16,6 +15,8 @@ import sk.upjs.paz1c.nezabudal.gui.models.ItemTableModel;
  * @author Mikey
  */
 public class RemembrallForm extends javax.swing.JFrame {
+
+    public static final Object lock = new Object();
 
     /**
      * Creates new form NewJFrame
@@ -142,6 +143,11 @@ public class RemembrallForm extends javax.swing.JFrame {
                 categoryComboBoxActionPerformed(evt);
             }
         });
+        categoryComboBox.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                categoryComboBoxPropertyChange(evt);
+            }
+        });
 
         itemTable.setModel(new ItemTableModel(getSelectedCategory()));
         jScrollPane1.setViewportView(itemTable);
@@ -254,7 +260,7 @@ public class RemembrallForm extends javax.swing.JFrame {
     }//GEN-LAST:event_ownedCheckBoxMousePressed
 
     private void addCategoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCategoryButtonActionPerformed
-        AddCategoryDialog kategoriaForm = new AddCategoryDialog(this, true);
+        CategoryDialog kategoriaForm = new CategoryDialog(this, true);
         kategoriaForm.setVisible(true);
 
         //----
@@ -266,17 +272,11 @@ public class RemembrallForm extends javax.swing.JFrame {
             lentCheckBox.doClick();
         } else if (ownedCheckBox.isSelected()) {
             ownedCheckBox.doClick();
-        } 
+        }
     }//GEN-LAST:event_notBorrowedCheckBoxActionPerformed
 
     private void categoryComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryComboBoxActionPerformed
-        // AttributeValuesTableModel model = (AttributeValuesTableModel ) attributesTable.getModel();
-        // model.aktualizovat(getSelectedCategory());
 
-        // attributesTable.setModel(new AttributeValuesTableModel(getSelectedCategory()));
-        
-        ((ItemTableModel) itemTable.getModel()).refresh(getSelectedCategory());
-    
     }//GEN-LAST:event_categoryComboBoxActionPerformed
 
     private void removeCategoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeCategoryButtonActionPerformed
@@ -307,9 +307,19 @@ public class RemembrallForm extends javax.swing.JFrame {
     }//GEN-LAST:event_addItemButtonActionPerformed
 
     private void editCategoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editCategoryButtonActionPerformed
-        AddCategoryDialog kategoriaForm = new AddCategoryDialog(this, true, getSelectedCategory());
+        CategoryDialog kategoriaForm = new CategoryDialog(this, true, getSelectedCategory());
         kategoriaForm.setVisible(true);
+        
+        // TODO a proper multithreading solution
+        while (kategoriaForm.isVisible()) {
+
+        }
+        getItemTableModel().refresh(getSelectedCategory());
     }//GEN-LAST:event_editCategoryButtonActionPerformed
+
+    private void categoryComboBoxPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_categoryComboBoxPropertyChange
+        (getItemTableModel()).refresh(getSelectedCategory());
+    }//GEN-LAST:event_categoryComboBoxPropertyChange
 
     /**
      * @param args the command line arguments
@@ -353,10 +363,10 @@ public class RemembrallForm extends javax.swing.JFrame {
         });
     }
 
-      private Category getSelectedCategory() {
+    private Category getSelectedCategory() {
         return (Category) ((CategoryComboBoxModel) categoryComboBox.getModel()).getSelectedItem();
     }
-      
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addCategoryButton;
     private javax.swing.JButton addItemButton;
@@ -376,4 +386,8 @@ public class RemembrallForm extends javax.swing.JFrame {
     private javax.swing.JButton removeItemButton;
     private javax.swing.JButton removeLoanButton;
     // End of variables declaration//GEN-END:variables
+
+    private ItemTableModel getItemTableModel() {
+        return (ItemTableModel) itemTable.getModel();
+    }
 }

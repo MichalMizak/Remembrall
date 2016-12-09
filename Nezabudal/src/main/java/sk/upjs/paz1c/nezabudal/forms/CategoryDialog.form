@@ -42,7 +42,7 @@
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace pref="275" max="32767" attributes="0"/>
-                      <Component id="addCategoryButton" min="-2" pref="118" max="-2" attributes="0"/>
+                      <Component id="saveOrEditCategoryButton" min="-2" pref="118" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="82" max="-2" attributes="0"/>
@@ -71,7 +71,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane1" pref="223" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="addCategoryButton" min="-2" max="-2" attributes="0"/>
+              <Component id="saveOrEditCategoryButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -112,12 +112,12 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="addCategoryButton">
+    <Component class="javax.swing.JButton" name="saveOrEditCategoryButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Pridaj"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addCategoryButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveOrEditCategoryButtonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
