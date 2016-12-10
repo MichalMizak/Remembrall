@@ -15,7 +15,7 @@ import sk.upjs.paz1c.nezabudal.other.Validator;
  *
  * @author Mikey
  */
-public class AddLoanDialog extends javax.swing.JDialog {
+public class LoanDialog extends javax.swing.JDialog {
 
     private static final int IS_BORROWED_ROW = 2;
 
@@ -26,15 +26,16 @@ public class AddLoanDialog extends javax.swing.JDialog {
     /**
      * Creates new form AddItemDialog
      */
-    public AddLoanDialog(java.awt.Frame parent, boolean modal) {
+    public LoanDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
 
-    public AddLoanDialog(java.awt.Frame parent, boolean modal, Loan loan) {
+    public LoanDialog(java.awt.Frame parent, boolean modal, Loan loan) {
         super(parent, modal);
         initComponents();
         getItemComboBoxModel().setSelectedItem(loan.getItem());
+        getLoanTableModel().refresh(loan);
     }
 
     /**
@@ -208,5 +209,9 @@ public class AddLoanDialog extends javax.swing.JDialog {
 
     private Category getSelectedCategory() {
         return (Category) ((CategoryComboBoxModel) categoryComboBox.getModel()).getSelectedItem();
+    }
+
+    private LoanTableModel getLoanTableModel() {
+        return (LoanTableModel) loanTable.getModel();
     }
 }

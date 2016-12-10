@@ -5,6 +5,7 @@ import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;
 import sk.upjs.paz1c.nezabudal.gui.models.CategoryComboBoxModel;
 import sk.upjs.paz1c.nezabudal.gui.models.ItemTableModel;
+import sk.upjs.paz1c.nezabudal.managers.LoanManager;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -16,8 +17,6 @@ import sk.upjs.paz1c.nezabudal.gui.models.ItemTableModel;
  * @author Mikey
  */
 public class RemembrallForm extends javax.swing.JFrame {
-
-    public static final Object lock = new Object();
 
     /**
      * Creates new form NewJFrame
@@ -152,6 +151,11 @@ public class RemembrallForm extends javax.swing.JFrame {
         });
 
         itemTable.setModel(new ItemTableModel(getSelectedCategory()));
+        itemTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                itemTableMousePressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(itemTable);
 
         editCategoryButton.setText("Uprav kategóriu");
@@ -303,7 +307,7 @@ public class RemembrallForm extends javax.swing.JFrame {
     private void addLoanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLoanButtonActionPerformed
         // NetBeans is stupid, this is addItemButtonActionPerformed !!!!!
 
-        AddLoanDialog itemDialog = new AddLoanDialog(this, true);
+        LoanDialog itemDialog = new LoanDialog(this, true);
 
         // refresh model
         itemDialog.setVisible(true);
@@ -349,6 +353,19 @@ public class RemembrallForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_editItemButtonActionPerformed
 
+    private void itemTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemTableMousePressed
+        if (evt.getClickCount() == 2) {
+            int riadok = itemTable.getSelectedRow();
+            Item item = ((ItemTableModel) itemTable.getModel()).getItemAt(riadok);
+
+            LoanManager loanManager = ObjectFactory.INSTANCE.getLoanManager();
+
+            LoanDialog loanDialog = new LoanDialog(this, true, loanManager.getByItem(item));
+            loanDialog.setVisible(true);
+
+        }
+    }//GEN-LAST:event_itemTableMousePressed
+
     private Item getSelectedItem() {
         int selectedRow = itemTable.getSelectedRow();
         if (selectedRow == -1) {
@@ -356,6 +373,10 @@ public class RemembrallForm extends javax.swing.JFrame {
         } else {
             return getItemTableModel().getItemAt(selectedRow);
         }
+    }
+
+    private Category getSelectedCategory() {
+        return (Category) ((CategoryComboBoxModel) categoryComboBox.getModel()).getSelectedItem();
     }
 
     /**
@@ -400,9 +421,6 @@ public class RemembrallForm extends javax.swing.JFrame {
         });
     }
 
-    private Category getSelectedCategory() {
-        return (Category) ((CategoryComboBoxModel) categoryComboBox.getModel()).getSelectedItem();
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addCategoryButton;

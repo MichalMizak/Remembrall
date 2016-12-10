@@ -17,11 +17,7 @@ public class Validator {
 
     private static final ItemManager itemManager = ObjectFactory.INSTANCE.getItemManager();
 
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-
-    public static boolean validate(Item item) {
-        return false;
-    }
+    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
     public static String validateCategory(Category category, String title) {
 
@@ -74,6 +70,9 @@ public class Validator {
 
     public static Object validateLoanSince(String since) {
         LocalDateTime dateTime;
+        LocalDateTime date = LocalDateTime.now();
+        since = date.format(formatter);
+
         try {
             dateTime = LocalDateTime.parse(since, formatter);
         } catch (DateTimeParseException exception) {
@@ -84,6 +83,8 @@ public class Validator {
 
     public static Object validateLoanUntil(String until) {
         LocalDateTime dateTime;
+        LocalDateTime date = LocalDateTime.now();
+        until = date.format(formatter);
         try {
             dateTime = LocalDateTime.parse(until, formatter);
         } catch (DateTimeParseException exception) {
