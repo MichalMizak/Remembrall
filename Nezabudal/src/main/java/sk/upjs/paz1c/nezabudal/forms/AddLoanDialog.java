@@ -140,6 +140,9 @@ public class AddLoanDialog extends javax.swing.JDialog {
         // potentially will be made into a checkbox
         String isBorrowedString = secondRowValues[IS_BORROWED_ROW - 1];
         boolean isBorrowed;
+        Item item = getSelectedItem();
+        String description = secondRowValues[0];
+        String person = secondRowValues[2];
 
         String validation = Validator.validateLoanBorrowedToMe(isBorrowedString);
         // EW EW EW EW SORRY FOR THIS
@@ -150,7 +153,7 @@ public class AddLoanDialog extends javax.swing.JDialog {
             return;
         }
 
-        validation = Validator.validateLoan(getSelectedItem(), secondRowValues[0], secondRowValues[2]);
+        validation = Validator.validateLoan(item, description, person);
         if (validation != null) {
             createWarningDialog(validation);
             return;
@@ -176,43 +179,21 @@ public class AddLoanDialog extends javax.swing.JDialog {
             until = (LocalDateTime) validation2;
         }
         // only after validation
-        Loan loan = new Loan(getSelectedItem(), secondRowValues[0], isBorrowed, secondRowValues[2], since, until);
+        Loan loan = new Loan(item, description, isBorrowed, person, since, until);
         loanManager.saveOrEdit(loan);
-        
+
         setVisible(false);
         dispose();
     }//GEN-LAST:event_addLoanButton1ActionPerformed
 
     private void createWarningDialog(String validation) {
-        WarningDialog warningDialog;
-        warningDialog = new WarningDialog(this, true, validation);
+        WarningDialog warningDialog = new WarningDialog(this, true, validation);
         warningDialog.setVisible(true);
     }
 
     private Item getSelectedItem() {
         // validate
         return (Item) getItemComboBoxModel().getSelectedItem();
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                AddLoanDialog dialog = new AddLoanDialog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
