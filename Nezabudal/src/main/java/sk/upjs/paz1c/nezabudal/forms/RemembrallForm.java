@@ -2,6 +2,7 @@ package sk.upjs.paz1c.nezabudal.forms;
 
 import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.entity.Category;
+import sk.upjs.paz1c.nezabudal.entity.Item;
 import sk.upjs.paz1c.nezabudal.gui.models.CategoryComboBoxModel;
 import sk.upjs.paz1c.nezabudal.gui.models.ItemTableModel;
 
@@ -52,6 +53,7 @@ public class RemembrallForm extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         itemTable = new javax.swing.JTable();
         editCategoryButton = new javax.swing.JButton();
+        editItemButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Remembrall");
@@ -159,6 +161,13 @@ public class RemembrallForm extends javax.swing.JFrame {
             }
         });
 
+        editItemButton.setText("Uprav predmet");
+        editItemButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editItemButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -193,9 +202,10 @@ public class RemembrallForm extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(addItemButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(removeItemButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(editItemButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(addLoanButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(removeLoanButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(removeItemButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(removeLoanButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -221,6 +231,8 @@ public class RemembrallForm extends javax.swing.JFrame {
                         .addGap(11, 11, 11)
                         .addComponent(removeItemButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(editItemButton)
+                        .addGap(10, 10, 10)
                         .addComponent(addLoanButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(removeLoanButton))
@@ -276,7 +288,6 @@ public class RemembrallForm extends javax.swing.JFrame {
     }//GEN-LAST:event_notBorrowedCheckBoxActionPerformed
 
     private void categoryComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryComboBoxActionPerformed
-
     }//GEN-LAST:event_categoryComboBoxActionPerformed
 
     private void removeCategoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeCategoryButtonActionPerformed
@@ -290,6 +301,8 @@ public class RemembrallForm extends javax.swing.JFrame {
     }//GEN-LAST:event_removeLoanButtonActionPerformed
 
     private void addLoanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLoanButtonActionPerformed
+        // NetBeans is stupid, this is addItemButtonActionPerformed !!!!!
+
         AddLoanDialog itemDialog = new AddLoanDialog(this, true);
 
         // refresh model
@@ -302,14 +315,16 @@ public class RemembrallForm extends javax.swing.JFrame {
     }//GEN-LAST:event_removeItemButtonActionPerformed
 
     private void addItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addItemButtonActionPerformed
-        AddItemDialog loanDialog = new AddItemDialog(this, true);
+        // NetBeans is stupid, this is addLoanButtonActionPerformed !!!!!
+
+        ItemDialog loanDialog = new ItemDialog(this, true);
         loanDialog.setVisible(true);
     }//GEN-LAST:event_addItemButtonActionPerformed
 
     private void editCategoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editCategoryButtonActionPerformed
         CategoryDialog kategoriaForm = new CategoryDialog(this, true, getSelectedCategory());
         kategoriaForm.setVisible(true);
-        
+
         // TODO a proper multithreading solution
         while (kategoriaForm.isVisible()) {
 
@@ -318,8 +333,30 @@ public class RemembrallForm extends javax.swing.JFrame {
     }//GEN-LAST:event_editCategoryButtonActionPerformed
 
     private void categoryComboBoxPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_categoryComboBoxPropertyChange
-        (getItemTableModel()).refresh(getSelectedCategory());
+        getItemTableModel().refresh(getSelectedCategory());
+        // System.out.println("refresh + " +" @RemembrallForm");
     }//GEN-LAST:event_categoryComboBoxPropertyChange
+
+    private void editItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editItemButtonActionPerformed
+
+        Item item = getSelectedItem();
+        if (item == null) {
+            WarningDialog warningDialog = new WarningDialog(this, true, "Označ predmet");
+            warningDialog.setVisible(true);
+        } else {
+            ItemDialog itemDialog = new ItemDialog(this, true, item);
+            itemDialog.setVisible(true);
+        }
+    }//GEN-LAST:event_editItemButtonActionPerformed
+
+    private Item getSelectedItem() {
+        int selectedRow = itemTable.getSelectedRow();
+        if (selectedRow == -1) {
+            return null;
+        } else {
+            return getItemTableModel().getItemAt(selectedRow);
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -375,6 +412,7 @@ public class RemembrallForm extends javax.swing.JFrame {
     private javax.swing.JComboBox<Category> categoryComboBox;
     private javax.swing.JLabel categoryLabel;
     private javax.swing.JButton editCategoryButton;
+    private javax.swing.JButton editItemButton;
     private javax.swing.JTable itemTable;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;

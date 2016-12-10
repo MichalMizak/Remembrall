@@ -19,7 +19,7 @@ public class DummyLoanDao implements LoanDao {
     public DummyLoanDao() { 
         
         Category category = ObjectFactory.INSTANCE.getCategoryManager().getById(1L);
-        Item item = new Item("Dummy item description", "Dummy item name", "No problem", true, category, category.getAttributes());
+        Item item = new Item("Dummy item name", "Dummy item description",  true, category, category.getAttributes());
         
         loan = new Loan(item, "Dummy loan spec", true, "Mike", 
                 LocalDateTime.now(), LocalDateTime.MIN);
@@ -45,5 +45,10 @@ public class DummyLoanDao implements LoanDao {
     @Override
     public Loan getByItem(Item item) {
         return getById(0L);
+    }
+
+    @Override
+    public void saveOrEdit(Loan loan) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

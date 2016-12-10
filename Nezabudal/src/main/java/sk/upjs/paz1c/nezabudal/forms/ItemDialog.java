@@ -7,8 +7,8 @@ import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;
 import sk.upjs.paz1c.nezabudal.gui.models.AttributeValuesTableModel;
 import sk.upjs.paz1c.nezabudal.gui.models.CategoryComboBoxModel;
-import sk.upjs.paz1c.nezabudal.dao.ItemDao;
 import sk.upjs.paz1c.nezabudal.managers.ItemManager;
+import sk.upjs.paz1c.nezabudal.other.Validator;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -19,25 +19,45 @@ import sk.upjs.paz1c.nezabudal.managers.ItemManager;
  *
  * @author Mikey
  */
-public class AddItemDialog extends javax.swing.JDialog {
+public class ItemDialog extends javax.swing.JDialog {
 
     public static final boolean MODALITY = true;
     private static final boolean IS_BORROWED_DEFAULT = false;
-    
+
     private ItemManager itemManager = ObjectFactory.INSTANCE.getItemManager();
+
+    private Item item;
 
     /**
      * Creates new form AddLoanDialog
      */
-    public AddItemDialog(java.awt.Frame parent, boolean modal) {
+    public ItemDialog(java.awt.Frame parent, boolean modal) {
         super(parent, MODALITY);
-        
+
         initComponents();
-       // attributesTable.setModel();
-        
-      //  AttributeValuesTableModel tableModel = (AttributeValuesTableModel) attributesTable.getModel();
-      //  tableModel.initialize(category);
-        
+
+        item = new Item();
+        // attributesTable.setModel();
+
+        //  AttributeValuesTableModel tableModel = (AttributeValuesTableModel) attributesTable.getModel();
+        //  tableModel.initialize(category);
+    }
+
+    public ItemDialog(java.awt.Frame parent, boolean modal, Item item) {
+        //Item item = new Item(nameTextField.getText(), specificationTextArea.getText(), stateTextArea.getText(),
+        //       IS_BORROWED_DEFAULT, getSelectedCategory(), list);
+        super(parent, MODALITY);
+        initComponents();
+
+        this.item = item;
+
+        nameTextField.setText(item.getName());
+        specificationTextArea.setText(item.getDescription());
+
+        // only looks horrific
+        getAttributeValuesTableModel().setAttributeValues(item.getAttributeValues().toArray(new String[0]));
+
+        addItemButton.setText("Uprav predmet");
     }
 
     /**
@@ -57,11 +77,8 @@ public class AddItemDialog extends javax.swing.JDialog {
         addItemButton = new javax.swing.JButton();
         nameLabel = new javax.swing.JLabel();
         specificationLabel = new javax.swing.JLabel();
-        stateLabel = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         specificationTextArea = new javax.swing.JTextArea();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        stateTextArea = new javax.swing.JTextArea();
         nameTextField = new javax.swing.JTextField();
 
         addLoanButton.setText("Pridaj");
@@ -95,19 +112,11 @@ public class AddItemDialog extends javax.swing.JDialog {
 
         specificationLabel.setText("Popis");
 
-        stateLabel.setText("Stav ");
-
         specificationTextArea.setColumns(20);
         specificationTextArea.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
         specificationTextArea.setLineWrap(true);
         specificationTextArea.setRows(4);
         jScrollPane2.setViewportView(specificationTextArea);
-
-        stateTextArea.setColumns(20);
-        stateTextArea.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        stateTextArea.setLineWrap(true);
-        stateTextArea.setRows(4);
-        jScrollPane3.setViewportView(stateTextArea);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -122,18 +131,12 @@ public class AddItemDialog extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(stateLabel)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(categoryComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(categoryComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(nameLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                         .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -151,10 +154,6 @@ public class AddItemDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(specificationLabel)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(stateLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
@@ -170,31 +169,48 @@ public class AddItemDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void categoryComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryComboBoxActionPerformed
-        AttributeValuesTableModel model = (AttributeValuesTableModel ) attributesTable.getModel();
+        AttributeValuesTableModel model = getAttributeValuesTableModel();
         model.aktualizovat(getSelectedCategory());
-        
+
         // attributesTable.setModel(new AttributeValuesTableModel(getSelectedCategory()));
     }//GEN-LAST:event_categoryComboBoxActionPerformed
 
+    private AttributeValuesTableModel getAttributeValuesTableModel() {
+        return (AttributeValuesTableModel) attributesTable.getModel();
+    }
+
     private void addItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addItemButtonActionPerformed
         // add item
-         // TODO proper validation
-        String[] secondColumnValues = ((AttributeValuesTableModel) attributesTable.getModel()).getSecondColumnValues();
-        
+        // TODO proper validation
+        String[] secondColumnValues = (getAttributeValuesTableModel()).getSecondColumnValues();
+
         List<String> list = new ArrayList<String>();
-        
+
         for (int i = 0; i < secondColumnValues.length; i++) {
             list.add(secondColumnValues[i]);
         }
 
-        //  WarningDialog warningDialog = new WarningDialog(this, true, "Nesprávny formát riadka \"Požičané mne\"");
-         //   warningDialog.setVisible(true);
+        String name = nameTextField.getText();
+        String description = specificationTextArea.getText();
+       // boolean isBorrowed = item.isIsBorrowed();
+        Category selectedCategory = getSelectedCategory();
 
-        Item item = new Item(nameTextField.getText(), specificationTextArea.getText(), stateTextArea.getText(),
-                IS_BORROWED_DEFAULT, getSelectedCategory(), list);
-        
-        itemManager.saveOrUpdate(item);
-        dispose();
+        String validation = Validator.validateItem(name, description, selectedCategory, list);
+        if (validation == null) {
+            item.setName(name);
+            item.setDescription(description);
+          //  item.setIsBorrowed(isBorrowed);
+            item.setCategory(selectedCategory);
+            item.setAttributeValues(list);
+
+            itemManager.saveOrUpdate(item);
+
+            setVisible(false);
+            dispose();
+        } else {
+            WarningDialog warningDialog = new WarningDialog(this, true, validation);
+            warningDialog.setVisible(true);
+        }
     }//GEN-LAST:event_addItemButtonActionPerformed
 
     private Category getSelectedCategory() {
@@ -209,12 +225,9 @@ public class AddItemDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JTextField nameTextField;
     private javax.swing.JLabel specificationLabel;
     private javax.swing.JTextArea specificationTextArea;
-    private javax.swing.JLabel stateLabel;
-    private javax.swing.JTextArea stateTextArea;
     // End of variables declaration//GEN-END:variables
 }

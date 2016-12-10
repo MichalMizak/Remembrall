@@ -35,4 +35,9 @@ public class DefaultLoanManager implements LoanManager {
         loanDao.delete(loan);
     }
 
+    @Override
+    public void saveOrEdit(Loan loan) {
+        loanDao.saveOrEdit(loan);
+    }
+
 }

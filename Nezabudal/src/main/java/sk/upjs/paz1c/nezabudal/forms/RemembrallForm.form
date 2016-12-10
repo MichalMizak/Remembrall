@@ -69,9 +69,10 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="addItemButton" alignment="1" max="32767" attributes="0"/>
+                          <Component id="removeItemButton" alignment="1" max="32767" attributes="0"/>
+                          <Component id="editItemButton" alignment="0" max="32767" attributes="0"/>
                           <Component id="addLoanButton" alignment="1" max="32767" attributes="0"/>
                           <Component id="removeLoanButton" alignment="1" max="32767" attributes="0"/>
-                          <Component id="removeItemButton" alignment="1" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -104,6 +105,8 @@
                       <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                       <Component id="removeItemButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
+                      <Component id="editItemButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                       <Component id="addLoanButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="removeLoanButton" min="-2" max="-2" attributes="0"/>
@@ -237,6 +240,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editCategoryButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="editItemButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Uprav predmet"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editItemButtonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

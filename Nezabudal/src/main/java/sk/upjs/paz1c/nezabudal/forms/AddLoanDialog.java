@@ -5,10 +5,11 @@ import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;
 import sk.upjs.paz1c.nezabudal.entity.Loan;
-import sk.upjs.paz1c.nezabudal.gui.models.AttributeValuesTableModel;
 import sk.upjs.paz1c.nezabudal.gui.models.CategoryComboBoxModel;
 import sk.upjs.paz1c.nezabudal.gui.models.ItemComboBoxModel;
 import sk.upjs.paz1c.nezabudal.gui.models.LoanTableModel;
+import sk.upjs.paz1c.nezabudal.managers.LoanManager;
+import sk.upjs.paz1c.nezabudal.other.Validator;
 
 /**
  *
@@ -17,42 +18,25 @@ import sk.upjs.paz1c.nezabudal.gui.models.LoanTableModel;
 public class AddLoanDialog extends javax.swing.JDialog {
 
     private static final int IS_BORROWED_ROW = 2;
+
+    private final LoanManager loanManager = ObjectFactory.INSTANCE.getLoanManager();
+
+    Loan loan;
+
     /**
      * Creates new form AddItemDialog
      */
     public AddLoanDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        setDesign("Windows");
     }
 
-    private void setDesign(String design) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if (design.equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddLoanDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddLoanDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddLoanDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddLoanDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+    public AddLoanDialog(java.awt.Frame parent, boolean modal, Loan loan) {
+        super(parent, modal);
+        initComponents();
+        getItemComboBoxModel().setSelectedItem(loan.getItem());
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -141,46 +125,80 @@ public class AddLoanDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void categoryComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryComboBoxActionPerformed
-        ((ItemComboBoxModel)itemComboBox.getModel()).refresh(getSelectedCategory());
-        
+        getItemComboBoxModel().refresh(getSelectedCategory());
     }//GEN-LAST:event_categoryComboBoxActionPerformed
+
+    private ItemComboBoxModel getItemComboBoxModel() {
+        return (ItemComboBoxModel) itemComboBox.getModel();
+    }
 
     private void addLoanButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLoanButton1ActionPerformed
 
-        // TODO proper validation
+        // TODO TESTING
         String[] secondRowValues = ((LoanTableModel) loanTable.getModel()).getSecondColumnValues();
-        
+
         // potentially will be made into a checkbox
-       String isBorrowedString = secondRowValues[IS_BORROWED_ROW-1];
-       boolean isBorrowed;
-                System.out.println(isBorrowedString);
-        if (!(isBorrowedString == null) && (isBorrowedString.toLowerCase().equals("ano") || isBorrowedString.toLowerCase().equals("áno"))) {
-            isBorrowed = true;
-        } else if (!(isBorrowedString == null) && isBorrowedString.toLowerCase().equals("nie")) {
-            isBorrowed = false;
+        String isBorrowedString = secondRowValues[IS_BORROWED_ROW - 1];
+        boolean isBorrowed;
+
+        String validation = Validator.validateLoanBorrowedToMe(isBorrowedString);
+        // EW EW EW EW SORRY FOR THIS
+        if (validation.length() < 6) {
+            isBorrowed = "true".equals(isBorrowedString);
         } else {
-            WarningDialog warningDialog = new WarningDialog(this, true, "Nesprávny formát riadka \"Požičané mne\"");
-            warningDialog.setVisible(true);
-           return;
+            createWarningDialog(validation);
+            return;
         }
-        
-      // only after validation
-      // Loan loan = new Loan(getSelectedItem(), secondRowValues[0], isBorrowed, secondRowValues[2], LocalDateTime.parse(secondRowValues[3]), LocalDateTime.parse(secondRowValues[4]));
+
+        validation = Validator.validateLoan(getSelectedItem(), secondRowValues[0], secondRowValues[2]);
+        if (validation != null) {
+            createWarningDialog(validation);
+            return;
+        }
+
+        LocalDateTime since;
+        Object validation2 = Validator.validateLoanSince(secondRowValues[3]);
+        try {
+            validation = (String) validation2;
+            createWarningDialog(validation);
+            return;
+        } catch (ClassCastException exception) {
+            since = (LocalDateTime) validation2;
+        }
+
+        LocalDateTime until;
+        validation2 = Validator.validateLoanUntil(secondRowValues[4]);
+        try {
+            validation = (String) validation2;
+            createWarningDialog(validation);
+            return;
+        } catch (ClassCastException exception) {
+            until = (LocalDateTime) validation2;
+        }
+        // only after validation
+        Loan loan = new Loan(getSelectedItem(), secondRowValues[0], isBorrowed, secondRowValues[2], since, until);
+        loanManager.saveOrEdit(loan);
         
         setVisible(false);
         dispose();
     }//GEN-LAST:event_addLoanButton1ActionPerformed
 
+    private void createWarningDialog(String validation) {
+        WarningDialog warningDialog;
+        warningDialog = new WarningDialog(this, true, validation);
+        warningDialog.setVisible(true);
+    }
+
     private Item getSelectedItem() {
         // validate
-        return (Item)((ItemComboBoxModel) itemComboBox.getModel()).getSelectedItem();
+        return (Item) getItemComboBoxModel().getSelectedItem();
     }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
+
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {

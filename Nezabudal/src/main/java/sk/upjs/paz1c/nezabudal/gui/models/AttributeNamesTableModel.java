@@ -9,11 +9,6 @@ public class AttributeNamesTableModel extends AbstractTableModel {
 
     private List<String> attributeNames = new ArrayList<>();
 
-    public void setAttributeNames(List<String> attributeNames) {
-        this.attributeNames = attributeNames;
-        fireTableDataChanged();
-    }
-
     private static final int COLUMN_COUNT = 1;
 
     private static final boolean EDITABILITY = true;
@@ -23,14 +18,19 @@ public class AttributeNamesTableModel extends AbstractTableModel {
     }
 
     public List<String> getAttributeNames() {
-        
+
         for (int i = 0; i < attributeNames.size(); i++) {
             String attribute = attributeNames.get(i);
             if (attribute != null && attribute.trim().equals("")) {
-                attributeNames.remove(i);               
+                attributeNames.remove(i);
             }
         }
         return attributeNames;
+    }
+
+    public void setAttributeNames(List<String> attributeNames) {
+        this.attributeNames = attributeNames;
+        fireTableDataChanged();
     }
 
     @Override

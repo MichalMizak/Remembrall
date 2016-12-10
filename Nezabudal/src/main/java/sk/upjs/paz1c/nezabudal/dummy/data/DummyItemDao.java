@@ -25,10 +25,10 @@ public class DummyItemDao implements ItemDao {
 //        list.add("attr4");
         Category category = ObjectFactory.INSTANCE.getCategoryManager().getById(0L);
 
-        item = new Item("Dummy item description", "Dummy item name", "No problem", true, category, category.getAttributes());
+        item = new Item("Dummy item name","Dummy item description",  true, category, category.getAttributes());
         Category category2 = ObjectFactory.INSTANCE.getCategoryManager().getById(1L);
 
-        item2 = new Item("Dummy item description 2", "Dummy item name 2", "No problem 2", false, category2, category2.getAttributes());
+        item2 = new Item( "Dummy item name 2", "Dummy item description 2", false, category2, category2.getAttributes());
     }
 
     @Override

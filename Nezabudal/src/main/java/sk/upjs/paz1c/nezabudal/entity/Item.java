@@ -10,11 +10,9 @@ public class Item {
     
     private Long id;
 
-    private String itemName;
+    private String name;
 
-    private String itemDescription;
-
-    private String itemState;
+    private String description;
 
     private boolean isBorrowed;
     
@@ -23,38 +21,32 @@ public class Item {
     // the values of the category attributes
     private List<String> attributeValues;
 
-    public Item(String itemName, String itemDescription, String itemState, boolean isBorrowed, Category category, List<String> attributeValues) {
-        this.itemName = itemName;
-        this.itemDescription = itemDescription;
-        this.itemState = itemState;
+    public Item(String itemName, String itemDescription, boolean isBorrowed, Category category, List<String> attributeValues) {
+        this.name = itemName;
+        this.description = itemDescription;
         this.isBorrowed = isBorrowed;
         this.category = category;
         this.attributeValues = attributeValues;
     }
 
+    public Item() {
+    }
+
     
-    public String getItemName() {
-        return itemName;
+    public String getName() {
+        return name;
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getItemDescription() {
-        return itemDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setItemDescription(String itemDescription) {
-        this.itemDescription = itemDescription;
-    }
-
-    public String getItemState() {
-        return itemState;
-    }
-
-    public void setItemState(String itemState) {
-        this.itemState = itemState;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public boolean isIsBorrowed() {
@@ -85,7 +77,7 @@ public class Item {
 
     @Override
     public String toString() {
-        return itemName;
+        return name;
     }
 
     

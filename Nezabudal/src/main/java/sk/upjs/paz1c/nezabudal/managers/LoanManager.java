@@ -17,4 +17,6 @@ public interface LoanManager {
     Loan getById(Long id);
 
     void delete(Loan loan);
+    
+    void saveOrEdit(Loan loan);
 }

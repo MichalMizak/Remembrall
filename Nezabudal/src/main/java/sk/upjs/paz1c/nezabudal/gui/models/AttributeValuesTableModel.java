@@ -32,13 +32,15 @@ public class AttributeValuesTableModel extends AbstractTableModel {
     }
 
     public void aktualizovat(Category category) {
-        //  if (!this.category.equals(category)) {
         this.category = category;
         attributeValues = new String[category.getAttributes().size()];
-        fireTableStructureChanged();
         fireTableDataChanged();
-        // }
     }
+    
+      public void setAttributeValues(String[] attributeValues) {
+        this.attributeValues = attributeValues;
+    }
+
 
     @Override
     public int getRowCount() {

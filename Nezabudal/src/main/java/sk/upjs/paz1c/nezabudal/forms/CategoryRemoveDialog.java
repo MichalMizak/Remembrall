@@ -1,11 +1,8 @@
 package sk.upjs.paz1c.nezabudal.forms;
 
-import javax.swing.ComboBoxModel;
-import sk.upjs.paz1c.nezabudal.dao.CategoryDao;
 import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.gui.models.CategoryComboBoxModel;
-import sk.upjs.paz1c.nezabudal.dao.ItemDao;
 import sk.upjs.paz1c.nezabudal.managers.CategoryManager;
 import sk.upjs.paz1c.nezabudal.managers.ItemManager;
 import sk.upjs.paz1c.nezabudal.other.Validator;
@@ -28,33 +25,6 @@ public class CategoryRemoveDialog extends javax.swing.JDialog {
     public CategoryRemoveDialog(java.awt.Frame parent, boolean modal) {
         super(parent, MODALITY);
         initComponents();
-        initializeDesign("Windows");
-    }
-
-    private void initializeDesign(String look) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if (look.equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CategoryRemoveDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CategoryRemoveDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CategoryRemoveDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CategoryRemoveDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
     }
 
     /**

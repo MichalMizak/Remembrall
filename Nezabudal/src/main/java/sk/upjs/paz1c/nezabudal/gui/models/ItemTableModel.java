@@ -5,7 +5,6 @@ import javax.swing.table.AbstractTableModel;
 import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;
-import sk.upjs.paz1c.nezabudal.dao.ItemDao;
 import sk.upjs.paz1c.nezabudal.managers.ItemManager;
 
 /**
@@ -20,7 +19,9 @@ public class ItemTableModel extends AbstractTableModel {
 
     private Category category;
 
-    private String[] columnTitles;
+    private final String[] columnTitles = {"Názov", "Popis"};
+
+    private String[] attributeNameColumnTitles;
 
     private int columnCount;
 
@@ -36,19 +37,31 @@ public class ItemTableModel extends AbstractTableModel {
         this.category = category;
 
         fireTableDataChanged();
-        setColumnTitles(category.getAttributes().toArray(new String[0]));
-        
+        setAttributeNameColumnTitles(category.getAttributes().toArray(new String[0]));
+
         itemList = itemManager.getByCategory(category);
-        columnCount = columnTitles.length;
-       
+        setColumnCount();
+        setRowCount();
+
         fireTableStructureChanged();
         fireTableDataChanged();
+    }
+
+    private void setColumnCount() {
+        columnCount = attributeNameColumnTitles.length + columnTitles.length;
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Item item = itemList.get(rowIndex);
-        return item.getAttributeValues().get(columnIndex);
+
+        switch (columnIndex) {
+            case 0:
+                return item.getName();
+            case 1:
+                return item.getDescription();
+        }
+        return item.getAttributeValues().get(columnIndex - columnTitles.length);
     }
 
     @Override
@@ -72,18 +85,26 @@ public class ItemTableModel extends AbstractTableModel {
 
     @Override
     public String getColumnName(int columnIndex) {
-        return columnTitles[columnIndex];
+        if (columnIndex < columnTitles.length) {
+            return columnTitles[columnIndex];
+        } else {
+            return attributeNameColumnTitles[columnIndex - columnTitles.length];
+        }
     }
 
-    public String[] getColumnTitles() {
-        return columnTitles;
+    public String[] getAttributeNameColumnTitles() {
+        return attributeNameColumnTitles;
     }
 
-    private void setColumnTitles(String[] columnTitles) {
-        this.columnTitles = columnTitles;
+    private void setAttributeNameColumnTitles(String[] attributeNameColumnTitles) {
+        this.attributeNameColumnTitles = attributeNameColumnTitles;
     }
 
     private void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Item getItemAt(int index) {
+        return itemList.get(index);
     }
 }
