@@ -17,7 +17,7 @@ public class Loan {
 
     private String specification;
 
-    private boolean borrowedToMe;
+    private boolean lentToMe;
 
     private String person;    
     
@@ -28,7 +28,7 @@ public class Loan {
     public Loan(Item item, String specification, boolean borrowedToMe, String person, LocalDateTime startDate, LocalDateTime returnDate) {
         this.item = item;
         this.specification = specification;
-        this.borrowedToMe = borrowedToMe;
+        this.lentToMe = borrowedToMe;
         this.person = person;
         this.startDate = startDate;
         this.returnDate = returnDate;
@@ -43,12 +43,12 @@ public class Loan {
         this.specification = specification;
     }
 
-    public boolean isBorrowedToMe() {
-        return borrowedToMe;
+    public boolean isLentToMe() {
+        return lentToMe;
     }
 
-    public void setBorrowedToMe(boolean borrowedToMe) {
-        this.borrowedToMe = borrowedToMe;
+    public void setLentToMe(boolean lentToMe) {
+        this.lentToMe = lentToMe;
     }
 
     public String getPerson() {

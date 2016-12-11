@@ -18,18 +18,26 @@ public class DefaultAttributeManager implements AttributeManager {
     AttributeDao attributeDao = ObjectFactory.INSTANCE.getAttributeDao();
 
     @Override
-    public List<Attribute> getAttributes() {
-        return attributeDao.getAttributes();
-    }
-
-    @Override
     public Attribute getById(Long id) {
         return attributeDao.getById(id);
     }
 
     @Override
-    public void saveOrEdit(Attribute attribute) {
-        attributeDao.saveOrEdit(attribute);
+    public void saveOrEdit(Attribute attribute, Item item, Category category) {
+        attributeDao.saveOrEdit(attribute, item, category);
+    }
+
+    
+    @Override
+    public void saveOrEdit(List<Attribute> attributes, Item item, Category category) {
+        for (Attribute attribute : attributes) {
+            saveOrEdit(attribute, item, category);
+        }
+    }
+    
+    @Override
+    public void saveOrEditNames(List<Attribute> attributes, Category category) {
+        saveOrEdit(attributes, null, category);
     }
 
     @Override
@@ -60,24 +68,17 @@ public class DefaultAttributeManager implements AttributeManager {
         return list;
     }
 
-    @Override
-    public void saveOrEdit(List<Attribute> attributes) {
-        for (Attribute attribute : attributes) {
-            saveOrEdit(attribute);
-        }
-    }
-    
-    
+
     @Override
     public Attribute getByItemAndTitle(Item item, String title) {
         List<Attribute> attributes = item.getAttributes();
-        
+
         for (Attribute attribute : attributes) {
             if (title.equals(attribute.getName())) {
                 return attribute;
             }
         }
-        
+
         return null;
     }
 

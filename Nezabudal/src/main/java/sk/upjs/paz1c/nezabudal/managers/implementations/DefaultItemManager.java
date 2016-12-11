@@ -60,7 +60,7 @@ public class DefaultItemManager implements ItemManager {
 
         for (Item item : borrowedItems) {
             Loan loan = loanDao.getByItem(item);
-            if (loan.isBorrowedToMe()) {
+            if (loan.isLentToMe()) {
                 itemsBorrowedToMe.add(item);
             }
         }
@@ -75,7 +75,7 @@ public class DefaultItemManager implements ItemManager {
 
         for (Item item : borrowedItems) {
             Loan loan = loanDao.getByItem(item);
-            if (!loan.isBorrowedToMe()) {
+            if (!loan.isLentToMe()) {
                 itemsLentByMe.add(item);
             }
         }

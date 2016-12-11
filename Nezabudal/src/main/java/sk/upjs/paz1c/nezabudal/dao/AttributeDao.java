@@ -5,6 +5,7 @@ import sk.upjs.paz1c.nezabudal.entity.Attribute;
 import java.util.ArrayList;
 import java.util.List;
 import sk.upjs.paz1c.nezabudal.entity.Category;
+import sk.upjs.paz1c.nezabudal.entity.Item;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -16,12 +17,10 @@ import sk.upjs.paz1c.nezabudal.entity.Category;
  * @author Mikey
  */
 public interface AttributeDao {
-
-    public List<Attribute> getAttributes();
-    
+   
     public Attribute getById(Long id);
          
-    public void saveOrEdit(Attribute attribute);  
+    public void saveOrEdit(Attribute attribute, Item item, Category category);  
     
     public void delete(Attribute attribute);   
     

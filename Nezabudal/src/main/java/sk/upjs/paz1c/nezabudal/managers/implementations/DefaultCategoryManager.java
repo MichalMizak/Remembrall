@@ -25,8 +25,8 @@ public class DefaultCategoryManager implements CategoryManager{
     }
 
     @Override
-    public void saveOrEdit(Category kategoria) {
-        categoryDao.saveOrEdit(kategoria);
+    public void saveOrEdit(Category category) {
+        categoryDao.saveOrEdit(category);
     }
 
     @Override

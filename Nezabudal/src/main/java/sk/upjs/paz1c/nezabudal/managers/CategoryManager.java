@@ -13,7 +13,7 @@ public interface CategoryManager {
     
     public Category getById(Long id);
          
-    public void saveOrEdit(Category kategoria);  
+    public void saveOrEdit(Category category);  
     
     public void delete(Category category);
 }

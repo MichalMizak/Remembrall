@@ -5,6 +5,8 @@ import java.util.List;
 import sk.upjs.paz1c.nezabudal.dao.AttributeDao;
 import sk.upjs.paz1c.nezabudal.entity.Attribute;
 import sk.upjs.paz1c.nezabudal.entity.Category;
+import sk.upjs.paz1c.nezabudal.entity.Item;
+
 
 /**
  *
@@ -21,17 +23,13 @@ public class DummyAttributeDao implements AttributeDao {
         attributes.add(new Attribute("Osoba", ""));
     }
 
-    public List<Attribute> getAttributes() {
-        return attributes;
-    }
-
     @Override
     public Attribute getById(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void saveOrEdit(Attribute attribute) {
+    public void saveOrEdit(Attribute attribute, Item item, Category category) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

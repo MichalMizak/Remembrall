@@ -11,13 +11,13 @@ import sk.upjs.paz1c.nezabudal.entity.Item;
  */
 public interface AttributeManager {
 
-    public List<Attribute> getAttributes();
-
     public Attribute getById(Long id);
 
-    public void saveOrEdit(Attribute attribute);
+    public void saveOrEdit(Attribute attribute, Item item, Category category);
+    
+    public void saveOrEditNames(List<Attribute> attributes, Category category);
 
-    public void saveOrEdit(List<Attribute> attributes);
+    public void saveOrEdit(List<Attribute> attributes, Item item, Category category);
 
     public void delete(Attribute attribute);
 
@@ -28,4 +28,5 @@ public interface AttributeManager {
     public List<String> getAttributeNames(List<Attribute> attributes);
 
     public List<String> getAttributeValues(List<Attribute> attributes);
+
 }

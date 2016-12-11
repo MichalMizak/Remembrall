@@ -1,5 +1,7 @@
 package sk.upjs.paz1c.nezabudal.other;
 
+import com.mysql.cj.jdbc.MysqlDataSource;
+import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.paz1c.nezabudal.dao.AttributeDao;
 import sk.upjs.paz1c.nezabudal.dao.CategoryDao;
 import sk.upjs.paz1c.nezabudal.gui.models.CategoryComboBoxModel;
@@ -8,7 +10,6 @@ import sk.upjs.paz1c.nezabudal.dummy.data.DummyItemDao;
 import sk.upjs.paz1c.nezabudal.dummy.data.DummyLoanDao;
 import sk.upjs.paz1c.nezabudal.managers.implementations.DefaultItemManager;
 import sk.upjs.paz1c.nezabudal.managers.ItemManager;
-import sk.upjs.paz1c.nezabudal.dao.ItemDao;
 import sk.upjs.paz1c.nezabudal.dao.ItemDao;
 import sk.upjs.paz1c.nezabudal.dao.LoanDao;
 import sk.upjs.paz1c.nezabudal.dummy.data.DummyAttributeDao;
@@ -33,19 +34,19 @@ public enum ObjectFactory {
     private AttributeManager attributeManager;
 
     private CategoryComboBoxModel categoryComboBoxModel;
-    // private JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
 
-    /* public JdbcTemplate getJdbcTemplate() {
+    public JdbcTemplate getJdbcTemplate() {
         if (jdbcTemplate == null) {
             MysqlDataSource dataSource = new MysqlDataSource();
-            dataSource.setUrl("jdbc:mysql://localhost/debilnicek?serverTimezone=UTC");
-            dataSource.setUser("debilnicek");
-            dataSource.setPassword("debilnicek");
+            dataSource.setUrl("jdbc:mysql://localhost/remembrall?serverTimezone=UTC");
+            dataSource.setUser("remembrall");
+            dataSource.setPassword("remembrall");
             jdbcTemplate = new JdbcTemplate(dataSource);
         }
         return jdbcTemplate;        
-    } */
+    }
     public CategoryDao getCategoryDao() {
         if (categoryDao == null) {
             categoryDao = new DummyCategoryDao();
