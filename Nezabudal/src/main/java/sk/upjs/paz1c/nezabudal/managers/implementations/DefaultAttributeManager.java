@@ -23,21 +23,28 @@ public class DefaultAttributeManager implements AttributeManager {
     }
 
     @Override
-    public void saveOrEdit(Attribute attribute, Item item, Category category) {
-        attributeDao.saveOrEdit(attribute, item, category);
+    public void saveOrEditValue(Attribute attribute, Item item) {
+        attributeDao.saveOrEditValue(attribute, item);
+    }
+    
+     @Override
+    public void saveOrEditValue(List<Attribute> attributes, Item item) {
+         for (Attribute attribute : attributes) {
+             saveOrEditValue(attribute, item);
+         }
     }
 
     
     @Override
-    public void saveOrEdit(List<Attribute> attributes, Item item, Category category) {
+    public void saveOrEditName(List<Attribute> attributes, Category category) {
         for (Attribute attribute : attributes) {
-            saveOrEdit(attribute, item, category);
+            saveOrEditName(attribute,category);
         }
     }
     
     @Override
-    public void saveOrEditNames(List<Attribute> attributes, Category category) {
-        saveOrEdit(attributes, null, category);
+    public void saveOrEditName(Attribute attribute, Category category) {
+        attributeDao.saveOrEditName(attribute, category);
     }
 
     @Override
@@ -70,7 +77,7 @@ public class DefaultAttributeManager implements AttributeManager {
 
 
     @Override
-    public Attribute getByItemAndTitle(Item item, String title) {
+    public Attribute getByTitle(Item item, String title) {
         List<Attribute> attributes = item.getAttributes();
 
         for (Attribute attribute : attributes) {
@@ -78,8 +85,12 @@ public class DefaultAttributeManager implements AttributeManager {
                 return attribute;
             }
         }
-
         return null;
+    }
+    
+    @Override
+    public List<Attribute> getByItem(Item item) {
+        return attributeDao.getByItem(item);
     }
 
 }

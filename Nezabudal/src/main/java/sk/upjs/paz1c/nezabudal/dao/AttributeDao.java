@@ -20,9 +20,13 @@ public interface AttributeDao {
    
     public Attribute getById(Long id);
          
-    public void saveOrEdit(Attribute attribute, Item item, Category category);  
+    public void saveOrEditName(Attribute attribute, Category category);  
+    
+    public void saveOrEditValue(Attribute attribute, Item item);
     
     public void delete(Attribute attribute);   
     
     public List<Attribute> getByCategory(Category category);
+
+    public List<Attribute> getByItem(Item item);
 }

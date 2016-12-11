@@ -13,17 +13,21 @@ public interface AttributeManager {
 
     public Attribute getById(Long id);
 
-    public void saveOrEdit(Attribute attribute, Item item, Category category);
+    public void saveOrEditValue(Attribute attribute, Item item);
     
-    public void saveOrEditNames(List<Attribute> attributes, Category category);
+    public void saveOrEditValue(List<Attribute> attributes, Item item);
+    
+    public void saveOrEditName(Attribute attribute, Category category);
 
-    public void saveOrEdit(List<Attribute> attributes, Item item, Category category);
+    public void saveOrEditName(List<Attribute> attributes, Category category);
 
     public void delete(Attribute attribute);
 
     public List<Attribute> getByCategory(Category category);
 
-    public Attribute getByItemAndTitle(Item item, String title);
+    public List<Attribute> getByItem(Item item);
+    
+    public Attribute getByTitle(Item item, String title);
 
     public List<String> getAttributeNames(List<Attribute> attributes);
 

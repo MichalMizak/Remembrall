@@ -28,7 +28,7 @@ public class DefaultItemManager implements ItemManager {
 
     @Override
     public void saveOrUpdate(Item item) {
-        itemDao.saveOrUpdate(item);
+        itemDao.saveOrEdit(item);
     }
 
     @Override
@@ -47,15 +47,20 @@ public class DefaultItemManager implements ItemManager {
     }
 
     @Override
-    public List<Item> getUnborrowedItems() {
-        return itemDao.getUnborrowedItems();
+    public List<Item> getNotBorrowedItems() {
+        return itemDao.getItems(false);
+    }
+    
+    @Override
+    public List<Item> getBorrowedItems(){
+        return itemDao.getItems(true);
     }
 
     // other filters
     
     @Override
     public List<Item> getItemsBorrowedToMe() {
-        List<Item> borrowedItems = itemDao.getBorrowedItems();
+        List<Item> borrowedItems = itemDao.getItems(true);
         List<Item> itemsBorrowedToMe = new ArrayList<>();
 
         for (Item item : borrowedItems) {
@@ -70,7 +75,7 @@ public class DefaultItemManager implements ItemManager {
 
     @Override
     public List<Item> getItemsLentByMe() {
-        List<Item> borrowedItems = itemDao.getBorrowedItems();
+        List<Item> borrowedItems = itemDao.getItems(true);
         List<Item> itemsLentByMe = new ArrayList<>();
 
         for (Item item : borrowedItems) {

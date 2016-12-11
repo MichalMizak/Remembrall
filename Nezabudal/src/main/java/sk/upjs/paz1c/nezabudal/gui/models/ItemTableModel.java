@@ -66,7 +66,7 @@ public class ItemTableModel extends AbstractTableModel {
             case 1:
                 return item.getDescription();
         }
-        Attribute attributeAtColumn = attributeManager.getByItemAndTitle(item, attributeNameColumnTitles[columnIndex - columnTitles.length]);
+        Attribute attributeAtColumn = attributeManager.getByTitle(item, attributeNameColumnTitles[columnIndex - columnTitles.length]);
         return attributeAtColumn.getValue();
     }
 

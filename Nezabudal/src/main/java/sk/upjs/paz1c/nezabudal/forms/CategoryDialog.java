@@ -147,7 +147,7 @@ public class CategoryDialog extends javax.swing.JDialog {
 
             List<Attribute> attributes = getAttributeTableModel().getAttributes();
 
-            attributeManager.saveOrEditNames(attributes, category);
+            attributeManager.saveOrEditName(attributes, category);
             categoryManager.saveOrEdit(category);
 
             setVisible(false);

@@ -41,14 +41,55 @@ public class MysqlItemDaoTest {
      * Test of saveOrUpdate method, of class MysqlItemDao.
      */
     @Test
-    public void testSaveOrUpdate() {
+    public void testSave() {
         System.out.println("saveOrUpdate");
-        Item item = null;
-        instance.saveOrUpdate(item);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Item item = new Item();
+        
+        item.setName("Game of Thrones");
+        item.setDescription("Ľudia zomierajú");
+        item.setIsBorrowed(false);
+        
+        MysqlAttributeDao attributeDao = new MysqlAttributeDao();
+        
+        Category category = new Category();
+        category.setId(2L);
+        item.setCategory(category);
+        
+        item.setAttributes(attributeDao.getByCategory(category));
+        
+        instance.saveOrEdit(item);
+        
+        System.out.println(item.getId());
+
+        assertEquals(instance.getItems().size(), 2);
     }
 
+    @Test
+    public void testEdit() {
+         System.out.println("saveOrUpdate");
+        Item item = new Item();
+        
+        item.setId(2L);
+        item.setName("Game of Thrones");
+        item.setDescription("ASOIAF časť 1.");
+        item.setIsBorrowed(false);
+        
+        MysqlAttributeDao attributeDao = new MysqlAttributeDao();
+        
+        Category category = new Category();
+        category.setId(2L);
+        item.setCategory(category);
+        
+        item.setAttributes(attributeDao.getByCategory(category));
+        
+        instance.saveOrEdit(item);
+        
+        System.out.println(item.getId());
+        
+        Item item2 = instance.getById(2L);
+        
+        assertEquals(item2.getDescription(), "ASOIAF časť 1.");
+    }
     /**
      * Test of delete method, of class MysqlItemDao.
      */
@@ -82,23 +123,11 @@ public class MysqlItemDaoTest {
     public void testGetBorrowedItems() {
         System.out.println("getBorrowedItems");
         List<Item> expResult = null;
-        List<Item> result = instance.getBorrowedItems();
+        List<Item> result = instance.getItems(false);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of getUnborrowedItems method, of class MysqlItemDao.
-     */
-    @Test
-    public void testGetUnborrowedItems() {
-        System.out.println("getUnborrowedItems");
-        List<Item> expResult = null;
-        List<Item> result = instance.getUnborrowedItems();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
 }

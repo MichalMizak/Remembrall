@@ -57,7 +57,7 @@ public class MysqlAttributeDaoTest {
 
         List<Attribute> beforeUpdate = instance.getByCategory(category);
 
-        instance.saveOrEdit(attribute, null, category);
+        instance.saveOrEditName(attribute, category);
 
         List<Attribute> afterUpdate = instance.getByCategory(category);
 
@@ -75,35 +75,36 @@ public class MysqlAttributeDaoTest {
         Category category = new Category();
         category.setId(2L);
 
-        instance.saveOrEdit(attribute, null, category);
-        
+        instance.saveOrEditName(attribute, category);
+
         Attribute attribute2 = instance.getById(2L);
         System.out.println(attribute2.getName());
 
         assertEquals("Autor", attribute2.getName());
     }
-    
+
     @Test
     public void testSaveAttributeValue() {
-//         System.out.println("saveNewAttribute");
-//
-//        Attribute attribute = new Attribute();
-//        attribute.setName("Množstvo");
-//        attribute.setValue("");
-//
-//        Category category = new Category();
-//        category.setId(2L);
-//
-//        Item item = new Item();
-//        item.setId(1L);
-//        // List<Attribute> beforeUpdate = instance.getByCategory(category);
-//
-//        instance.saveOrEdit(attribute, item, category);
-//
-//        // List<Attribute> afterUpdate = instance.getByCategory(category);
-//
-//        assertEquals(beforeUpdate.size(), afterUpdate.size() - 1);
+        System.out.println("saveNewAttribute");
+
+        Attribute attribute = new Attribute();
+        attribute.setNameId(2L);
+        attribute.setValueId(2L);
+        attribute.setValue("J.K.Rowling");
+
+        Item item = new Item();
+        item.setId(1L);
+        
+        Category category = new Category();
+        category.setId(2L);
+        
+        instance.saveOrEditValue(attribute, item);
+
+        // test results manually reviewed in database
+        // assertEquals("", item);
+
     }
+
     /**
      * Test of delete method, of class MysqlAttributeDao.
      */
@@ -115,5 +116,18 @@ public class MysqlAttributeDaoTest {
         instance.delete(attribute);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
+    }
+    
+    @Test
+    public void testGetByItem() {
+        System.out.println("getByItem");
+        
+        Item item = new Item();
+        
+        item.setId(1L);
+        
+        List<Attribute> attributes = instance.getByItem(item);
+        
+        assertNotEquals(attributes, null);
     }
 }

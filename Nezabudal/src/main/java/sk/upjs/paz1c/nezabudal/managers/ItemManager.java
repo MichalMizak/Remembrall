@@ -20,7 +20,9 @@ public interface ItemManager {
 
     void delete(Item item);
 
-    List<Item> getUnborrowedItems();
+    List<Item> getNotBorrowedItems();
+    
+    List<Item> getBorrowedItems();
 
     List<Item> getItemsBorrowedToMe();
 

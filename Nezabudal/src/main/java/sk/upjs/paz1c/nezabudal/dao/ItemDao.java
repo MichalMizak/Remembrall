@@ -14,14 +14,17 @@ public interface ItemDao {
 
     Item getById(Long id);
 
-    void saveOrUpdate(Item item);
+    void saveOrEdit(Item item);
 
     void delete(Item item);
 
     List<Item> getByCategory(Category category);
 
-    List<Item> getBorrowedItems();
-    
-    List<Item> getUnborrowedItems();
-
+    /**
+     * returns items that are borrowed/ not borrowed depending on @param
+     * isBorrowed
+     *
+     * @return
+     */
+    List<Item> getItems(boolean isBorrowed);
 }

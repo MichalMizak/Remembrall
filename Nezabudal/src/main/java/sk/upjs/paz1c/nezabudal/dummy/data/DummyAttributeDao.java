@@ -2,10 +2,10 @@ package sk.upjs.paz1c.nezabudal.dummy.data;
 
 import java.util.ArrayList;
 import java.util.List;
-import sk.upjs.paz1c.nezabudal.dao.AttributeDao;
 import sk.upjs.paz1c.nezabudal.entity.Attribute;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;
+import sk.upjs.paz1c.nezabudal.dao.AttributeDao;
 
 
 /**
@@ -29,11 +29,6 @@ public class DummyAttributeDao implements AttributeDao {
     }
 
     @Override
-    public void saveOrEdit(Attribute attribute, Item item, Category category) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void delete(Attribute attribute) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -48,4 +43,19 @@ public class DummyAttributeDao implements AttributeDao {
         
         return list;
    }
+
+    @Override
+    public void saveOrEditName(Attribute attribute, Category category) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void saveOrEditValue(Attribute attribute, Item item) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Attribute> getByItem(Item item) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
