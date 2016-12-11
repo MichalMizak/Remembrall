@@ -2,7 +2,7 @@
 package sk.upjs.paz1c.nezabudal.forms;
 
 import sk.upjs.paz1c.nezabudal.dao.LoanDao;
-import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
+import sk.upjs.paz1c.nezabudal.other.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.entity.Loan;
 import sk.upjs.paz1c.nezabudal.gui.models.LoanComboBoxModel;
 import sk.upjs.paz1c.nezabudal.managers.LoanManager;

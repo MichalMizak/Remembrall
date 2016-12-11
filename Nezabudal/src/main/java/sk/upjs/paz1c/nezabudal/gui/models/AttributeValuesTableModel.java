@@ -1,19 +1,32 @@
 package sk.upjs.paz1c.nezabudal.gui.models;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import sk.upjs.paz1c.nezabudal.dao.CategoryDao;
+import sk.upjs.paz1c.nezabudal.entity.Attribute;
 import sk.upjs.paz1c.nezabudal.entity.Category;
-import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
+import sk.upjs.paz1c.nezabudal.managers.AttributeManager;
+import sk.upjs.paz1c.nezabudal.other.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.managers.CategoryManager;
 
 public class AttributeValuesTableModel extends AbstractTableModel {
 
     private CategoryManager categoryManager = ObjectFactory.INSTANCE.getCategoryManager();
 
+    private AttributeManager attributeManager = ObjectFactory.INSTANCE.getAttributeManager();
+
     private Category category;
 
-    private String[] attributeValues;
+    private List<Attribute> attributes = new ArrayList<>();
+
+    public void setAttributes(List<Attribute> attributes) {
+        this.attributes = attributes;
+    }
+
+    public List<Attribute> getAttributes() {
+        return attributes;
+    }
 
     private static final String[] COLUMN_VALUES = {"Vlastnosť", ""};
 
@@ -26,25 +39,19 @@ public class AttributeValuesTableModel extends AbstractTableModel {
     public void initialize(Category category) {
         this.category = category;
 
-        List<String> attr = category.getAttributes();
-        int size = attr.size();
-        attributeValues = new String[size];
+        attributes = attributeManager.getByCategory(category);
+        int size = attributes.size();
     }
 
     public void aktualizovat(Category category) {
         this.category = category;
-        attributeValues = new String[category.getAttributes().size()];
+        attributes = attributeManager.getByCategory(category);
         fireTableDataChanged();
     }
-    
-      public void setAttributeValues(String[] attributeValues) {
-        this.attributeValues = attributeValues;
-    }
-
 
     @Override
     public int getRowCount() {
-        return category.getAttributes().size();
+        return attributes.size();
     }
 
     @Override
@@ -56,9 +63,9 @@ public class AttributeValuesTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return category.getAttributes().get(rowIndex);
+                return attributes.get(rowIndex).getName();
             case 1:
-                return attributeValues[rowIndex];
+                return attributes.get(rowIndex).getValue();
             default:
                 return null;
         }
@@ -76,7 +83,7 @@ public class AttributeValuesTableModel extends AbstractTableModel {
     @Override
     public void setValueAt(Object value, int row, int col) {
 
-        attributeValues[row] = (String) value;
+        attributes.get(row).setValue((String) value);
 
         fireTableCellUpdated(row, col);
     }
@@ -90,9 +97,4 @@ public class AttributeValuesTableModel extends AbstractTableModel {
     public boolean isCellEditable(int row, int column) {
         return column == 1;
     }
-
-    public String[] getSecondColumnValues() {
-        return attributeValues;
-    }
-
 }

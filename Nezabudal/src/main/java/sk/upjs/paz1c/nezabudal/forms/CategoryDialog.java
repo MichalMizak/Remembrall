@@ -2,9 +2,11 @@ package sk.upjs.paz1c.nezabudal.forms;
 
 import java.util.List;
 import sk.upjs.paz1c.nezabudal.dao.CategoryDao;
-import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
+import sk.upjs.paz1c.nezabudal.entity.Attribute;
+import sk.upjs.paz1c.nezabudal.other.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.gui.models.AttributeNamesTableModel;
+import sk.upjs.paz1c.nezabudal.managers.AttributeManager;
 import sk.upjs.paz1c.nezabudal.managers.CategoryManager;
 import sk.upjs.paz1c.nezabudal.other.Validator;
 
@@ -21,7 +23,9 @@ public class CategoryDialog extends javax.swing.JDialog {
 
     Category category;
 
-    CategoryManager categoryManager = ObjectFactory.INSTANCE.getCategoryManager();
+    private CategoryManager categoryManager = ObjectFactory.INSTANCE.getCategoryManager();
+    
+    private AttributeManager attributeManager = ObjectFactory.INSTANCE.getAttributeManager();
 
     /**
      * Creates new form AddCategoryDialog
@@ -39,7 +43,7 @@ public class CategoryDialog extends javax.swing.JDialog {
         this(parent, modal);
         this.category = category;
         categoryTitleTextField.setText(category.getTitle());
-        getAttributeTableModel().setAttributeNames(category.getAttributes());
+        getAttributeTableModel().setAttributes(attributeManager.getByCategory(category));
         saveOrEditCategoryButton.setText("Uprav");
     }
 
@@ -142,9 +146,9 @@ public class CategoryDialog extends javax.swing.JDialog {
 
             category.setTitle(title);
 
-            List<String> attributeNames = getAttributeTableModel().getAttributeNames();
-            category.setAttributes((attributeNames));
+            List<Attribute> attributes = getAttributeTableModel().getAttributes();
 
+            attributeManager.saveOrEdit(attributes);
             categoryManager.saveOrEdit(category);
 
             setVisible(false);

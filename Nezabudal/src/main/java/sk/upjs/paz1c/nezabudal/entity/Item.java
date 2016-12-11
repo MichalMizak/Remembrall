@@ -19,14 +19,14 @@ public class Item {
     private Category category;
     
     // the values of the category attributes
-    private List<String> attributeValues;
+    private List<Attribute> attributes;
 
-    public Item(String itemName, String itemDescription, boolean isBorrowed, Category category, List<String> attributeValues) {
+    public Item(String itemName, String itemDescription, boolean isBorrowed, Category category, List<Attribute> attributeValues) {
         this.name = itemName;
         this.description = itemDescription;
         this.isBorrowed = isBorrowed;
         this.category = category;
-        this.attributeValues = attributeValues;
+        this.attributes = attributeValues;
     }
 
     public Item() {
@@ -65,15 +65,13 @@ public class Item {
         this.category = category;
     }
 
-    public List<String> getAttributeValues() {
-        return attributeValues;
+    public List<Attribute> getAttributes() {
+        return attributes;
     }
 
-    public void setAttributeValues(List<String> attributeValues) {
-        this.attributeValues = attributeValues;
+    public void setAttributes(List<Attribute> attributes) {
+        this.attributes = attributes;
     }
-
-   
 
     @Override
     public String toString() {

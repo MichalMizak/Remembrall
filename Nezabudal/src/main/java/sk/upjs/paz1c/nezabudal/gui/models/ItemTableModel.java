@@ -1,10 +1,13 @@
 package sk.upjs.paz1c.nezabudal.gui.models;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
-import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
+import sk.upjs.paz1c.nezabudal.entity.Attribute;
+import sk.upjs.paz1c.nezabudal.other.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;
+import sk.upjs.paz1c.nezabudal.managers.AttributeManager;
 import sk.upjs.paz1c.nezabudal.managers.ItemManager;
 
 /**
@@ -15,7 +18,9 @@ public class ItemTableModel extends AbstractTableModel {
 
     private final ItemManager itemManager = ObjectFactory.INSTANCE.getItemManager();
 
-    private List<Item> itemList;
+    private AttributeManager attributeManager = ObjectFactory.INSTANCE.getAttributeManager();
+
+    private List<Item> itemList = new ArrayList<>();
 
     private Category category;
 
@@ -37,7 +42,7 @@ public class ItemTableModel extends AbstractTableModel {
         this.category = category;
 
         fireTableDataChanged();
-        setAttributeNameColumnTitles(category.getAttributes().toArray(new String[0]));
+        setAttributeNameColumnTitles((attributeManager.getAttributeNames(attributeManager.getByCategory(category)).toArray(new String[0])));
 
         itemList = itemManager.getByCategory(category);
         setColumnCount();
@@ -61,7 +66,8 @@ public class ItemTableModel extends AbstractTableModel {
             case 1:
                 return item.getDescription();
         }
-        return item.getAttributeValues().get(columnIndex - columnTitles.length);
+        Attribute attributeAtColumn = attributeManager.getByItemAndTitle(item, attributeNameColumnTitles[columnIndex - columnTitles.length]);
+        return attributeAtColumn.getValue();
     }
 
     @Override

@@ -25,5 +25,4 @@ public interface ItemManager {
     List<Item> getItemsBorrowedToMe();
 
     List<Item> getItemsLentByMe();
-
 }

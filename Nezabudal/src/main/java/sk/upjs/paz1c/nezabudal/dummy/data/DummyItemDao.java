@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;
-import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
+import sk.upjs.paz1c.nezabudal.other.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.dao.ItemDao;
+import sk.upjs.paz1c.nezabudal.managers.AttributeManager;
 
 /**
  *
@@ -13,6 +14,7 @@ import sk.upjs.paz1c.nezabudal.dao.ItemDao;
  */
 public class DummyItemDao implements ItemDao {
 
+    private AttributeManager attributeManager = ObjectFactory.INSTANCE.getAttributeManager();
     private Item item;
     private Item item2;
 
@@ -25,10 +27,10 @@ public class DummyItemDao implements ItemDao {
 //        list.add("attr4");
         Category category = ObjectFactory.INSTANCE.getCategoryManager().getById(0L);
 
-        item = new Item("Dummy item name","Dummy item description",  true, category, category.getAttributes());
+        item = new Item("Dummy item name","Dummy item description",  true, category, attributeManager.getByCategory(category));
         Category category2 = ObjectFactory.INSTANCE.getCategoryManager().getById(1L);
 
-        item2 = new Item( "Dummy item name 2", "Dummy item description 2", false, category2, category2.getAttributes());
+        item2 = new Item( "Dummy item name 2", "Dummy item description 2", false, category2, attributeManager.getByCategory(category2));
     }
 
     @Override

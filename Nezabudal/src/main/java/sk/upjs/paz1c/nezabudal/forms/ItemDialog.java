@@ -2,7 +2,8 @@ package sk.upjs.paz1c.nezabudal.forms;
 
 import java.util.ArrayList;
 import java.util.List;
-import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
+import sk.upjs.paz1c.nezabudal.entity.Attribute;
+import sk.upjs.paz1c.nezabudal.other.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;
 import sk.upjs.paz1c.nezabudal.gui.models.AttributeValuesTableModel;
@@ -55,7 +56,7 @@ public class ItemDialog extends javax.swing.JDialog {
         specificationTextArea.setText(item.getDescription());
 
         // only looks horrific
-        getAttributeValuesTableModel().setAttributeValues(item.getAttributeValues().toArray(new String[0]));
+        getAttributeValuesTableModel().setAttributes(item.getAttributes());
 
         addItemButton.setText("Uprav predmet");
     }
@@ -182,26 +183,20 @@ public class ItemDialog extends javax.swing.JDialog {
     private void addItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addItemButtonActionPerformed
         // add item
         // TODO proper validation
-        String[] secondColumnValues = (getAttributeValuesTableModel()).getSecondColumnValues();
-
-        List<String> list = new ArrayList<String>();
-
-        for (int i = 0; i < secondColumnValues.length; i++) {
-            list.add(secondColumnValues[i]);
-        }
+        List<Attribute> list = (getAttributeValuesTableModel()).getAttributes();
 
         String name = nameTextField.getText();
         String description = specificationTextArea.getText();
-       // boolean isBorrowed = item.isIsBorrowed();
+        // boolean isBorrowed = item.isIsBorrowed();
         Category selectedCategory = getSelectedCategory();
 
         String validation = Validator.validateItem(name, description, selectedCategory, list);
         if (validation == null) {
             item.setName(name);
             item.setDescription(description);
-          //  item.setIsBorrowed(isBorrowed);
+            //  item.setIsBorrowed(isBorrowed);
             item.setCategory(selectedCategory);
-            item.setAttributeValues(list);
+            item.setAttributes(list);
 
             itemManager.saveOrUpdate(item);
 

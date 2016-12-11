@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
-import sk.upjs.paz1c.nezabudal.dao.ObjectFactory;
+import sk.upjs.paz1c.nezabudal.entity.Attribute;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;
 import sk.upjs.paz1c.nezabudal.managers.ItemManager;
@@ -44,7 +44,7 @@ public class Validator {
         }
     }
 
-    public static String validateItem(String name, String description, Category selectedCategory, List<String> list) {
+    public static String validateItem(String name, String description, Category selectedCategory, List<Attribute> list) {
 
         if (name == null || name.trim().equals("")) {
             return "Zadajte názov";

@@ -1,5 +1,6 @@
 package sk.upjs.paz1c.nezabudal.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,18 +13,6 @@ public class Category {
     private Long id; 
     
     private String title;
-    
-    /* a list of names of attributes the items 
-     in this category will be able to have */
-    private List<String> attributes;
-
-    public List<String> getAttributes() {
-        return attributes;
-    }
-
-    public void setAttributes(List<String> attributes) {
-        this.attributes = attributes;
-    }
    
     public Long getId() {
         return id;
