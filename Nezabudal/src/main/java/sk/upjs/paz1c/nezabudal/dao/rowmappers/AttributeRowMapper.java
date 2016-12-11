@@ -15,7 +15,8 @@ public class AttributeRowMapper implements RowMapper<Attribute>{
     public Attribute mapRow(ResultSet rs, int i) throws SQLException {
         Attribute attribute = new Attribute();
         
-        attribute.setId(rs.getLong("attribute_id"));
+        attribute.setValueId(rs.getLong("attribute_value_id"));
+        attribute.setNameId(rs.getLong("attribute_name_id"));
         attribute.setName(rs.getString("attribute_name"));
         attribute.setValue(rs.getString("attribute_value"));
         

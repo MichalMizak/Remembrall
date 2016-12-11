@@ -1,7 +1,6 @@
 package sk.upjs.paz1c.nezabudal.forms;
 
 import java.util.List;
-import sk.upjs.paz1c.nezabudal.dao.CategoryDao;
 import sk.upjs.paz1c.nezabudal.entity.Attribute;
 import sk.upjs.paz1c.nezabudal.other.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.entity.Category;

@@ -1,15 +1,9 @@
 package sk.upjs.paz1c.nezabudal.dao.implementations;
 
-import com.sun.javafx.image.impl.IntArgb;
 import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import sk.upjs.paz1c.nezabudal.entity.Category;
-import sk.upjs.paz1c.nezabudal.other.ObjectFactory;
 
 /**
  *

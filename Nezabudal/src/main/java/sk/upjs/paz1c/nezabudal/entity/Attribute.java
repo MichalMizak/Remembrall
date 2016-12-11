@@ -2,17 +2,26 @@ package sk.upjs.paz1c.nezabudal.entity;
 
 public class Attribute {
 
-    private Long id;
+    private Long nameId;
+    private Long valueId;
 
     private String name;
     private String value;
 
-    public Long getId() {
-        return id;
+    public Long getNameId() {
+        return nameId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setNameId(Long nameId) {
+        this.nameId = nameId;
+    }
+
+    public Long getValueId() {
+        return valueId;
+    }
+
+    public void setValueId(Long valueId) {
+        this.valueId = valueId;
     }
 
     public String getName() {
@@ -35,8 +44,9 @@ public class Attribute {
         this.name = name;
         this.value = value;
     }
-    public Attribute () {
-        
+
+    public Attribute() {
+
     }
 
     @Override
