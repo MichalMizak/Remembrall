@@ -27,7 +27,7 @@ public class DefaultItemManager implements ItemManager {
     }
 
     @Override
-    public void saveOrUpdate(Item item) {
+    public void saveOrEdit(Item item) {
         itemDao.saveOrEdit(item);
     }
 

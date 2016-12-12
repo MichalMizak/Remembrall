@@ -26,22 +26,38 @@ public class DefaultAttributeManager implements AttributeManager {
     public void saveOrEditValue(Attribute attribute, Item item) {
         attributeDao.saveOrEditValue(attribute, item);
     }
-    
-     @Override
-    public void saveOrEditValue(List<Attribute> attributes, Item item) {
-         for (Attribute attribute : attributes) {
-             saveOrEditValue(attribute, item);
-         }
-    }
 
-    
     @Override
-    public void saveOrEditName(List<Attribute> attributes, Category category) {
+    public void saveOrEditValue(List<Attribute> attributes, Item item) {
         for (Attribute attribute : attributes) {
-            saveOrEditName(attribute,category);
+            saveOrEditValue(attribute, item);
         }
     }
-    
+
+    @Override
+    public void saveOrEditName(List<Attribute> newAttributes, Category category) {
+        List<Attribute> categoryAttributes = getByCategory(category);
+
+        for (Attribute categoryAttribute : categoryAttributes) {
+            boolean contains = false;
+
+            for (Attribute attribute : newAttributes) {
+
+                if (categoryAttribute.getNameId().equals(attribute.getNameId())) {
+                    contains = true;
+                }
+            }
+
+            if (!contains) {
+                delete(categoryAttribute);
+            }
+        }
+
+        for (Attribute attribute : newAttributes) {
+            saveOrEditName(attribute, category);
+        }
+    }
+
     @Override
     public void saveOrEditName(Attribute attribute, Category category) {
         attributeDao.saveOrEditName(attribute, category);
@@ -75,7 +91,6 @@ public class DefaultAttributeManager implements AttributeManager {
         return list;
     }
 
-
     @Override
     public Attribute getByTitle(Item item, String title) {
         List<Attribute> attributes = item.getAttributes();
@@ -87,7 +102,7 @@ public class DefaultAttributeManager implements AttributeManager {
         }
         return null;
     }
-    
+
     @Override
     public List<Attribute> getByItem(Item item) {
         return attributeDao.getByItem(item);

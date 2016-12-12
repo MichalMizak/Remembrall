@@ -19,7 +19,7 @@ public class DummyLoanDao implements LoanDao {
 
     public DummyLoanDao() { 
         
-        Category category = ObjectFactory.INSTANCE.getCategoryManager().getById(1L);
+        Category category = ObjectFactory.INSTANCE.getCategoryManager().getById(2L);
         List<Attribute> attributes = ObjectFactory.INSTANCE.getAttributeManager().getByCategory(category);
         Item item = new Item("Dummy item name", "Dummy item description",  true, category, attributes);
         

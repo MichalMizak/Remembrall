@@ -14,7 +14,7 @@ public interface ItemManager {
 
     Item getById(Long id);
 
-    void saveOrUpdate(Item item);
+    void saveOrEdit(Item item);
 
     List<Item> getByCategory(Category category);
 

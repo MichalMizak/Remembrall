@@ -5,6 +5,7 @@ import sk.upjs.paz1c.nezabudal.entity.Attribute;
 import sk.upjs.paz1c.nezabudal.other.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.gui.models.AttributeNamesTableModel;
+import sk.upjs.paz1c.nezabudal.gui.models.CategoryComboBoxModel;
 import sk.upjs.paz1c.nezabudal.managers.AttributeManager;
 import sk.upjs.paz1c.nezabudal.managers.CategoryManager;
 import sk.upjs.paz1c.nezabudal.other.Validator;
@@ -149,6 +150,9 @@ public class CategoryDialog extends javax.swing.JDialog {
 
             categoryManager.saveOrEdit(category, attributes);
 
+            CategoryComboBoxModel categoryComboBox = ObjectFactory.INSTANCE.getCategoryComboBoxModel();
+            categoryComboBox.refresh();
+            
             setVisible(false);
             dispose();
 

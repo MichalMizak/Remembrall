@@ -41,7 +41,7 @@ public class MysqlCategoryDaoTest {
     /**
      * Test of saveOrEdit method, of class MysqlCategoryDao.
      */
-    @Test
+    //@Test
     public void testSave() {
         System.out.println("save");
 
@@ -75,7 +75,7 @@ public class MysqlCategoryDaoTest {
     /**
      * Test of delete method, of class MysqlCategoryDao.
      */
-    @Test
+   // @Test
     public void testDelete() {
         System.out.println("delete");
 

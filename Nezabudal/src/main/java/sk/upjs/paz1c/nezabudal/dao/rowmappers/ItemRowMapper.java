@@ -7,6 +7,8 @@ import java.util.List;
 import sk.upjs.paz1c.nezabudal.entity.Item;
 import org.springframework.jdbc.core.RowMapper;
 import sk.upjs.paz1c.nezabudal.entity.Attribute;
+import sk.upjs.paz1c.nezabudal.managers.AttributeManager;
+import sk.upjs.paz1c.nezabudal.other.ObjectFactory;
 
 
 /**
@@ -16,7 +18,10 @@ import sk.upjs.paz1c.nezabudal.entity.Attribute;
 public class ItemRowMapper implements RowMapper<Item>{
 
     private CategoryRowMapper categoryRowMapper = new CategoryRowMapper();
+    private AttributeManager attributeManager = ObjectFactory.INSTANCE.getAttributeManager();
     
+    public ItemRowMapper() {
+    }
     @Override
     public Item mapRow(ResultSet rs, int rowNum) throws SQLException {
         Item item = new Item();

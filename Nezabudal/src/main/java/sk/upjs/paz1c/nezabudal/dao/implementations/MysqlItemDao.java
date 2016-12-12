@@ -92,7 +92,7 @@ public class MysqlItemDao implements ItemDao {
 
     @Override
     public void delete(Item item) {
-        String sql = "DELETE FROM category WHERE id = ?";
+        String sql = "DELETE FROM item WHERE id = ?";
         jdbcTemplate.update(sql, item.getId());
     }
 

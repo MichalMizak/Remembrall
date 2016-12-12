@@ -88,7 +88,7 @@ public class ItemDialog extends javax.swing.JDialog {
         setTitle("Nová pôžička");
         setModal(true);
 
-        categoryComboBox.setModel(new CategoryComboBoxModel());
+        categoryComboBox.setModel(ObjectFactory.INSTANCE.getCategoryComboBoxModel());
         categoryComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 categoryComboBoxActionPerformed(evt);
@@ -197,8 +197,10 @@ public class ItemDialog extends javax.swing.JDialog {
             //  item.setIsBorrowed(isBorrowed);
             item.setCategory(selectedCategory);
             item.setAttributes(list);
-
-            itemManager.saveOrUpdate(item);
+            
+            System.out.println(list + " @ItemDialog");
+            System.out.println(list.get(0).getValueId());
+            itemManager.saveOrEdit(item);
 
             setVisible(false);
             dispose();

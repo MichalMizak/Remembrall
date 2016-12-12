@@ -33,6 +33,9 @@ public class Loan {
         this.startDate = startDate;
         this.returnDate = returnDate;
     }
+
+    public Loan() {
+    }
     
     
     public String getSpecification() {
