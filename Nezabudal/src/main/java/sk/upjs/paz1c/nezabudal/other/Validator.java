@@ -7,7 +7,9 @@ import java.util.List;
 import sk.upjs.paz1c.nezabudal.entity.Attribute;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;
+import sk.upjs.paz1c.nezabudal.managers.CategoryManager;
 import sk.upjs.paz1c.nezabudal.managers.ItemManager;
+import sk.upjs.paz1c.nezabudal.managers.LoanManager;
 
 /**
  *
@@ -15,9 +17,15 @@ import sk.upjs.paz1c.nezabudal.managers.ItemManager;
  */
 public class Validator {
 
-    private static final ItemManager itemManager = ObjectFactory.INSTANCE.getItemManager();
+    private static final ItemManager ITEM_MANAGER = ObjectFactory.INSTANCE.getItemManager();
 
-    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+    private static final CategoryManager CATEGORY_MANAGER = ObjectFactory.INSTANCE.getCategoryManager();
+
+    private static final LoanManager LOAN_MANAGER = ObjectFactory.INSTANCE.getLoanManager();
+    
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+    
+    public static final String WRONG_BORROWED_TO_ME_FORMAT = "Nesprávny formát riadku \"Požičané mne\"";
 
     public static String validateCategory(Category category, String title) {
 
@@ -26,17 +34,39 @@ public class Validator {
         if (titleIsEmpty) {
             return "Zadaj názov!";
         }
-        boolean hasNoItem = itemManager.getByCategory(category).isEmpty();
+        boolean hasNoItem = ITEM_MANAGER.getByCategory(category).isEmpty();
 
         if (!hasNoItem) {
             return "Kategória musí byť prázdna!";
         }
+        return null;
+    }
 
+    public static String validateCategoryCount() {
+        List<Category> categories = CATEGORY_MANAGER.getCategories();
+        if (categories.size() == 1) {
+            return "Musí existovať aspoň jedna kategória!";
+        } else {
+            return null;
+        }
+    }
+    
+    public static String validateItemCount() {
+        if (ITEM_MANAGER.getItems().isEmpty()) {
+            return "Zoznam predmetov je prázdny!";
+        }
+        return null;
+    }
+    
+    public static String validateLoanCount() {
+        if (LOAN_MANAGER.getLoans().isEmpty()) {
+            return "Zoznam pôžičiek je prázdny!";
+        }
         return null;
     }
 
     public static String categoryHasNoItems(Category category) {
-        boolean hasNoItem = itemManager.getByCategory(category).isEmpty();
+        boolean hasNoItem = ITEM_MANAGER.getByCategory(category).isEmpty();
         if (hasNoItem) {
             return null;
         } else {
@@ -57,8 +87,8 @@ public class Validator {
     }
 
     // "Popis", "Požičané mne", "Osoba", "Od", "Do"
-    public static String validateLoan(Item item, String description, String person) {
-        if (item.isIsBorrowed()) {
+    public static String validateLoan(Item item, boolean editMode, String person) {
+        if (item.isIsBorrowed() && !editMode) {
             return "Predmet nesmie byť zapožičaný";
         }
         if (person == null || person.trim().equals("")) {
@@ -69,12 +99,16 @@ public class Validator {
     }
 
     public static Object validateLoanSince(String since) {
+        System.out.println(since);
+        if (since == null || since.trim().equals("")) {
+            return null;
+        }
         LocalDateTime dateTime;
         LocalDateTime date = LocalDateTime.now();
-        since = date.format(formatter);
+        String example = date.format(FORMATTER);
 
         try {
-            dateTime = LocalDateTime.parse(since, formatter);
+            dateTime = LocalDateTime.parse(since, FORMATTER);
         } catch (DateTimeParseException exception) {
             return "Nesprávny formát riadku \"Od\"";
         }
@@ -82,24 +116,27 @@ public class Validator {
     }
 
     public static Object validateLoanUntil(String until) {
+        if (until == null || until.trim().equals("")) {
+            return null;
+        }
         LocalDateTime dateTime;
         LocalDateTime date = LocalDateTime.now();
-        until = date.format(formatter);
+        String example = date.format(FORMATTER);
+        
         try {
-            dateTime = LocalDateTime.parse(until, formatter);
+            dateTime = LocalDateTime.parse(until, FORMATTER);
         } catch (DateTimeParseException exception) {
-            return "Nesprávny formát riadku \"Od\"";
+            return "Nesprávny formát riadku \"Do\"";
         }
         return dateTime;
     }
 
-    public static String validateLoanBorrowedToMe(String borrowedToMe) {
+    public static Boolean validateLoanBorrowedToMe(String borrowedToMe) {
         if (!(borrowedToMe == null) && (borrowedToMe.toLowerCase().equals("ano") || borrowedToMe.toLowerCase().equals("áno"))) {
-            return "true";
+            return true;
         } else if (!(borrowedToMe == null) && borrowedToMe.toLowerCase().equals("nie")) {
-            return "false";
-        } else {
-            return "Nesprávny formát riadku \"Požičané mne\"";
-        }
+            return false;
+        } 
+        return null;
     }
 }

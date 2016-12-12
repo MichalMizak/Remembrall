@@ -24,7 +24,5 @@ public interface ItemManager {
     
     List<Item> getBorrowedItems();
 
-    List<Item> getItemsBorrowedToMe();
-
-    List<Item> getItemsLentByMe();
+    List<Item> getByCategory(boolean lentByMeCheckBox, boolean lentToMeCheckBox, boolean notLentCheckBox, Category category);
 }

@@ -80,7 +80,7 @@ public class LoanTableModel extends AbstractTableModel {
 
     public void refresh(Loan loan) {
         String isBorrowed;
-        if (loan.getItem().isIsBorrowed()) {
+        if (loan.isLentToMe()) {
             isBorrowed = "Áno";
         } else {
             isBorrowed = "Nie";
@@ -88,9 +88,17 @@ public class LoanTableModel extends AbstractTableModel {
         secondColumnValues[0] = loan.getSpecification();
         secondColumnValues[1] = isBorrowed;
         secondColumnValues[2] = loan.getPerson();
-        secondColumnValues[3] = loan.getStartDate().format(Validator.formatter);
-        secondColumnValues[4] = loan.getReturnDate().format(Validator.formatter);
-        
+        if (loan.getStartDate() == null) {
+            secondColumnValues[3] = null;
+        } else {
+            secondColumnValues[3] = loan.getStartDate().format(Validator.FORMATTER);
+        }
+        if (loan.getReturnDate() == null) {
+            secondColumnValues[4] = null;
+        } else {
+            secondColumnValues[4] = loan.getReturnDate().format(Validator.FORMATTER);
+        }
+
         fireTableDataChanged();
     }
 

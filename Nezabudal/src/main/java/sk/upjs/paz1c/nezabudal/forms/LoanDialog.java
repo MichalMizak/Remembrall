@@ -21,7 +21,9 @@ public class LoanDialog extends javax.swing.JDialog {
 
     private final LoanManager loanManager = ObjectFactory.INSTANCE.getLoanManager();
 
-    Loan loan;
+    private boolean editMode;
+
+    private Loan loan;
 
     /**
      * Creates new form AddItemDialog
@@ -29,13 +31,19 @@ public class LoanDialog extends javax.swing.JDialog {
     public LoanDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        editMode = false;
+        loan = new Loan();
     }
 
     public LoanDialog(java.awt.Frame parent, boolean modal, Loan loan) {
         super(parent, modal);
         initComponents();
+
+        this.loan = loan;
         getItemComboBoxModel().setSelectedItem(loan.getItem());
         getLoanTableModel().refresh(loan);
+        addLoanButton1.setText("Uprav pôžičku");
+        editMode = true;
     }
 
     /**
@@ -140,47 +148,63 @@ public class LoanDialog extends javax.swing.JDialog {
 
         // potentially will be made into a checkbox
         String isBorrowedString = secondRowValues[IS_BORROWED_ROW - 1];
-        boolean isBorrowed;
+        Boolean lentToMe;
         Item item = getSelectedItem();
         String description = secondRowValues[0];
         String person = secondRowValues[2];
 
-        String validation = Validator.validateLoanBorrowedToMe(isBorrowedString);
+        lentToMe = Validator.validateLoanBorrowedToMe(isBorrowedString);
         // EW EW EW EW SORRY FOR THIS
-        if (validation.length() < 6) {
-            isBorrowed = "true".equals(isBorrowedString);
-        } else {
-            createWarningDialog(validation);
+        if (lentToMe == null) {
+            createWarningDialog(Validator.WRONG_BORROWED_TO_ME_FORMAT);
             return;
         }
 
-        validation = Validator.validateLoan(item, description, person);
-        if (validation != null) {
-            createWarningDialog(validation);
+        String validationMessage = Validator.validateLoan(item, editMode, person);
+        if (validationMessage != null) {
+            createWarningDialog(validationMessage);
             return;
         }
 
         LocalDateTime since;
-        Object validation2 = Validator.validateLoanSince(secondRowValues[3]);
+        Object validation = Validator.validateLoanSince(secondRowValues[3]);
+
+        wat:
         try {
-            validation = (String) validation2;
-            createWarningDialog(validation);
+            if (validation == null) {
+                since = null;
+                break wat;
+            }
+            validationMessage = (String) validation;
+            createWarningDialog(validationMessage);
             return;
         } catch (ClassCastException exception) {
-            since = (LocalDateTime) validation2;
+            since = (LocalDateTime) validation;
         }
 
         LocalDateTime until;
-        validation2 = Validator.validateLoanUntil(secondRowValues[4]);
+        validation = Validator.validateLoanUntil(secondRowValues[4]);
+        wat:
         try {
-            validation = (String) validation2;
-            createWarningDialog(validation);
+            if (validation == null) {
+                until = null;
+                break wat;
+            }
+            validationMessage = (String) validation;
+            createWarningDialog(validationMessage);
             return;
         } catch (ClassCastException exception) {
-            until = (LocalDateTime) validation2;
+            until = (LocalDateTime) validation;
         }
+
         // only after validation
-        Loan loan = new Loan(item, description, isBorrowed, person, since, until);
+        loan.setItem(item);
+        loan.setSpecification(description);
+        loan.setLentToMe(lentToMe);
+        loan.setPerson(person);
+        loan.setStartDate(since);
+        loan.setReturnDate(until);
+
         loanManager.saveOrEdit(loan);
 
         setVisible(false);

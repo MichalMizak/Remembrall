@@ -7,7 +7,6 @@ import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;
 import sk.upjs.paz1c.nezabudal.dao.ItemDao;
 import sk.upjs.paz1c.nezabudal.dao.LoanDao;
-import sk.upjs.paz1c.nezabudal.entity.Attribute;
 import sk.upjs.paz1c.nezabudal.entity.Loan;
 import sk.upjs.paz1c.nezabudal.managers.ItemManager;
 
@@ -18,7 +17,7 @@ import sk.upjs.paz1c.nezabudal.managers.ItemManager;
 public class DefaultItemManager implements ItemManager {
 
     private ItemDao itemDao = ObjectFactory.INSTANCE.getItemDao();
-    private LoanDao loanDao = ObjectFactory.INSTANCE.getLoanDao();
+    //  private LoanDao loanDao = ObjectFactory.INSTANCE.getLoanDao();
 
     // DAO methods
     @Override
@@ -50,41 +49,45 @@ public class DefaultItemManager implements ItemManager {
     public List<Item> getNotBorrowedItems() {
         return itemDao.getItems(false);
     }
-    
+
     @Override
-    public List<Item> getBorrowedItems(){
+    public List<Item> getBorrowedItems() {
         return itemDao.getItems(true);
     }
 
     // other filters
-    
     @Override
-    public List<Item> getItemsBorrowedToMe() {
-        List<Item> borrowedItems = itemDao.getItems(true);
-        List<Item> itemsBorrowedToMe = new ArrayList<>();
+    public List<Item> getByCategory(boolean lentByMeCheckBox, boolean lentToMeCheckBox,
+            boolean notLentCheckBox, Category category) {
+        System.out.println(lentByMeCheckBox + "=lentbyme, " + lentToMeCheckBox
+                + "=lenttome, " + notLentCheckBox + "=notlent @DefaultItemManager");
+        List<Item> items = new ArrayList<>();
+        List<Item> notLentItems;
 
-        for (Item item : borrowedItems) {
-            Loan loan = loanDao.getByItem(item);
-            if (loan.isLentToMe()) {
-                itemsBorrowedToMe.add(item);
+        if (notLentCheckBox) {
+            notLentItems = itemDao.getItems(false);
+        } else {
+            notLentItems = new ArrayList<>();
+        }
+
+        for (Item notLentItem : notLentItems) {
+            if (notLentItem.getCategory().getId() == category.getId()) {
+                items.add(notLentItem);
             }
         }
 
-        return itemsBorrowedToMe;
-    }
+        LoanDao loanDao = ObjectFactory.INSTANCE.getLoanDao();
+        List<Loan> loans = loanDao.getLoans();
 
-    @Override
-    public List<Item> getItemsLentByMe() {
-        List<Item> borrowedItems = itemDao.getItems(true);
-        List<Item> itemsLentByMe = new ArrayList<>();
-
-        for (Item item : borrowedItems) {
-            Loan loan = loanDao.getByItem(item);
-            if (!loan.isLentToMe()) {
-                itemsLentByMe.add(item);
+        for (Loan loan : loans) {
+            if ((loan.isLentToMe() && lentToMeCheckBox) || (!loan.isLentToMe() && lentByMeCheckBox)) {
+                Item item = loan.getItem();
+                if (item.getCategory().getId() == category.getId()) {
+                    System.out.println(loan.isLentToMe() + "=isLentToMe @DefaultItemManager");
+                    items.add(loan.getItem());
+                }
             }
         }
-
-        return itemsLentByMe;
+        return items;
     }
 }

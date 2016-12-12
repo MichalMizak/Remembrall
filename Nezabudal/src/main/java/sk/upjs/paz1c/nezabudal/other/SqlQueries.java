@@ -88,6 +88,6 @@ public class SqlQueries {
             + "		from \n"
             + "       item as i join category as c\n"
             + "       on i.category_id = c.id\n"
-            + "       where is_borrowed = 0;";
+            + "       where is_borrowed = ?;";
 
 }

@@ -3,9 +3,11 @@ package sk.upjs.paz1c.nezabudal.forms;
 import sk.upjs.paz1c.nezabudal.other.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;
+import sk.upjs.paz1c.nezabudal.entity.Loan;
 import sk.upjs.paz1c.nezabudal.gui.models.CategoryComboBoxModel;
 import sk.upjs.paz1c.nezabudal.gui.models.ItemTableModel;
 import sk.upjs.paz1c.nezabudal.managers.LoanManager;
+import sk.upjs.paz1c.nezabudal.other.Validator;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -41,13 +43,13 @@ public class RemembrallForm extends javax.swing.JFrame {
         removeCategoryButton = new javax.swing.JButton();
         addItemButton = new javax.swing.JButton();
         removeLoanButton = new javax.swing.JButton();
-        lentCheckBox = new javax.swing.JCheckBox();
-        ownedCheckBox = new javax.swing.JCheckBox();
+        lentByMeCheckBox = new javax.swing.JCheckBox();
+        lentToMeCheckBox = new javax.swing.JCheckBox();
         loanLabel = new javax.swing.JLabel();
         categoryLabel = new javax.swing.JLabel();
         removeItemButton = new javax.swing.JButton();
         addLoanButton = new javax.swing.JButton();
-        notBorrowedCheckBox = new javax.swing.JCheckBox();
+        notLentCheckBox = new javax.swing.JCheckBox();
         categoryComboBox = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         itemTable = new javax.swing.JTable();
@@ -87,29 +89,34 @@ public class RemembrallForm extends javax.swing.JFrame {
             }
         });
 
-        lentCheckBox.setText("Požičal som");
-        lentCheckBox.addMouseListener(new java.awt.event.MouseAdapter() {
+        lentByMeCheckBox.setText("Požičal som");
+        lentByMeCheckBox.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                lentCheckBoxMousePressed(evt);
+                lentByMeCheckBoxMousePressed(evt);
             }
         });
-        lentCheckBox.addActionListener(new java.awt.event.ActionListener() {
+        lentByMeCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lentCheckBoxActionPerformed1(evt);
-                lentCheckBoxActionPerformed(evt);
+                lentByMeCheckBoxActionPerformed1(evt);
+                lentByMeCheckBoxActionPerformed(evt);
             }
         });
 
-        ownedCheckBox.setSelected(true);
-        ownedCheckBox.setText("Požičali mi");
-        ownedCheckBox.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                ownedCheckBoxMousePressed(evt);
+        lentToMeCheckBox.setSelected(true);
+        lentToMeCheckBox.setText("Požičali mi");
+        lentToMeCheckBox.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                lentToMeCheckBoxStateChanged(evt);
             }
         });
-        ownedCheckBox.addActionListener(new java.awt.event.ActionListener() {
+        lentToMeCheckBox.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                lentToMeCheckBoxMousePressed(evt);
+            }
+        });
+        lentToMeCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ownedCheckBoxActionPerformed(evt);
+                lentToMeCheckBoxActionPerformed(evt);
             }
         });
 
@@ -131,10 +138,15 @@ public class RemembrallForm extends javax.swing.JFrame {
             }
         });
 
-        notBorrowedCheckBox.setText("Nepožičané");
-        notBorrowedCheckBox.addActionListener(new java.awt.event.ActionListener() {
+        notLentCheckBox.setText("Nepožičané");
+        notLentCheckBox.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                notLentCheckBoxMousePressed(evt);
+            }
+        });
+        notLentCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                notBorrowedCheckBoxActionPerformed(evt);
+                notLentCheckBoxActionPerformed(evt);
             }
         });
 
@@ -151,6 +163,11 @@ public class RemembrallForm extends javax.swing.JFrame {
         });
 
         itemTable.setModel(new ItemTableModel(getSelectedCategory()));
+        itemTable.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                itemTableMouseMoved(evt);
+            }
+        });
         itemTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 itemTableMousePressed(evt);
@@ -186,31 +203,28 @@ public class RemembrallForm extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lentCheckBox)
+                                .addComponent(lentByMeCheckBox)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(ownedCheckBox)
+                                .addComponent(lentToMeCheckBox)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(notBorrowedCheckBox)
-                                .addGap(190, 375, Short.MAX_VALUE))
+                                .addComponent(notLentCheckBox))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(categoryComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(addCategoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(3, 3, 3)
-                                .addComponent(removeCategoryButton)
+                                .addComponent(removeCategoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(editCategoryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addContainerGap())))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(addItemButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(removeItemButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(editItemButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(addLoanButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(removeLoanButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())))
+                                .addComponent(editCategoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 787, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(removeItemButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+                    .addComponent(addLoanButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(removeLoanButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(addItemButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(editItemButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -225,9 +239,9 @@ public class RemembrallForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(loanLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ownedCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lentCheckBox)
-                    .addComponent(notBorrowedCheckBox))
+                    .addComponent(lentToMeCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lentByMeCheckBox)
+                    .addComponent(notLentCheckBox))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -239,83 +253,100 @@ public class RemembrallForm extends javax.swing.JFrame {
                         .addGap(10, 10, 10)
                         .addComponent(addLoanButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(removeLoanButton))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(removeLoanButton)
+                        .addGap(0, 290, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void lentCheckBoxActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lentCheckBoxActionPerformed1
+    private void lentByMeCheckBoxActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lentByMeCheckBoxActionPerformed1
 
-    }//GEN-LAST:event_lentCheckBoxActionPerformed1
+    }//GEN-LAST:event_lentByMeCheckBoxActionPerformed1
 
-    private void lentCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lentCheckBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lentCheckBoxActionPerformed
+    private void lentByMeCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lentByMeCheckBoxActionPerformed
+        itemTableRefresh();
 
-    private void lentCheckBoxMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lentCheckBoxMousePressed
-        if (ownedCheckBox.isSelected()) {
-            ownedCheckBox.doClick();
-        } else if (notBorrowedCheckBox.isSelected()) {
-            notBorrowedCheckBox.doClick();
-        }
-    }//GEN-LAST:event_lentCheckBoxMousePressed
+    }//GEN-LAST:event_lentByMeCheckBoxActionPerformed
 
-    private void ownedCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ownedCheckBoxActionPerformed
+    private void lentByMeCheckBoxMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lentByMeCheckBoxMousePressed
+//        if (!lentToMeCheckBox.isSelected() && !notLentCheckBox.isSelected()) {
+//            lentByMeCheckBox.setSelected(false);
+//        }
+        itemTableRefresh();
+    }//GEN-LAST:event_lentByMeCheckBoxMousePressed
 
-    }//GEN-LAST:event_ownedCheckBoxActionPerformed
+    private void lentToMeCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lentToMeCheckBoxActionPerformed
+        itemTableRefresh();
+    }//GEN-LAST:event_lentToMeCheckBoxActionPerformed
 
-    private void ownedCheckBoxMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ownedCheckBoxMousePressed
-        if (lentCheckBox.isSelected()) {
-            lentCheckBox.doClick();
-        } else if (notBorrowedCheckBox.isSelected()) {
-            notBorrowedCheckBox.doClick();
-        }
-    }//GEN-LAST:event_ownedCheckBoxMousePressed
+    private void lentToMeCheckBoxMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lentToMeCheckBoxMousePressed
+//        if (!lentByMeCheckBox.isSelected() && !notLentCheckBox.isSelected()) {
+//            lentToMeCheckBox.setSelected(false);
+//        }
+        itemTableRefresh();
+    }//GEN-LAST:event_lentToMeCheckBoxMousePressed
 
     private void addCategoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCategoryButtonActionPerformed
-        CategoryDialog kategoriaForm = new CategoryDialog(this, true);
-        kategoriaForm.setVisible(true);
+        CategoryDialog categoryForm = new CategoryDialog(this, true);
+        categoryForm.setVisible(true);
 
-        //----
-        // ( (KategoriaComboBoxModel) kategoriaComboBox.getModel() ).refresh();
+        categoryComboBoxRefresh();
     }//GEN-LAST:event_addCategoryButtonActionPerformed
 
-    private void notBorrowedCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notBorrowedCheckBoxActionPerformed
-        if (lentCheckBox.isSelected()) {
-            lentCheckBox.doClick();
-        } else if (ownedCheckBox.isSelected()) {
-            ownedCheckBox.doClick();
-        }
-    }//GEN-LAST:event_notBorrowedCheckBoxActionPerformed
+    private void notLentCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notLentCheckBoxActionPerformed
+        itemTableRefresh();
+    }//GEN-LAST:event_notLentCheckBoxActionPerformed
 
     private void categoryComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryComboBoxActionPerformed
     }//GEN-LAST:event_categoryComboBoxActionPerformed
 
     private void removeCategoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeCategoryButtonActionPerformed
-        CategoryRemoveDialog categoryRemoveDialog = new CategoryRemoveDialog(this, true);
-        categoryRemoveDialog.setVisible(true);
+        String validation = Validator.validateCategoryCount();
+
+        if (validation != null) {
+            WarningDialog warningDialog = new WarningDialog(this, true, validation);
+            warningDialog.setVisible(true);
+        } else {
+            CategoryRemoveDialog categoryRemoveDialog = new CategoryRemoveDialog(this, true);
+            categoryRemoveDialog.setVisible(true);
+            categoryComboBoxRefresh();
+        }
     }//GEN-LAST:event_removeCategoryButtonActionPerformed
 
     private void removeLoanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeLoanButtonActionPerformed
-        LoanRemoveDialog loanRemoveDialog = new LoanRemoveDialog(this, true);
-        loanRemoveDialog.setVisible(true);
+        String validation = Validator.validateLoanCount();
+        if (validation != null) {
+            WarningDialog warningDialog = new WarningDialog(this, true, validation);
+            warningDialog.setVisible(true);
+        } else {
+            LoanRemoveDialog loanRemoveDialog = new LoanRemoveDialog(this, true);
+            loanRemoveDialog.setVisible(true);
+            itemTableRefresh();
+        }
     }//GEN-LAST:event_removeLoanButtonActionPerformed
 
     private void addLoanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLoanButtonActionPerformed
         // NetBeans is stupid, this is addItemButtonActionPerformed !!!!!
 
-        LoanDialog itemDialog = new LoanDialog(this, true);
+        LoanDialog loanDialog = new LoanDialog(this, true);
+        loanDialog.setVisible(true);
 
-        // refresh model
-        itemDialog.setVisible(true);
+        itemTableRefresh();
     }//GEN-LAST:event_addLoanButtonActionPerformed
 
     private void removeItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeItemButtonActionPerformed
-        ItemRemoveDialog itemRemoveDialog = new ItemRemoveDialog(this, true);
-        itemRemoveDialog.setVisible(true);
+        String validation = Validator.validateItemCount();
+        if (validation != null) {
+            WarningDialog warningDialog = new WarningDialog(this, true, validation);
+            warningDialog.setVisible(true);
+        } else {
+            ItemRemoveDialog itemRemoveDialog = new ItemRemoveDialog(this, true);
+            itemRemoveDialog.setVisible(true);
+            itemTableRefresh();
+        }
     }//GEN-LAST:event_removeItemButtonActionPerformed
 
     private void addItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addItemButtonActionPerformed
@@ -323,21 +354,19 @@ public class RemembrallForm extends javax.swing.JFrame {
 
         ItemDialog loanDialog = new ItemDialog(this, true);
         loanDialog.setVisible(true);
+        itemTableRefresh();
     }//GEN-LAST:event_addItemButtonActionPerformed
 
     private void editCategoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editCategoryButtonActionPerformed
         CategoryDialog kategoriaForm = new CategoryDialog(this, true, getSelectedCategory());
         kategoriaForm.setVisible(true);
 
-        // TODO a proper multithreading solution
-        while (kategoriaForm.isVisible()) {
-
-        }
-        getItemTableModel().refresh(getSelectedCategory());
+        itemTableRefresh();
     }//GEN-LAST:event_editCategoryButtonActionPerformed
 
+
     private void categoryComboBoxPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_categoryComboBoxPropertyChange
-        getItemTableModel().refresh(getSelectedCategory());
+        itemTableRefresh();
         // System.out.println("refresh + " +" @RemembrallForm");
     }//GEN-LAST:event_categoryComboBoxPropertyChange
 
@@ -350,6 +379,7 @@ public class RemembrallForm extends javax.swing.JFrame {
         } else {
             ItemDialog itemDialog = new ItemDialog(this, true, item);
             itemDialog.setVisible(true);
+            itemTableRefresh();
         }
     }//GEN-LAST:event_editItemButtonActionPerformed
 
@@ -359,12 +389,44 @@ public class RemembrallForm extends javax.swing.JFrame {
             Item item = ((ItemTableModel) itemTable.getModel()).getItemAt(riadok);
 
             LoanManager loanManager = ObjectFactory.INSTANCE.getLoanManager();
-
-            LoanDialog loanDialog = new LoanDialog(this, true, loanManager.getByItem(item));
+            Loan loan = loanManager.getByItem(item);
+            LoanDialog loanDialog;
+            if (loan == null) {
+                loanDialog = new LoanDialog(this, true);
+            } else {
+                loanDialog = new LoanDialog(this, true, loan);
+            }
             loanDialog.setVisible(true);
-
+            itemTableRefresh();
         }
     }//GEN-LAST:event_itemTableMousePressed
+
+    private void itemTableMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemTableMouseMoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_itemTableMouseMoved
+
+    private void notLentCheckBoxMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_notLentCheckBoxMousePressed
+//        if (!lentByMeCheckBox.isSelected() && !lentToMeCheckBox.isSelected()) {
+//            notLentCheckBox.setSelected(false);
+//        }
+        itemTableRefresh();
+    }//GEN-LAST:event_notLentCheckBoxMousePressed
+
+    private void lentToMeCheckBoxStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_lentToMeCheckBoxStateChanged
+
+    }//GEN-LAST:event_lentToMeCheckBoxStateChanged
+
+    private Category getSelectedCategory() {
+        return (Category) getComboBoxModel().getSelectedItem();
+    }
+
+    private void categoryComboBoxRefresh() {
+        getComboBoxModel().refresh();
+    }
+
+    private CategoryComboBoxModel getComboBoxModel() {
+        return (CategoryComboBoxModel) categoryComboBox.getModel();
+    }
 
     private Item getSelectedItem() {
         int selectedRow = itemTable.getSelectedRow();
@@ -375,8 +437,13 @@ public class RemembrallForm extends javax.swing.JFrame {
         }
     }
 
-    private Category getSelectedCategory() {
-        return (Category) ((CategoryComboBoxModel) categoryComboBox.getModel()).getSelectedItem();
+    private void itemTableRefresh() {
+        getItemTableModel().refresh(lentByMeCheckBox.isSelected(), lentToMeCheckBox.isSelected(),
+                notLentCheckBox.isSelected(), getSelectedCategory());
+    }
+
+    private ItemTableModel getItemTableModel() {
+        return (ItemTableModel) itemTable.getModel();
     }
 
     /**
@@ -434,16 +501,13 @@ public class RemembrallForm extends javax.swing.JFrame {
     private javax.swing.JTable itemTable;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JCheckBox lentCheckBox;
+    private javax.swing.JCheckBox lentByMeCheckBox;
+    private javax.swing.JCheckBox lentToMeCheckBox;
     private javax.swing.JLabel loanLabel;
-    private javax.swing.JCheckBox notBorrowedCheckBox;
-    private javax.swing.JCheckBox ownedCheckBox;
+    private javax.swing.JCheckBox notLentCheckBox;
     private javax.swing.JButton removeCategoryButton;
     private javax.swing.JButton removeItemButton;
     private javax.swing.JButton removeLoanButton;
     // End of variables declaration//GEN-END:variables
 
-    private ItemTableModel getItemTableModel() {
-        return (ItemTableModel) itemTable.getModel();
-    }
 }

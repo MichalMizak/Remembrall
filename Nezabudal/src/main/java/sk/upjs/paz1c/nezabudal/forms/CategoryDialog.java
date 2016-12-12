@@ -149,9 +149,6 @@ public class CategoryDialog extends javax.swing.JDialog {
             List<Attribute> attributes = getAttributeTableModel().getAttributes();
 
             categoryManager.saveOrEdit(category, attributes);
-
-            CategoryComboBoxModel categoryComboBox = ObjectFactory.INSTANCE.getCategoryComboBoxModel();
-            categoryComboBox.refresh();
             
             setVisible(false);
             dispose();

@@ -10,7 +10,6 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import sk.upjs.paz1c.nezabudal.dao.ItemDao;
-import sk.upjs.paz1c.nezabudal.dao.rowmappers.AttributeRowMapper;
 import sk.upjs.paz1c.nezabudal.dao.rowmappers.ItemRowMapper;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;
@@ -40,7 +39,8 @@ public class MysqlItemDao implements ItemDao {
 
     @Override
     public List<Item> getByCategory(Category category) {
-
+        if (category == null)
+            return null;
         List<Item> itemList = jdbcTemplate.query(SqlQueries.GET_ITEMS_BY_CATEGORY, new ItemRowMapper(), category.getId());
 
         setAttributes(itemList);
@@ -92,6 +92,8 @@ public class MysqlItemDao implements ItemDao {
 
     @Override
     public void delete(Item item) {
+        if (item == null) 
+            return;
         String sql = "DELETE FROM item WHERE id = ?";
         jdbcTemplate.update(sql, item.getId());
     }

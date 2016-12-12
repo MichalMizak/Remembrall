@@ -92,8 +92,11 @@ public class CategoryRemoveDialog extends javax.swing.JDialog {
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
         Category category = getSelectedCategory();
         String validation = Validator.categoryHasNoItems(category);
-        if (validation == null) {
 
+        if (validation != null) {
+            WarningDialog warningDialog = new WarningDialog(this, true, validation);
+            warningDialog.setVisible(true);
+        }  else {
             categoryComboBox.removeItem(category);
             categoryManager.delete(category);
 
@@ -101,9 +104,6 @@ public class CategoryRemoveDialog extends javax.swing.JDialog {
 
             setVisible(false);
             dispose();
-        } else {
-            WarningDialog warningDialog = new WarningDialog(this, true, validation);
-            warningDialog.setVisible(true);
         }
     }//GEN-LAST:event_removeButtonActionPerformed
 

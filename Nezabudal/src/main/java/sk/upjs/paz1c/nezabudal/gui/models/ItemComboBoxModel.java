@@ -35,7 +35,10 @@ public class ItemComboBoxModel extends DefaultComboBoxModel<Item> {
         removeAllElements();
 
         List<Item> items = itemManager.getByCategory(category);
-
+        
+        if (items == null) {
+            return;
+        }
         for (Item item : items) {
             addElement(item);
         }

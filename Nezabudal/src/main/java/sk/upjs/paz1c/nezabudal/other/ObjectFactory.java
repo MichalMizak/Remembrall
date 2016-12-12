@@ -22,6 +22,7 @@ import sk.upjs.paz1c.nezabudal.managers.implementations.DefaultAttributeManager;
 import sk.upjs.paz1c.nezabudal.dao.AttributeDao;
 import sk.upjs.paz1c.nezabudal.dao.implementations.MysqlCategoryDao;
 import sk.upjs.paz1c.nezabudal.dao.implementations.MysqlItemDao;
+import sk.upjs.paz1c.nezabudal.dao.implementations.MysqlLoanDao;
 
 public enum ObjectFactory {
     INSTANCE;
@@ -59,7 +60,7 @@ public enum ObjectFactory {
 
     public LoanDao getLoanDao() {
         if (loanDao == null) {
-            loanDao = new DummyLoanDao();
+            loanDao = new MysqlLoanDao();
         }
         return loanDao;
     }

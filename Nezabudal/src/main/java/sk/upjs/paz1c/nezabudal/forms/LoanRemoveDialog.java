@@ -71,6 +71,7 @@ public class LoanRemoveDialog extends javax.swing.JDialog {
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
         Loan loan = getSelectedItem();
         loanManager.delete(loan);
+        dispose();
     }//GEN-LAST:event_removeButtonActionPerformed
 
     /**

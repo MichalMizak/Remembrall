@@ -1,5 +1,6 @@
 package sk.upjs.paz1c.nezabudal.other;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -92,7 +93,7 @@ public class ValidatorTest {
         String description = "";
         String person = "";
         String expResult = "";
-        String result = Validator.validateLoan(item, description, person);
+        String result = Validator.validateLoan(item, true, person);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -104,12 +105,11 @@ public class ValidatorTest {
     @Test
     public void testValidateLoanSince() {
         System.out.println("validateLoanSince");
-        String since = "";
+        String since = null;
         Object expResult = null;
-        Object result = Validator.validateLoanSince(since);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Object result = Validator.validateLoanSince("11.11.1234 22:10");
+        System.out.println(((LocalDateTime)result).getHour() + ":" + ((LocalDateTime)result).getMinute());
+        assertNotEquals(expResult, result);
     }
 
     /**
@@ -126,18 +126,5 @@ public class ValidatorTest {
         fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of validateLoanBorrowedToMe method, of class Validator.
-     */
-    @Test
-    public void testValidateLoanBorrowedToMe() {
-        System.out.println("validateLoanBorrowedToMe");
-        String borrowedToMe = "";
-        String expResult = "";
-        String result = Validator.validateLoanBorrowedToMe(borrowedToMe);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
     
 }

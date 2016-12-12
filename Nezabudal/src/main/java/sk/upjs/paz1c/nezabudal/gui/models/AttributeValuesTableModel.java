@@ -40,9 +40,6 @@ public class AttributeValuesTableModel extends AbstractTableModel {
         this.category = category;
 
         attributes = attributeManager.getByCategory(category);
-        
-        System.out.println(attributes.get(0).getValueId() + " @AttributeValuesTableModel");
-       // int size = attributes.size();
     }
 
     public void aktualizovat(Category category) {
@@ -71,15 +68,6 @@ public class AttributeValuesTableModel extends AbstractTableModel {
             default:
                 return null;
         }
-    }
-
-    @Override
-    public Class<?> getColumnClass(int columnIndex) {
-//        if (columnIndex == 2) {
-//            return Boolean.class;
-//        }
-
-        return super.getColumnClass(columnIndex);
     }
 
     @Override

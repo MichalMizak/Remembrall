@@ -64,13 +64,18 @@ public class MysqlAttributeDao implements AttributeDao {
      */
     @Override
     public void delete(Attribute attribute) {
+        if (attribute == null) {
+            return;
+        }
         String sql = "DELETE FROM attribute_names WHERE id = ?";
         jdbcTemplate.update(sql, attribute.getNameId());
     }
 
     @Override
     public List<Attribute> getByCategory(Category category) {
-
+        if (category == null) {
+            return null;
+        }
         return jdbcTemplate.query(SqlQueries.GET_ATTRIBUTES_BY_CATEGORY,
                 new AttributeRowMapper(), category.getId());
     }

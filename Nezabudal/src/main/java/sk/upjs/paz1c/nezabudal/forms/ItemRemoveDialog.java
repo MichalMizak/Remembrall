@@ -1,11 +1,8 @@
 package sk.upjs.paz1c.nezabudal.forms;
 
-import sk.upjs.paz1c.nezabudal.dao.CategoryDao;
-import sk.upjs.paz1c.nezabudal.dao.LoanDao;
 import sk.upjs.paz1c.nezabudal.other.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.entity.Item;
 import sk.upjs.paz1c.nezabudal.gui.models.ItemComboBoxModel;
-import sk.upjs.paz1c.nezabudal.dao.ItemDao;
 import sk.upjs.paz1c.nezabudal.managers.ItemManager;
 import sk.upjs.paz1c.nezabudal.managers.LoanManager;
 

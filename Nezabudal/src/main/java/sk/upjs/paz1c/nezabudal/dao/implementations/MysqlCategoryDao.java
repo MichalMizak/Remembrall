@@ -65,6 +65,8 @@ public class MysqlCategoryDao implements CategoryDao {
 
     @Override
     public void delete(Category category) {
+        if (category == null)
+            return;
         String sql = "DELETE FROM category WHERE id = ?";
         jdbcTemplate.update(sql, category.getId());
     }

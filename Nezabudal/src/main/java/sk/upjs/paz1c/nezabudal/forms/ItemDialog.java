@@ -1,6 +1,5 @@
 package sk.upjs.paz1c.nezabudal.forms;
 
-import java.util.ArrayList;
 import java.util.List;
 import sk.upjs.paz1c.nezabudal.entity.Attribute;
 import sk.upjs.paz1c.nezabudal.other.ObjectFactory;
@@ -38,15 +37,10 @@ public class ItemDialog extends javax.swing.JDialog {
         initComponents();
 
         item = new Item();
-        // attributesTable.setModel();
-
-        //  AttributeValuesTableModel tableModel = (AttributeValuesTableModel) attributesTable.getModel();
-        //  tableModel.initialize(category);
     }
 
     public ItemDialog(java.awt.Frame parent, boolean modal, Item item) {
-        //Item item = new Item(nameTextField.getText(), specificationTextArea.getText(), stateTextArea.getText(),
-        //       IS_BORROWED_DEFAULT, getSelectedCategory(), list);
+
         super(parent, MODALITY);
         initComponents();
 
@@ -198,8 +192,6 @@ public class ItemDialog extends javax.swing.JDialog {
             item.setCategory(selectedCategory);
             item.setAttributes(list);
             
-            System.out.println(list + " @ItemDialog");
-            System.out.println(list.get(0).getValueId());
             itemManager.saveOrEdit(item);
 
             setVisible(false);
