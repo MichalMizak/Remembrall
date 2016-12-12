@@ -1,7 +1,14 @@
 package sk.upjs.paz1c.nezabudal.dao.implementations;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import sk.upjs.paz1c.nezabudal.dao.CategoryDao;
 import sk.upjs.paz1c.nezabudal.dao.rowmappers.CategoryRowMapper;
 import sk.upjs.paz1c.nezabudal.entity.Category;
@@ -28,13 +35,31 @@ public class MysqlCategoryDao implements CategoryDao {
     }
 
     @Override
-    public void saveOrEdit(Category category) {
+    public Number saveOrEdit(Category category) {
         if (category.getId() == null) {
             String sql = "INSERT INTO category VALUES (?, ?)";
-            jdbcTemplate.update(sql, null, category.getTitle());
+            
+             // need to get the generated value
+            final PreparedStatementCreator psc = new PreparedStatementCreator() {
+                @Override
+                public PreparedStatement createPreparedStatement(final Connection connection) throws SQLException {
+                    final PreparedStatement ps = connection.prepareStatement(sql,
+                            Statement.RETURN_GENERATED_KEYS);
+                    ps.setString(1, null);
+                    ps.setString(2, category.getTitle());
+                    return ps;
+                }
+            };
+            final KeyHolder holder = new GeneratedKeyHolder();
+
+            jdbcTemplate.update(psc, holder); 
+            
+            return holder.getKey();
+            //jdbcTemplate.update(sql, null, category.getTitle());
         } else {
             String sql = "UPDATE category SET title = ? WHERE id = ?";
             jdbcTemplate.update(sql, category.getTitle(), category.getId());
+            return null;
         }
     }
 

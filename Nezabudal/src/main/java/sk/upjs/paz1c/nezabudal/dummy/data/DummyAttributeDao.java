@@ -24,7 +24,7 @@ public class DummyAttributeDao implements AttributeDao {
     }
 
     @Override
-    public Attribute getById(Long id) {
+    public Attribute getByNameId(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -56,6 +56,11 @@ public class DummyAttributeDao implements AttributeDao {
 
     @Override
     public List<Attribute> getByItem(Item item) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Attribute getByNameId(Long nameId, Item item) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

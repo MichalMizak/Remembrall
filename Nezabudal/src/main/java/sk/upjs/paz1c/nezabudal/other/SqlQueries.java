@@ -46,6 +46,16 @@ public class SqlQueries {
             + "			on attr_names.id = attr_values.attribute_name_id\n"
             + "            where attr_names.id = ?;";
 
+    public static final String GET_ATTRIBUTE_BY_NAME_ID_AND_ITEM = "SELECT \n"
+            + "	attr_values.id as attribute_value_id, \n"
+            + "    attr_names.id as attribute_name_id,\n"
+            + "    attr_names.name as attribute_name, \n"
+            + "    attr_values.value as attribute_value \n"
+            + "		from attribute_values as attr_values \n"
+            + "			join attribute_names as attr_names \n"
+            + "			on attr_names.id = attr_values.attribute_name_id\n"
+            + "            where attr_names.id = ? and attr_values.item_id = ?;";
+    
     public static final String GET_ATTRIBUTES_BY_ITEM = "SELECT \n"
             + "    attr_values.id as attribute_value_id, \n"
             + "    attr_names.id as attribute_name_id,"

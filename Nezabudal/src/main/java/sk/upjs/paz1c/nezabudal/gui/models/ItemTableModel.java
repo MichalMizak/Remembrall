@@ -26,7 +26,7 @@ public class ItemTableModel extends AbstractTableModel {
 
     private final String[] columnTitles = {"Názov", "Popis"};
 
-    private String[] attributeNameColumnTitles;
+    private List<Attribute> attributeNameColumnTitles;
 
     private int columnCount;
 
@@ -42,7 +42,7 @@ public class ItemTableModel extends AbstractTableModel {
         this.category = category;
 
         fireTableDataChanged();
-        setAttributeNameColumnTitles((attributeManager.getAttributeNames(attributeManager.getByCategory(category)).toArray(new String[0])));
+        setAttributeNameColumnTitles(attributeManager.getByCategory(category));
 
         itemList = itemManager.getByCategory(category);
         setColumnCount();
@@ -53,7 +53,7 @@ public class ItemTableModel extends AbstractTableModel {
     }
 
     private void setColumnCount() {
-        columnCount = attributeNameColumnTitles.length + columnTitles.length;
+        columnCount = attributeNameColumnTitles.size() + columnTitles.length;
     }
 
     @Override
@@ -66,7 +66,7 @@ public class ItemTableModel extends AbstractTableModel {
             case 1:
                 return item.getDescription();
         }
-        Attribute attributeAtColumn = attributeManager.getByTitle(item, attributeNameColumnTitles[columnIndex - columnTitles.length]);
+        Attribute attributeAtColumn = attributeManager.getByNameId(attributeNameColumnTitles.get(columnIndex - columnTitles.length).getNameId(), item);
         return attributeAtColumn.getValue();
     }
 
@@ -94,15 +94,15 @@ public class ItemTableModel extends AbstractTableModel {
         if (columnIndex < columnTitles.length) {
             return columnTitles[columnIndex];
         } else {
-            return attributeNameColumnTitles[columnIndex - columnTitles.length];
+            return attributeNameColumnTitles.get(columnIndex - columnTitles.length).getName();
         }
     }
 
-    public String[] getAttributeNameColumnTitles() {
+    public List<Attribute> getAttributeNameColumnTitles() {
         return attributeNameColumnTitles;
     }
 
-    private void setAttributeNameColumnTitles(String[] attributeNameColumnTitles) {
+    private void setAttributeNameColumnTitles(List<Attribute> attributeNameColumnTitles) {
         this.attributeNameColumnTitles = attributeNameColumnTitles;
     }
 

@@ -25,7 +25,7 @@ public class MysqlAttributeDao implements AttributeDao {
      * @return
      */
     @Override
-    public Attribute getById(Long id) {
+    public Attribute getByNameId(Long id) {
         String sql = SqlQueries.GET_ATTRIBUTE_BY_NAME_ID;
         return jdbcTemplate.queryForObject(sql, new AttributeRowMapper(), id);
     }
@@ -76,6 +76,11 @@ public class MysqlAttributeDao implements AttributeDao {
     @Override
     public List<Attribute> getByItem(Item item) {
         return jdbcTemplate.query(SqlQueries.GET_ATTRIBUTES_BY_ITEM, new AttributeRowMapper(), item.getId());
+    }
+
+    @Override
+    public Attribute getByNameId(Long nameId, Item item) {
+        return jdbcTemplate.queryForObject(SqlQueries.GET_ATTRIBUTE_BY_NAME_ID_AND_ITEM, new AttributeRowMapper(), nameId, item.getId());
     }
 
 }

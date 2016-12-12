@@ -13,7 +13,12 @@ public interface CategoryDao {
     
     public Category getById(Long id);
          
-    public void saveOrEdit(Category category);  
+    /**
+     * Returns the database-generated id if category doesn't exist
+     * @param category
+     * @return 
+     */
+    public Number saveOrEdit(Category category);  
     
     public void delete(Category category);
 }

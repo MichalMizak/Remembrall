@@ -18,8 +18,8 @@ public class DefaultAttributeManager implements AttributeManager {
     AttributeDao attributeDao = ObjectFactory.INSTANCE.getAttributeDao();
 
     @Override
-    public Attribute getById(Long id) {
-        return attributeDao.getById(id);
+    public Attribute getByNameId(Long id) {
+        return attributeDao.getByNameId(id);
     }
 
     @Override
@@ -91,6 +91,11 @@ public class DefaultAttributeManager implements AttributeManager {
     @Override
     public List<Attribute> getByItem(Item item) {
         return attributeDao.getByItem(item);
+    }
+
+    @Override
+    public Attribute getByNameId(Long nameId, Item item) {
+        return attributeDao.getByNameId(nameId, item);
     }
 
 }

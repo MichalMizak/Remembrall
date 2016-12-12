@@ -23,7 +23,7 @@ public class MysqlAttributeDaoTest {
     public void testGetById() {
         System.out.println("getById");
 
-        Attribute attribute = instance.getById(2L);
+        Attribute attribute = instance.getByNameId(2L);
 
         System.out.println(attribute);
         assertNotEquals(null, attribute);
@@ -77,7 +77,7 @@ public class MysqlAttributeDaoTest {
 
         instance.saveOrEditName(attribute, category);
 
-        Attribute attribute2 = instance.getById(2L);
+        Attribute attribute2 = instance.getByNameId(2L);
         System.out.println(attribute2.getName());
 
         assertEquals("Autor", attribute2.getName());
@@ -94,15 +94,14 @@ public class MysqlAttributeDaoTest {
 
         Item item = new Item();
         item.setId(1L);
-        
+
         Category category = new Category();
         category.setId(2L);
-        
+
         instance.saveOrEditValue(attribute, item);
 
         // test results manually reviewed in database
         // assertEquals("", item);
-
     }
 
     /**
@@ -117,17 +116,30 @@ public class MysqlAttributeDaoTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
     @Test
     public void testGetByItem() {
         System.out.println("getByItem");
-        
+
         Item item = new Item();
-        
+
         item.setId(1L);
-        
+
         List<Attribute> attributes = instance.getByItem(item);
-        
+
         assertNotEquals(attributes, null);
+    }
+
+    @Test
+    public void testGetByNameId() {
+        System.out.println("getByNameAndItem");
+
+        Item item = new Item();
+        item.setId(1L);
+
+        Attribute attribute = instance.getByNameId(1L, item);
+        
+        assertEquals(attribute.getName(), "ISBN");
+
     }
 }
