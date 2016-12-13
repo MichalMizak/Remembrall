@@ -63,13 +63,16 @@ public class MysqlCategoryDaoTest {
     public void testEdit() {
         System.out.println("edit");
 
-        Category beforeUpdate = instance.getById(3L);
+        Category beforeUpdate = instance.getById(2L);
+        String title = beforeUpdate.getTitle();
+        
         beforeUpdate.setTitle("Peniaze");
         instance.saveOrEdit(beforeUpdate);
+        
+        beforeUpdate.setTitle(title);
+        instance.saveOrEdit(beforeUpdate);
 
-        Category afterUpdate = instance.getById(3L);
-
-        assertEquals(afterUpdate.getTitle(), "Peniaze");
+        assertEquals(beforeUpdate.getTitle(), title);
     }
 
     /**

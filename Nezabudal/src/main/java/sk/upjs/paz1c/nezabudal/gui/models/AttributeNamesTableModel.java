@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import sk.upjs.paz1c.nezabudal.entity.Attribute;
-import sk.upjs.paz1c.nezabudal.forms.RemembrallForm;
+import sk.upjs.paz1c.nezabudal.gui.forms.RemembrallForm;
 
 public class AttributeNamesTableModel extends AbstractTableModel {
 

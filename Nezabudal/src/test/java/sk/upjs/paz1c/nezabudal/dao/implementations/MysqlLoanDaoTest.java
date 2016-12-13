@@ -21,7 +21,7 @@ public class MysqlLoanDaoTest {
     public void testGetLoans() {
         System.out.println("getLoans");
         List<Loan> result = instance.getLoans();
-        
+
         System.out.println(result);
         assertEquals(1, result.size());
     }
@@ -45,39 +45,11 @@ public class MysqlLoanDaoTest {
     @Test
     public void testGetById() {
         System.out.println("getById");
-        Long id = null;
-        MysqlLoanDao instance = new MysqlLoanDao();
-        Loan expResult = null;
-        Loan result = instance.getById(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        for (int i = 1; i < 10; i++) {
+            Loan result = instance.getById(new Long(i));
+            if (result != null) {
+                assertEquals(new Long(i), result.getId());
+            }
+        }
     }
-
-    /**
-     * Test of delete method, of class MysqlLoanDao.
-     */
-    @Test
-    public void testDelete() {
-        System.out.println("delete");
-        Loan loan = null;
-        MysqlLoanDao instance = new MysqlLoanDao();
-        instance.delete(loan);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of saveOrEdit method, of class MysqlLoanDao.
-     */
-    @Test
-    public void testSaveOrEdit() {
-        System.out.println("saveOrEdit");
-        Loan loan = null;
-        MysqlLoanDao instance = new MysqlLoanDao();
-        instance.saveOrEdit(loan);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
 }

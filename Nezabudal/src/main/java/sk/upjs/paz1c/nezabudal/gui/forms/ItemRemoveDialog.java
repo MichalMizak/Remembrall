@@ -18,12 +18,12 @@ public class ItemRemoveDialog extends javax.swing.JDialog {
     /**
      * Creates new form ItemRemoveDialog
      */
-    public ItemRemoveDialog(java.awt.Frame parent, boolean modal) {
+    public ItemRemoveDialog(java.awt.Frame parent, boolean modal, Item item) {
         super(parent, modal);
         initComponents();
         GuiUtilities.setPositionMiddle(parent, this);
         setTitle("Odstráň predmet");
-
+        itemComboBox.setSelectedItem(item);
     }
 
     /**

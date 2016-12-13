@@ -74,7 +74,7 @@ public class Validator {
         }
     }
 
-    public static String validateItem(String name, String description, Category selectedCategory, List<Attribute> list) {
+    public static String validateItem(String name, String description) {
 
         if (name == null || name.trim().equals("")) {
             return "Zadajte názov";

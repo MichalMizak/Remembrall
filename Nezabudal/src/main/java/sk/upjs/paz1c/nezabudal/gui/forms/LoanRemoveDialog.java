@@ -1,10 +1,6 @@
 package sk.upjs.paz1c.nezabudal.gui.forms;
 
-import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.Point;
-import java.awt.Window;
-import sk.upjs.paz1c.nezabudal.dao.LoanDao;
+import sk.upjs.paz1c.nezabudal.entity.Item;
 import sk.upjs.paz1c.nezabudal.other.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.entity.Loan;
 import sk.upjs.paz1c.nezabudal.gui.models.LoanComboBoxModel;
@@ -25,8 +21,11 @@ public class LoanRemoveDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setTitle("Odstráň pôžičku");
-
         GuiUtilities.setPositionMiddle(parent, this);
+    }
+
+    public void setSelectedLoan(Item item) {
+        loanComboBox.setSelectedItem(loanManager.getByItem(item));
     }
 
     /**

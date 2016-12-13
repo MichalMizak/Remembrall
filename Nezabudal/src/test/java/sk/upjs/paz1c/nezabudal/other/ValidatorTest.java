@@ -20,37 +20,6 @@ public class ValidatorTest {
     
     public ValidatorTest() {
     }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
-    /**
-     * Test of validateCategory method, of class Validator.
-     */
-    @Test
-    public void testValidateCategory() {
-        System.out.println("validateCategory");
-        Category category = null;
-        String title = "";
-        String expResult = "";
-        String result = Validator.validateCategory(category, title);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
     /**
      * Test of categoryHasNoItems method, of class Validator.
@@ -76,11 +45,9 @@ public class ValidatorTest {
         String description = "";
         Category selectedCategory = null;
         List<Attribute> list = null;
-        String expResult = "";
-        String result = Validator.validateItem(name, description, selectedCategory, list);
+        String expResult = "Zadajte názov";
+        String result = Validator.validateItem(name, description);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -89,14 +56,15 @@ public class ValidatorTest {
     @Test
     public void testValidateLoan() {
         System.out.println("validateLoan");
-        Item item = null;
+        Item item = new Item();
+        item.setIsBorrowed(true);
+        
         String description = "";
         String person = "";
-        String expResult = "";
-        String result = Validator.validateLoan(item, true, person);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String expResult = "Predmet nesmie byť zapožičaný";
+        String result = Validator.validateLoan(item, false, person);
+        assertEquals(expResult, result);  
+    
     }
 
     /**
@@ -117,13 +85,12 @@ public class ValidatorTest {
      */
     @Test
     public void testValidateLoanUntil() {
-        System.out.println("validateLoanUntil");
-        String until = "";
+        System.out.println("validateLoanSince");
+        String since = null;
         Object expResult = null;
-        Object result = Validator.validateLoanUntil(until);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Object result = Validator.validateLoanUntil("11.11.1234 22:10");
+        System.out.println(((LocalDateTime)result).getHour() + ":" + ((LocalDateTime)result).getMinute());
+        assertNotEquals(expResult, result);
     }
 
     

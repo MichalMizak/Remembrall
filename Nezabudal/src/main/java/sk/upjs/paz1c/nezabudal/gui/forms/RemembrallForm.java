@@ -3,7 +3,6 @@ package sk.upjs.paz1c.nezabudal.gui.forms;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Window;
-import javax.swing.UIManager;
 import sk.upjs.paz1c.nezabudal.other.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;
@@ -40,10 +39,11 @@ public class RemembrallForm extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jProgressBar1 = new javax.swing.JProgressBar();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jEditorPane1 = new javax.swing.JEditorPane();
         addCategoryButton = new javax.swing.JButton();
         removeCategoryButton = new javax.swing.JButton();
         addItemButton = new javax.swing.JButton();
@@ -61,12 +61,11 @@ public class RemembrallForm extends javax.swing.JFrame {
         editCategoryButton = new javax.swing.JButton();
         editItemButton = new javax.swing.JButton();
 
+        jScrollPane2.setViewportView(jEditorPane1);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Remembrall");
         setAutoRequestFocus(false);
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, itemTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement}"), this, org.jdesktop.beansbinding.BeanProperty.create("background"));
-        bindingGroup.addBinding(binding);
 
         addCategoryButton.setText("Pridaj kategóriu");
         addCategoryButton.addActionListener(new java.awt.event.ActionListener() {
@@ -170,7 +169,6 @@ public class RemembrallForm extends javax.swing.JFrame {
             }
         });
 
-        itemTable.setForeground(new java.awt.Color(240, 240, 240));
         itemTable.setModel(new ItemTableModel(getSelectedCategory()));
         itemTable.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
@@ -227,12 +225,12 @@ public class RemembrallForm extends javax.swing.JFrame {
                                 .addComponent(editCategoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 787, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(removeItemButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addItemButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editItemButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addLoanButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(removeLoanButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(removeItemButton, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+                    .addComponent(addItemButton, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+                    .addComponent(editItemButton, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+                    .addComponent(addLoanButton, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+                    .addComponent(removeLoanButton, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -263,12 +261,10 @@ public class RemembrallForm extends javax.swing.JFrame {
                         .addComponent(addLoanButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(removeLoanButton)
-                        .addGap(0, 290, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE))
                 .addContainerGap())
         );
-
-        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -334,13 +330,15 @@ public class RemembrallForm extends javax.swing.JFrame {
             warningDialog.setVisible(true);
         } else {
             LoanRemoveDialog loanRemoveDialog = new LoanRemoveDialog(this, true);
+//            if (getSelectedItem().isIsBorrowed()) {
+//                loanRemoveDialog.setSelectedLoan(getSelectedItem());
+//            }
             loanRemoveDialog.setVisible(true);
             itemTableRefresh();
         }
     }//GEN-LAST:event_removeLoanButtonActionPerformed
 
     private void addLoanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLoanButtonActionPerformed
-        // NetBeans is stupid, this is addItemButtonActionPerformed !!!!!
 
         LoanDialog loanDialog = new LoanDialog(this, true);
         loanDialog.setVisible(true);
@@ -354,7 +352,7 @@ public class RemembrallForm extends javax.swing.JFrame {
             WarningDialog warningDialog = new WarningDialog(this, true, validation);
             warningDialog.setVisible(true);
         } else {
-            ItemRemoveDialog itemRemoveDialog = new ItemRemoveDialog(this, true);
+            ItemRemoveDialog itemRemoveDialog = new ItemRemoveDialog(this, true, getSelectedItem());
             itemRemoveDialog.setVisible(true);
             itemTableRefresh();
         }
@@ -373,6 +371,7 @@ public class RemembrallForm extends javax.swing.JFrame {
         kategoriaForm.setVisible(true);
 
         itemTableRefresh();
+        categoryComboBoxRefresh();
     }//GEN-LAST:event_editCategoryButtonActionPerformed
 
 
@@ -457,16 +456,16 @@ public class RemembrallForm extends javax.swing.JFrame {
         return (ItemTableModel) itemTable.getModel();
     }
 
-    
     static void setPositionMiddle(Window parent, Window child) {
         Dimension dimParent = parent.getSize();
         Dimension dimThis = child.getSize();
-        
-        Point point =parent.getLocation();
-        point.setLocation(point.getX() + dimParent.getWidth()/2 - dimThis.getWidth()/2,
-                point.getY() + dimParent.getHeight()/2 - dimThis.getHeight()/2);
+
+        Point point = parent.getLocation();
+        point.setLocation(point.getX() + dimParent.getWidth() / 2 - dimThis.getWidth() / 2,
+                point.getY() + dimParent.getHeight() / 2 - dimThis.getHeight() / 2);
         child.setLocation(point);
     }
+
     /**
      * @param args the command line arguments
      */
@@ -477,14 +476,14 @@ public class RemembrallForm extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            javax.swing.UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            // for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Windows".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-                
-            // }
+            //  javax.swing.UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Windows".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+
+            }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(RemembrallForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
@@ -522,8 +521,10 @@ public class RemembrallForm extends javax.swing.JFrame {
     private javax.swing.JButton editCategoryButton;
     private javax.swing.JButton editItemButton;
     private javax.swing.JTable itemTable;
+    private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JCheckBox lentByMeCheckBox;
     private javax.swing.JCheckBox lentToMeCheckBox;
     private javax.swing.JLabel loanLabel;
@@ -531,7 +532,6 @@ public class RemembrallForm extends javax.swing.JFrame {
     private javax.swing.JButton removeCategoryButton;
     private javax.swing.JButton removeItemButton;
     private javax.swing.JButton removeLoanButton;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
 }

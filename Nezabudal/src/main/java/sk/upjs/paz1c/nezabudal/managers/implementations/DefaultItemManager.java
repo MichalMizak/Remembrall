@@ -59,8 +59,8 @@ public class DefaultItemManager implements ItemManager {
     @Override
     public List<Item> getByCategory(boolean lentByMeCheckBox, boolean lentToMeCheckBox,
             boolean notLentCheckBox, Category category) {
-        System.out.println(lentByMeCheckBox + "=lentbyme, " + lentToMeCheckBox
-                + "=lenttome, " + notLentCheckBox + "=notlent @DefaultItemManager");
+        // System.out.println(lentByMeCheckBox + "=lentbyme, " + lentToMeCheckBox
+        //       + "=lenttome, " + notLentCheckBox + "=notlent @DefaultItemManager");
         List<Item> items = new ArrayList<>();
         List<Item> notLentItems;
 
@@ -83,7 +83,6 @@ public class DefaultItemManager implements ItemManager {
             if ((loan.isLentToMe() && lentToMeCheckBox) || (!loan.isLentToMe() && lentByMeCheckBox)) {
                 Item item = loan.getItem();
                 if (item.getCategory().getId() == category.getId()) {
-                    System.out.println(loan.isLentToMe() + "=isLentToMe @DefaultItemManager");
                     items.add(loan.getItem());
                 }
             }

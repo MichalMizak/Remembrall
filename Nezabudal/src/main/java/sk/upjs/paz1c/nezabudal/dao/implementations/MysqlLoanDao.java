@@ -76,11 +76,11 @@ public class MysqlLoanDao implements LoanDao {
                 + "     WHERE id = ?;";
 
         List<Loan> loans = jdbcTemplate.query(sql, new LoanRowMapper(), loanId);
-
-        Loan loan = loans.get(0);
         if (loans.isEmpty()) {
             return null;
         }
+        Loan loan = loans.get(0);
+        
         setItemById(loan);
         return loan;
     }

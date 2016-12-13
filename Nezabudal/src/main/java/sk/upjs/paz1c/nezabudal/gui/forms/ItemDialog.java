@@ -112,7 +112,7 @@ public class ItemDialog extends javax.swing.JDialog {
         specificationLabel.setText("Popis");
 
         specificationTextArea.setColumns(20);
-        specificationTextArea.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        specificationTextArea.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         specificationTextArea.setLineWrap(true);
         specificationTextArea.setRows(4);
         jScrollPane2.setViewportView(specificationTextArea);
