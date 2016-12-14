@@ -35,16 +35,14 @@ public class AttributeNamesTableModel extends AbstractTableModel {
 //        for(Attribute attribute : attributeNames) {
 //            
 //        }
-        
+
         this.attributes = attributes;
-        
-        if(attributes == null) {
+
+        if (attributes == null) {
             attributes = new ArrayList<>();
-        } 
-        if (attributes.isEmpty()) {
-            attributes.add(new Attribute("", ""));
         }
-        
+        attributes.add(new Attribute("", ""));
+
         fireTableDataChanged();
     }
 

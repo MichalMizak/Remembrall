@@ -22,7 +22,6 @@ import sk.upjs.paz1c.nezabudal.other.Validator;
 public class ItemDialog extends javax.swing.JDialog {
 
     public static final boolean MODALITY = true;
-    private static final boolean IS_BORROWED_DEFAULT = false;
 
     private ItemManager itemManager = ObjectFactory.INSTANCE.getItemManager();
 
@@ -79,6 +78,7 @@ public class ItemDialog extends javax.swing.JDialog {
         jScrollPane2 = new javax.swing.JScrollPane();
         specificationTextArea = new javax.swing.JTextArea();
         nameTextField = new javax.swing.JTextField();
+        warningTextLabel = new javax.swing.JLabel();
 
         addLoanButton.setText("Pridaj");
 
@@ -117,6 +117,9 @@ public class ItemDialog extends javax.swing.JDialog {
         specificationTextArea.setRows(4);
         jScrollPane2.setViewportView(specificationTextArea);
 
+        warningTextLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        warningTextLabel.setText("Potvrďte vlastnosť stlačením \"enter\"");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -139,13 +142,15 @@ public class ItemDialog extends javax.swing.JDialog {
                         .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(addItemButton)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addItemButton, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(warningTextLabel, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nameLabel)
                     .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -157,11 +162,13 @@ public class ItemDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(categoryComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(warningTextLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1)
                 .addComponent(addItemButton)
-                .addGap(9, 9, 9))
+                .addGap(8, 8, 8))
         );
 
         pack();
@@ -188,7 +195,7 @@ public class ItemDialog extends javax.swing.JDialog {
         // boolean isBorrowed = item.isIsBorrowed();
         Category selectedCategory = getSelectedCategory();
 
-        String validation = Validator.validateItem(name, description);
+        String validation = Validator.validateItem(name);
         if (validation == null) {
             item.setName(name);
             item.setDescription(description);
@@ -222,5 +229,6 @@ public class ItemDialog extends javax.swing.JDialog {
     private javax.swing.JTextField nameTextField;
     private javax.swing.JLabel specificationLabel;
     private javax.swing.JTextArea specificationTextArea;
+    private javax.swing.JLabel warningTextLabel;
     // End of variables declaration//GEN-END:variables
 }

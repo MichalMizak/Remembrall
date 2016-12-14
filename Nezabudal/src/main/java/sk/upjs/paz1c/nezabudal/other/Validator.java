@@ -22,9 +22,9 @@ public class Validator {
     private static final CategoryManager CATEGORY_MANAGER = ObjectFactory.INSTANCE.getCategoryManager();
 
     private static final LoanManager LOAN_MANAGER = ObjectFactory.INSTANCE.getLoanManager();
-    
+
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-    
+
     public static final String WRONG_BORROWED_TO_ME_FORMAT = "Nesprávny formát riadku \"Požičané mne\"";
 
     public static String validateCategory(Category category, String title) {
@@ -50,14 +50,14 @@ public class Validator {
             return null;
         }
     }
-    
+
     public static String validateItemCount() {
         if (ITEM_MANAGER.getItems().isEmpty()) {
             return "Zoznam predmetov je prázdny!";
         }
         return null;
     }
-    
+
     public static String validateLoanCount() {
         if (LOAN_MANAGER.getLoans().isEmpty()) {
             return "Zoznam pôžičiek je prázdny!";
@@ -65,24 +65,29 @@ public class Validator {
         return null;
     }
 
-    public static String categoryHasNoItems(Category category) {
-        boolean hasNoItem = ITEM_MANAGER.getByCategory(category).isEmpty();
-        if (hasNoItem) {
-            return null;
+   public static String categoryHasNoItems(Category category) {
+        List<Item> items = ITEM_MANAGER.getByCategory(category);
+        if (items != null) {
+            boolean hasNoItem = items.isEmpty();
+            if (hasNoItem) {
+                return null;
+            }
+
         } else {
             return "Kategória musí byť prázdna!";
         }
+        return null;
     }
 
-    public static String validateItem(String name, String description) {
+    public static String validateItem(String name) {
 
         if (name == null || name.trim().equals("")) {
             return "Zadajte názov";
         }
-
-        if (description == null || description.trim().equals("")) {
-            return "Zadajte popis";
-        }
+//
+//        if (description == null || description.trim().equals("")) {
+//            return "Zadajte popis";
+//        }
         return null;
     }
 
@@ -122,7 +127,7 @@ public class Validator {
         LocalDateTime dateTime;
         LocalDateTime date = LocalDateTime.now();
         String example = date.format(FORMATTER);
-        
+
         try {
             dateTime = LocalDateTime.parse(until, FORMATTER);
         } catch (DateTimeParseException exception) {
@@ -136,7 +141,7 @@ public class Validator {
             return true;
         } else if (!(borrowedToMe == null) && borrowedToMe.toLowerCase().equals("nie")) {
             return false;
-        } 
+        }
         return null;
     }
 }

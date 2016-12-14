@@ -36,7 +36,9 @@ public class MysqlLoanDaoTest {
         item.setId(1L);
 
         Loan result = instance.getByItem(item);
-        assertEquals(result.getReturnDate(), null);
+        if (result != null) {
+            assertEquals(result.getReturnDate(), null);
+        }
     }
 
     /**

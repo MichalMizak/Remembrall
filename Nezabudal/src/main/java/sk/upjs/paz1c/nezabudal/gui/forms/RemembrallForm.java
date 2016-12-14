@@ -95,6 +95,7 @@ public class RemembrallForm extends javax.swing.JFrame {
             }
         });
 
+        lentByMeCheckBox.setSelected(true);
         lentByMeCheckBox.setText("Požičal som");
         lentByMeCheckBox.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -145,6 +146,7 @@ public class RemembrallForm extends javax.swing.JFrame {
             }
         });
 
+        notLentCheckBox.setSelected(true);
         notLentCheckBox.setText("Nepožičané");
         notLentCheckBox.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {

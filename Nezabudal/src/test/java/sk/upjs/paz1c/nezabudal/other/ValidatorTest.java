@@ -28,11 +28,9 @@ public class ValidatorTest {
     public void testCategoryHasNoItems() {
         System.out.println("categoryHasNoItems");
         Category category = null;
-        String expResult = "";
+        String expResult = "Kategória musí byť prázdna!";
         String result = Validator.categoryHasNoItems(category);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -46,7 +44,7 @@ public class ValidatorTest {
         Category selectedCategory = null;
         List<Attribute> list = null;
         String expResult = "Zadajte názov";
-        String result = Validator.validateItem(name, description);
+        String result = Validator.validateItem(name);
         assertEquals(expResult, result);
     }
 

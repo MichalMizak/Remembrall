@@ -23,7 +23,9 @@ public class ItemRemoveDialog extends javax.swing.JDialog {
         initComponents();
         GuiUtilities.setPositionMiddle(parent, this);
         setTitle("Odstráň predmet");
-        itemComboBox.setSelectedItem(item);
+        if (item != null) {
+            itemComboBox.setSelectedItem(item);
+        }
     }
 
     /**

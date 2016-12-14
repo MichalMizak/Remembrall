@@ -10,6 +10,8 @@ import static org.junit.Assert.*;
 import sk.upjs.paz1c.nezabudal.entity.Attribute;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;
+import sk.upjs.paz1c.nezabudal.managers.CategoryManager;
+import sk.upjs.paz1c.nezabudal.other.ObjectFactory;
 
 /**
  *
@@ -18,6 +20,7 @@ import sk.upjs.paz1c.nezabudal.entity.Item;
 public class MysqlAttributeDaoTest {
 
     MysqlAttributeDao instance = new MysqlAttributeDao();
+    CategoryManager categoryManager = ObjectFactory.INSTANCE.getCategoryManager();
 
     @Test
     public void testGetById() {
@@ -39,7 +42,7 @@ public class MysqlAttributeDaoTest {
         List<Attribute> list = instance.getByCategory(category);
 
         System.out.println(list);
-        assertNotEquals(list.size(), null);
+        assertNotEquals(list, null);
     }
 
     /**

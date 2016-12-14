@@ -31,15 +31,20 @@ public class MysqlCategoryDao implements CategoryDao {
     @Override
     public Category getById(Long id) {
         String sql = "SELECT id as category_id, title as category_title from category where id = ?";
-        return jdbcTemplate.queryForObject(sql, new CategoryRowMapper(), id);
+
+        List<Category> list = jdbcTemplate.query(sql, new CategoryRowMapper(), id);
+        if (list.size() > 0) {
+            return list.get(0);
+        } else 
+            return null;
     }
 
     @Override
     public Number saveOrEdit(Category category) {
         if (category.getId() == null) {
             String sql = "INSERT INTO category VALUES (?, ?)";
-            
-             // need to get the generated value
+
+            // need to get the generated value
             final PreparedStatementCreator psc = new PreparedStatementCreator() {
                 @Override
                 public PreparedStatement createPreparedStatement(final Connection connection) throws SQLException {
@@ -52,8 +57,8 @@ public class MysqlCategoryDao implements CategoryDao {
             };
             final KeyHolder holder = new GeneratedKeyHolder();
 
-            jdbcTemplate.update(psc, holder); 
-            
+            jdbcTemplate.update(psc, holder);
+
             return holder.getKey();
             //jdbcTemplate.update(sql, null, category.getTitle());
         } else {
@@ -65,8 +70,9 @@ public class MysqlCategoryDao implements CategoryDao {
 
     @Override
     public void delete(Category category) {
-        if (category == null)
+        if (category == null) {
             return;
+        }
         String sql = "DELETE FROM category WHERE id = ?";
         jdbcTemplate.update(sql, category.getId());
     }

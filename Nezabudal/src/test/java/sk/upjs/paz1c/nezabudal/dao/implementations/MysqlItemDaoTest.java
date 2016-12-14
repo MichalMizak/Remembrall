@@ -1,5 +1,6 @@
 package sk.upjs.paz1c.nezabudal.dao.implementations;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -31,10 +32,17 @@ public class MysqlItemDaoTest {
     @Test
     public void testGetById() {
         System.out.println("getById");
-        Long id = 1L;
-        Item result = instance.getById(id);
-        System.out.println(result);
-        assertNotEquals(null, result);
+        List<Item> items = new ArrayList<>();
+
+        for (int i = 0; i < 30; i++) {
+            Item item = instance.getById(new Long(i));
+            if (item != null) {
+                items.add(item);
+            }
+
+        }
+        System.out.println(items);
+        assertTrue(items.size() > 0);
     }
 
     /**
@@ -44,21 +52,21 @@ public class MysqlItemDaoTest {
     public void testSave() {
         System.out.println("saveOrUpdate");
         Item item = new Item();
-        
+
         item.setName("Game of Thrones");
         item.setDescription("Ľudia zomierajú");
         item.setIsBorrowed(false);
-        
+
         MysqlAttributeDao attributeDao = new MysqlAttributeDao();
-        
+
         Category category = new Category();
         category.setId(2L);
         item.setCategory(category);
-        
+
         item.setAttributes(attributeDao.getByCategory(category));
-        
+
         instance.saveOrEdit(item);
-        
+
         System.out.println(item.getId());
 
         assertEquals(instance.getItems().size(), 2);
@@ -66,30 +74,30 @@ public class MysqlItemDaoTest {
 
     // @Test
     public void testEdit() {
-         System.out.println("saveOrUpdate");
+        System.out.println("saveOrUpdate");
         Item item = new Item();
-        
+
         item.setId(2L);
         item.setName("Game of Thrones");
         item.setDescription("ASOIAF časť 1.");
         item.setIsBorrowed(false);
-        
+
         MysqlAttributeDao attributeDao = new MysqlAttributeDao();
-        
+
         Category category = new Category();
         category.setId(2L);
         item.setCategory(category);
-        
+
         item.setAttributes(attributeDao.getByCategory(category));
-        
-        
+
         instance.saveOrEdit(item);
         System.out.println(item.getId());
-        
+
         Item item2 = instance.getById(2L);
-        
+
         assertEquals(item2.getDescription(), "ASOIAF časť 1.");
     }
+
     /**
      * Test of delete method, of class MysqlItemDao.
      */
@@ -112,9 +120,9 @@ public class MysqlItemDaoTest {
         category.setId(2L);
         List<Item> result = instance.getByCategory(category);
         for (Item item : result) {
-            assertEquals(category.getId(), item.getCategory().getId());     
+            assertEquals(category.getId(), item.getCategory().getId());
         }
-       
+
     }
 
     /**
@@ -124,13 +132,12 @@ public class MysqlItemDaoTest {
     public void testGetBorrowedItems() {
         System.out.println("getBorrowedItems");
         List<Item> expResult = null;
-        
+
         List<Item> result = instance.getItems(false);
         for (Item item : result) {
             assertFalse(item.isIsBorrowed());
         }
-        
-    }
 
+    }
 
 }

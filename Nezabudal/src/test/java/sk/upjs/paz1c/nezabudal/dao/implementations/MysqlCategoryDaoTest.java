@@ -1,9 +1,11 @@
 package sk.upjs.paz1c.nezabudal.dao.implementations;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import sk.upjs.paz1c.nezabudal.entity.Category;
+import sk.upjs.paz1c.nezabudal.entity.Item;
 
 /**
  *
@@ -28,14 +30,17 @@ public class MysqlCategoryDaoTest {
     @Test
     public void testGetById() {
         System.out.println("getById");
-        Long id = 1L;
+        List<Category> items = new ArrayList<>();
 
-        Category result = instance.getById(id);
+        for (int i = 0; i < 30; i++) {
+            Category item = instance.getById(new Long(i));
+            if (item != null) {
+                items.add(item);
+            }
 
-        System.out.println(result);
-        assertNotEquals(null, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //    fail("The test case is a prototype.");
+        }
+        System.out.println(items);
+        assertTrue(items.size() > 0);
     }
 
     /**

@@ -36,11 +36,11 @@ public class MysqlItemDao implements ItemDao {
         return itemList;
     }
 
-
     @Override
     public List<Item> getByCategory(Category category) {
-        if (category == null)
+        if (category == null) {
             return null;
+        }
         List<Item> itemList = jdbcTemplate.query(SqlQueries.GET_ITEMS_BY_CATEGORY, new ItemRowMapper(), category.getId());
 
         setAttributes(itemList);
@@ -52,10 +52,14 @@ public class MysqlItemDao implements ItemDao {
     public Item getById(Long id) {
         String sql = SqlQueries.GET_ITEM_BY_ID;
 
-        Item item = jdbcTemplate.queryForObject(sql, new ItemRowMapper(), id);
-        setAttributes(item);
+        List<Item> items = jdbcTemplate.query(sql, new ItemRowMapper(), id);
 
-        return item;
+        if (items.size() > 0) {
+            setAttributes(items);
+            return items.get(0);
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -92,15 +96,16 @@ public class MysqlItemDao implements ItemDao {
 
     @Override
     public void delete(Item item) {
-        if (item == null) 
+        if (item == null) {
             return;
+        }
         String sql = "DELETE FROM item WHERE id = ?";
         jdbcTemplate.update(sql, item.getId());
     }
 
     @Override
     public List<Item> getItems(boolean isBorrowed) {
-        List<Item> items = jdbcTemplate.query(SqlQueries.GET_BORROWED_ITEMS,new ItemRowMapper(), isBorrowed);
+        List<Item> items = jdbcTemplate.query(SqlQueries.GET_BORROWED_ITEMS, new ItemRowMapper(), isBorrowed);
         setAttributes(items);
         return items;
     }
