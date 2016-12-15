@@ -109,7 +109,7 @@
     <Component class="javax.swing.JComboBox" name="categoryComboBox">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="ObjectFactory.INSTANCE.getCategoryComboBoxModel()" type="code"/>
+          <Connection code="GuiObjectFactory.INSTANCE.getCategoryComboBoxModel()" type="code"/>
         </Property>
       </Properties>
       <Events>

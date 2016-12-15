@@ -3,13 +3,14 @@ package sk.upjs.paz1c.nezabudal.gui.forms;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Window;
-import sk.upjs.paz1c.nezabudal.other.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;
 import sk.upjs.paz1c.nezabudal.entity.Loan;
 import sk.upjs.paz1c.nezabudal.gui.models.CategoryComboBoxModel;
 import sk.upjs.paz1c.nezabudal.gui.models.ItemTableModel;
 import sk.upjs.paz1c.nezabudal.managers.LoanManager;
+import sk.upjs.paz1c.nezabudal.other.GuiObjectFactory;
+import sk.upjs.paz1c.nezabudal.other.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.other.Validator;
 
 /*
@@ -159,7 +160,7 @@ public class RemembrallForm extends javax.swing.JFrame {
             }
         });
 
-        categoryComboBox.setModel(ObjectFactory.INSTANCE.getCategoryComboBoxModel());
+        categoryComboBox.setModel(GuiObjectFactory.INSTANCE.getCategoryComboBoxModel());
         categoryComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 categoryComboBoxActionPerformed(evt);

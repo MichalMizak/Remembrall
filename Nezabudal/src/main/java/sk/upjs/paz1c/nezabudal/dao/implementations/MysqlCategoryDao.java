@@ -22,7 +22,7 @@ public class MysqlCategoryDao implements CategoryDao {
 
     JdbcTemplate jdbcTemplate = ObjectFactory.INSTANCE.getJdbcTemplate();
 
-    @Override
+     @Override
     public List<Category> getCategories() {
         String sql = "SELECT id as category_id, title as category_title from category;";
         return jdbcTemplate.query(sql, new CategoryRowMapper());

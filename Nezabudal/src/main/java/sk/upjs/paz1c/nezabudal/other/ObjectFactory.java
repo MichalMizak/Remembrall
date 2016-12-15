@@ -4,15 +4,11 @@ import com.mysql.cj.jdbc.MysqlDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.paz1c.nezabudal.dao.CategoryDao;
 import sk.upjs.paz1c.nezabudal.gui.models.CategoryComboBoxModel;
-import sk.upjs.paz1c.nezabudal.dummy.data.DummyCategoryDao;
-import sk.upjs.paz1c.nezabudal.dummy.data.DummyItemDao;
-import sk.upjs.paz1c.nezabudal.dummy.data.DummyLoanDao;
 import sk.upjs.paz1c.nezabudal.managers.implementations.DefaultItemManager;
 import sk.upjs.paz1c.nezabudal.managers.ItemManager;
 import sk.upjs.paz1c.nezabudal.dao.ItemDao;
 import sk.upjs.paz1c.nezabudal.dao.LoanDao;
 import sk.upjs.paz1c.nezabudal.dao.implementations.MysqlAttributeDao;
-import sk.upjs.paz1c.nezabudal.dummy.data.DummyAttributeDao;
 import sk.upjs.paz1c.nezabudal.managers.AttributeManager;
 import sk.upjs.paz1c.nezabudal.managers.CategoryManager;
 import sk.upjs.paz1c.nezabudal.managers.implementations.DefaultCategoryManager;
@@ -37,7 +33,6 @@ public enum ObjectFactory {
     private LoanManager loanManager;
     private AttributeManager attributeManager;
 
-    private CategoryComboBoxModel categoryComboBoxModel;
     private JdbcTemplate jdbcTemplate;
 
     public JdbcTemplate getJdbcTemplate() {
@@ -106,12 +101,4 @@ public enum ObjectFactory {
         }
         return attributeManager;
     }
-
-    public CategoryComboBoxModel getCategoryComboBoxModel() {
-        if (categoryComboBoxModel == null) {
-            categoryComboBoxModel = new CategoryComboBoxModel();
-        }
-        return categoryComboBoxModel;
-    }
-
 }

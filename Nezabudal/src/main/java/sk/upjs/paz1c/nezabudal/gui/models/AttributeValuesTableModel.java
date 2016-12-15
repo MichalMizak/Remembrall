@@ -50,6 +50,9 @@ public class AttributeValuesTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
+        if (attributes == null) {
+            return 0;
+        }
         return attributes.size();
     }
 

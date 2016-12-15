@@ -3,6 +3,8 @@ package sk.upjs.paz1c.nezabudal.gui.forms;
 import java.util.List;
 import sk.upjs.paz1c.nezabudal.entity.Attribute;
 import sk.upjs.paz1c.nezabudal.other.ObjectFactory;
+import sk.upjs.paz1c.nezabudal.other.GuiObjectFactory;
+
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;
 import sk.upjs.paz1c.nezabudal.gui.models.AttributeValuesTableModel;
@@ -86,7 +88,7 @@ public class ItemDialog extends javax.swing.JDialog {
         setTitle("Nová pôžička");
         setModal(true);
 
-        categoryComboBox.setModel(ObjectFactory.INSTANCE.getCategoryComboBoxModel());
+        categoryComboBox.setModel(GuiObjectFactory.INSTANCE.getCategoryComboBoxModel());
         categoryComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 categoryComboBoxActionPerformed(evt);
@@ -189,7 +191,7 @@ public class ItemDialog extends javax.swing.JDialog {
         // add item
         // TODO proper validation
         List<Attribute> list = (getAttributeValuesTableModel()).getAttributes();
-
+                
         String name = nameTextField.getText();
         String description = specificationTextArea.getText();
         // boolean isBorrowed = item.isIsBorrowed();

@@ -2,6 +2,8 @@ package sk.upjs.paz1c.nezabudal.gui.forms;
 
 import java.time.LocalDateTime;
 import sk.upjs.paz1c.nezabudal.other.ObjectFactory;
+import sk.upjs.paz1c.nezabudal.other.GuiObjectFactory;
+
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;
 import sk.upjs.paz1c.nezabudal.entity.Loan;
@@ -79,7 +81,7 @@ public class LoanDialog extends javax.swing.JDialog {
         loanTable.setModel(new LoanTableModel());
         jScrollPane1.setViewportView(loanTable);
 
-        categoryComboBox.setModel(ObjectFactory.INSTANCE.getCategoryComboBoxModel());
+        categoryComboBox.setModel(GuiObjectFactory.INSTANCE.getCategoryComboBoxModel());
         categoryComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 categoryComboBoxActionPerformed(evt);

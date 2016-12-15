@@ -1,6 +1,8 @@
 package sk.upjs.paz1c.nezabudal.gui.forms;
 
 import sk.upjs.paz1c.nezabudal.other.ObjectFactory;
+import sk.upjs.paz1c.nezabudal.other.GuiObjectFactory;
+
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.gui.models.CategoryComboBoxModel;
 import sk.upjs.paz1c.nezabudal.managers.CategoryManager;
@@ -52,7 +54,7 @@ public class CategoryRemoveDialog extends javax.swing.JDialog {
             }
         });
 
-        categoryComboBox.setModel(ObjectFactory.INSTANCE.getCategoryComboBoxModel());
+        categoryComboBox.setModel(GuiObjectFactory.INSTANCE.getCategoryComboBoxModel());
         categoryComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 categoryComboBoxActionPerformed(evt);
