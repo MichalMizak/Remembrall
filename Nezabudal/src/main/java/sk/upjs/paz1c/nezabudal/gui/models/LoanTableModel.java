@@ -14,7 +14,7 @@ public class LoanTableModel extends AbstractTableModel {
 
     private static final int COLUMN_COUNT = COLUMN_TITLES.length;
 
-    private static final String[] FIRST_COLUMN_VALUES = {"Popis", "Požičané mne", "Osoba", "Od", "Do"};
+    private static final String[] FIRST_COLUMN_VALUES = {"Popis", "Požičané mne", "Od", "Do"};
 
     private static final int ROW_COUNT = FIRST_COLUMN_VALUES.length;
 
@@ -87,16 +87,16 @@ public class LoanTableModel extends AbstractTableModel {
         }
         secondColumnValues[0] = loan.getSpecification();
         secondColumnValues[1] = isBorrowed;
-        secondColumnValues[2] = loan.getPerson();
+        //secondColumnValues[2] = loan.getPerson().toString();
         if (loan.getStartDate() == null) {
-            secondColumnValues[3] = null;
+            secondColumnValues[2] = null;
         } else {
-            secondColumnValues[3] = loan.getStartDate().format(Validator.FORMATTER);
+            secondColumnValues[2] = loan.getStartDate().format(Validator.FORMATTER);
         }
         if (loan.getReturnDate() == null) {
-            secondColumnValues[4] = null;
+            secondColumnValues[3] = null;
         } else {
-            secondColumnValues[4] = loan.getReturnDate().format(Validator.FORMATTER);
+            secondColumnValues[3] = loan.getReturnDate().format(Validator.FORMATTER);
         }
 
         fireTableDataChanged();

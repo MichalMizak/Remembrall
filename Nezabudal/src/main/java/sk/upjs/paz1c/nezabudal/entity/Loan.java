@@ -19,13 +19,13 @@ public class Loan {
 
     private boolean lentToMe;
 
-    private String person;    
+    private Person person;    
     
     private LocalDateTime startDate;
     
     private LocalDateTime returnDate;
 
-    public Loan(Item item, String specification, boolean borrowedToMe, String person, LocalDateTime startDate, LocalDateTime returnDate) {
+    public Loan(Item item, String specification, boolean borrowedToMe, Person person, LocalDateTime startDate, LocalDateTime returnDate) {
         this.item = item;
         this.specification = specification;
         this.lentToMe = borrowedToMe;
@@ -54,11 +54,11 @@ public class Loan {
         this.lentToMe = lentToMe;
     }
 
-    public String getPerson() {
+    public Person getPerson() {
         return person;
     }
 
-    public void setPerson(String person) {
+    public void setPerson(Person person) {
         this.person = person;
     }
 

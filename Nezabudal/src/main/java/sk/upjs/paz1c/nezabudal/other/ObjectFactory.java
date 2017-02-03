@@ -3,7 +3,6 @@ package sk.upjs.paz1c.nezabudal.other;
 import com.mysql.cj.jdbc.MysqlDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.paz1c.nezabudal.dao.CategoryDao;
-import sk.upjs.paz1c.nezabudal.gui.models.CategoryComboBoxModel;
 import sk.upjs.paz1c.nezabudal.managers.implementations.DefaultItemManager;
 import sk.upjs.paz1c.nezabudal.managers.ItemManager;
 import sk.upjs.paz1c.nezabudal.dao.ItemDao;
@@ -16,9 +15,13 @@ import sk.upjs.paz1c.nezabudal.managers.implementations.DefaultLoanManager;
 import sk.upjs.paz1c.nezabudal.managers.LoanManager;
 import sk.upjs.paz1c.nezabudal.managers.implementations.DefaultAttributeManager;
 import sk.upjs.paz1c.nezabudal.dao.AttributeDao;
+import sk.upjs.paz1c.nezabudal.dao.PersonDao;
 import sk.upjs.paz1c.nezabudal.dao.implementations.MysqlCategoryDao;
 import sk.upjs.paz1c.nezabudal.dao.implementations.MysqlItemDao;
 import sk.upjs.paz1c.nezabudal.dao.implementations.MysqlLoanDao;
+import sk.upjs.paz1c.nezabudal.dao.implementations.MysqlPersonDao;
+import sk.upjs.paz1c.nezabudal.managers.PersonManager;
+import sk.upjs.paz1c.nezabudal.managers.implementations.DefaultPersonManager;
 
 public enum ObjectFactory {
     INSTANCE;
@@ -27,12 +30,14 @@ public enum ObjectFactory {
     private LoanDao loanDao;
     private ItemDao itemDao;
     private AttributeDao attributeDao;
+    private PersonDao personDao;
 
     private ItemManager itemManager;
     private CategoryManager categoryManager;
     private LoanManager loanManager;
     private AttributeManager attributeManager;
-
+    private PersonManager personManager;
+    
     private JdbcTemplate jdbcTemplate;
 
     public JdbcTemplate getJdbcTemplate() {
@@ -74,6 +79,13 @@ public enum ObjectFactory {
         return attributeDao;
     }
 
+    public PersonDao getPersonDao() {
+        if (personDao == null) {
+            personDao = new MysqlPersonDao();
+        }
+        return personDao;
+    }
+    
     public CategoryManager getCategoryManager() {
         if (categoryManager == null) {
             categoryManager = new DefaultCategoryManager();
@@ -100,5 +112,12 @@ public enum ObjectFactory {
             attributeManager = new DefaultAttributeManager();
         }
         return attributeManager;
+    }
+
+    public PersonManager getPersonManager() {
+        if (personManager == null) {
+            personManager = new DefaultPersonManager();
+        }
+        return personManager;
     }
 }

@@ -1,6 +1,7 @@
 package sk.upjs.paz1c.nezabudal.managers;
 
 import java.util.List;
+import sk.upjs.paz1c.nezabudal.dao.AttributeDao;
 import sk.upjs.paz1c.nezabudal.entity.Attribute;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;

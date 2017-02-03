@@ -14,34 +14,29 @@ import sk.upjs.paz1c.nezabudal.managers.CategoryManager;
  * @author Mikey
  */
 public class DefaultCategoryManager implements CategoryManager {
-    
+
     CategoryDao categoryDao = ObjectFactory.INSTANCE.getCategoryDao();
     AttributeManager attributeManager = ObjectFactory.INSTANCE.getAttributeManager();
-    
+
     @Override
     public List<Category> getCategories() {
         return categoryDao.getCategories();
     }
-    
+
     @Override
     public Category getById(Long id) {
         return categoryDao.getById(id);
     }
-    
+
     @Override
     public void saveOrEdit(Category category, List<Attribute> attributes) {
-        Number number = categoryDao.saveOrEdit(category);
-        
-        if (category.getId() == null) {
-            category.setId(number.longValue());
-        }
+        categoryDao.saveOrEdit(category);
+
         attributeManager.saveOrEditName(attributes, category);
-        
-    }
-    
+     }
+
     @Override
     public void delete(Category category) {
         categoryDao.delete(category);
     }
-    
 }

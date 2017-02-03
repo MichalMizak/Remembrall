@@ -59,7 +59,7 @@ public class DummyCategoryDao implements CategoryDao {
     }
 
     @Override
-    public Number saveOrEdit(Category kategoria) {
+    public void saveOrEdit(Category kategoria) {
         
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

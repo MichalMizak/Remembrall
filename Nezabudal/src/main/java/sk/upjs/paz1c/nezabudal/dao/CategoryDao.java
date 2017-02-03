@@ -18,7 +18,7 @@ public interface CategoryDao {
      * @param category
      * @return 
      */
-    public Number saveOrEdit(Category category);  
+    public void saveOrEdit(Category category);  
     
     public void delete(Category category);
 }

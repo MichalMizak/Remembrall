@@ -92,13 +92,13 @@ public class Validator {
     }
 
     // "Popis", "Požičané mne", "Osoba", "Od", "Do"
-    public static String validateLoan(Item item, boolean editMode, String person) {
+    public static String validateLoan(Item item, boolean editMode) {
         if (item.isIsBorrowed() && !editMode) {
             return "Predmet nesmie byť zapožičaný";
         }
-        if (person == null || person.trim().equals("")) {
-            return "Vyplňte riadok Osoba";
-        }
+        // if (person == null || person.trim().equals("")) {
+           // return "Vyplňte riadok Osoba";
+        //}
 
         return null;
     }

@@ -7,9 +7,11 @@ import sk.upjs.paz1c.nezabudal.other.GuiObjectFactory;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;
 import sk.upjs.paz1c.nezabudal.entity.Loan;
+import sk.upjs.paz1c.nezabudal.entity.Person;
 import sk.upjs.paz1c.nezabudal.gui.models.CategoryComboBoxModel;
 import sk.upjs.paz1c.nezabudal.gui.models.ItemComboBoxModel;
 import sk.upjs.paz1c.nezabudal.gui.models.LoanTableModel;
+import sk.upjs.paz1c.nezabudal.gui.models.PersonComboBoxModel;
 import sk.upjs.paz1c.nezabudal.managers.LoanManager;
 import sk.upjs.paz1c.nezabudal.other.Validator;
 
@@ -70,6 +72,9 @@ public class LoanDialog extends javax.swing.JDialog {
         itemLabel = new javax.swing.JLabel();
         itemComboBox = new javax.swing.JComboBox<>();
         warningTextLabel = new javax.swing.JLabel();
+        personComboBox = new javax.swing.JComboBox<>();
+        personLabel = new javax.swing.JLabel();
+        personButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nová pôžička");
@@ -102,6 +107,17 @@ public class LoanDialog extends javax.swing.JDialog {
         warningTextLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         warningTextLabel.setText("Potvrďte vlastnosť stlačením \"enter\"");
 
+        personComboBox.setModel(new PersonComboBoxModel());
+
+        personLabel.setText("Osoba");
+
+        personButton.setText("Pridaj osobu");
+        personButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                personButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -109,18 +125,21 @@ public class LoanDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(categoryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(itemLabel))
+                            .addComponent(personLabel, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(categoryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(itemLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(categoryComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(itemComboBox, 0, 207, Short.MAX_VALUE))))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(personComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(personButton))
+                            .addComponent(itemComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(categoryComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,8 +158,13 @@ public class LoanDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(itemLabel)
                     .addComponent(itemComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(personComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(personLabel)
+                    .addComponent(personButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(warningTextLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -169,7 +193,7 @@ public class LoanDialog extends javax.swing.JDialog {
         Boolean lentToMe;
         Item item = getSelectedItem();
         String description = secondRowValues[0];
-        String person = secondRowValues[2];
+        Person person = (Person) personComboBox.getSelectedItem();
 
         lentToMe = Validator.validateLoanBorrowedToMe(isBorrowedString);
         // EW EW EW EW SORRY FOR THIS
@@ -178,14 +202,14 @@ public class LoanDialog extends javax.swing.JDialog {
             return;
         }
 
-        String validationMessage = Validator.validateLoan(item, editMode, person);
+        String validationMessage = Validator.validateLoan(item, editMode);
         if (validationMessage != null) {
             createWarningDialog(validationMessage);
             return;
         }
 
         LocalDateTime since;
-        Object validation = Validator.validateLoanSince(secondRowValues[3]);
+        Object validation = Validator.validateLoanSince(secondRowValues[2]);
 
         wat:
         try {
@@ -201,7 +225,7 @@ public class LoanDialog extends javax.swing.JDialog {
         }
 
         LocalDateTime until;
-        validation = Validator.validateLoanUntil(secondRowValues[4]);
+        validation = Validator.validateLoanUntil(secondRowValues[3]);
         wat:
         try {
             if (validation == null) {
@@ -229,6 +253,12 @@ public class LoanDialog extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_addLoanButton1ActionPerformed
 
+    private void personButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_personButtonActionPerformed
+       PersonDialog personDialog = new PersonDialog(this, true);
+       personDialog.setVisible(true);
+       ((PersonComboBoxModel)personComboBox.getModel()).refresh();
+    }//GEN-LAST:event_personButtonActionPerformed
+
     private void createWarningDialog(String validation) {
         WarningDialog warningDialog = new WarningDialog(this, true, validation);
         warningDialog.setVisible(true);
@@ -247,6 +277,9 @@ public class LoanDialog extends javax.swing.JDialog {
     private javax.swing.JLabel itemLabel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable loanTable;
+    private javax.swing.JButton personButton;
+    private javax.swing.JComboBox<Person> personComboBox;
+    private javax.swing.JLabel personLabel;
     private javax.swing.JLabel warningTextLabel;
     // End of variables declaration//GEN-END:variables
 

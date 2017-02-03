@@ -1,6 +1,7 @@
 package sk.upjs.paz1c.nezabudal.managers;
 
 import java.util.List;
+import sk.upjs.paz1c.nezabudal.dao.ItemDao;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;
 
@@ -21,7 +22,7 @@ public interface ItemManager {
     void delete(Item item);
 
     List<Item> getNotBorrowedItems();
-    
+
     List<Item> getBorrowedItems();
 
     List<Item> getByCategory(boolean lentByMeCheckBox, boolean lentToMeCheckBox, boolean notLentCheckBox, Category category);

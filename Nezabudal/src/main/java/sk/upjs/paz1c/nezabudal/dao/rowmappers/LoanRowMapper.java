@@ -9,6 +9,7 @@ import java.time.ZoneId;
 import org.springframework.jdbc.core.RowMapper;
 import sk.upjs.paz1c.nezabudal.entity.Item;
 import sk.upjs.paz1c.nezabudal.entity.Loan;
+import sk.upjs.paz1c.nezabudal.entity.Person;
 
 /**
  *
@@ -31,7 +32,10 @@ public class LoanRowMapper implements RowMapper<Loan> {
         loan.setId(rs.getLong("loan_id"));
         loan.setSpecification(rs.getString("loan_specification"));
         loan.setLentToMe(rs.getBoolean("loan_lent_to_me"));
-        loan.setPerson(rs.getString("loan_person"));
+      
+        Person person = new Person();
+        person.setId(rs.getLong("loan_person"));
+        loan.setPerson(person);
 
         Item item = new Item();
         item.setId(rs.getLong("loan_item_id"));

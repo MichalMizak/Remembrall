@@ -25,25 +25,28 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="jScrollPane1" alignment="0" pref="0" max="32767" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="categoryLabel" alignment="0" min="-2" pref="80" max="-2" attributes="0"/>
-                                  <Component id="itemLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="categoryComboBox" max="32767" attributes="0"/>
-                                  <Component id="itemComboBox" pref="207" max="32767" attributes="0"/>
-                              </Group>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="categoryLabel" alignment="0" min="-2" pref="80" max="-2" attributes="0"/>
+                              <Component id="itemLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <Component id="personLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="personComboBox" min="-2" pref="164" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="personButton" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="itemComboBox" max="32767" attributes="0"/>
+                          <Component id="categoryComboBox" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -70,8 +73,14 @@
                   <Component id="itemLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="itemComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="118" max="32767" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="personComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="personLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="personButton" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="22" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="138" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="warningTextLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -149,6 +158,29 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Potvr&#x10f;te vlastnos&#x165; stla&#x10d;en&#xed;m &quot;enter&quot;"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="personComboBox">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="new PersonComboBoxModel()" type="code"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Person&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="personLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Osoba"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="personButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Pridaj osobu"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="personButtonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

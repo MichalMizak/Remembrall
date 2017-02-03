@@ -60,7 +60,7 @@ public class ValidatorTest {
         String description = "";
         String person = "";
         String expResult = "Predmet nesmie byť zapožičaný";
-        String result = Validator.validateLoan(item, false, person);
+        String result = Validator.validateLoan(item, false);
         assertEquals(expResult, result);  
     
     }

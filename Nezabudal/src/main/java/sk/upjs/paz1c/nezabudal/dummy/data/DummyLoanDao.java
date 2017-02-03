@@ -9,6 +9,7 @@ import sk.upjs.paz1c.nezabudal.entity.Loan;
 import sk.upjs.paz1c.nezabudal.other.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;
+import sk.upjs.paz1c.nezabudal.entity.Person;
 
 /**
  *
@@ -23,7 +24,7 @@ public class DummyLoanDao implements LoanDao {
         List<Attribute> attributes = ObjectFactory.INSTANCE.getAttributeManager().getByCategory(category);
         Item item = new Item("Dummy item name", "Dummy item description",  true, category, attributes);
         
-        loan = new Loan(item, "Dummy loan spec", true, "Mike", 
+        loan = new Loan(item, "Dummy loan spec", true, new Person(), 
                 LocalDateTime.now(), LocalDateTime.MIN);
     }
 

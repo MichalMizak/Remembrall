@@ -40,7 +40,7 @@ public class MysqlCategoryDao implements CategoryDao {
     }
 
     @Override
-    public Number saveOrEdit(Category category) {
+    public void saveOrEdit(Category category) {
         if (category.getId() == null) {
             String sql = "INSERT INTO category VALUES (?, ?)";
 
@@ -58,13 +58,14 @@ public class MysqlCategoryDao implements CategoryDao {
             final KeyHolder holder = new GeneratedKeyHolder();
 
             jdbcTemplate.update(psc, holder);
-
-            return holder.getKey();
-            //jdbcTemplate.update(sql, null, category.getTitle());
+        
+            Number number = holder.getKey();
+            
+            category.setId(number.longValue());
+        
         } else {
             String sql = "UPDATE category SET title = ? WHERE id = ?";
             jdbcTemplate.update(sql, category.getTitle(), category.getId());
-            return null;
         }
     }
 
