@@ -2,7 +2,10 @@ package sk.upjs.paz1c.nezabudal.managers.implementations;
 
 import java.util.List;
 import sk.upjs.paz1c.nezabudal.dao.PersonDao;
+import sk.upjs.paz1c.nezabudal.entity.Item;
+import sk.upjs.paz1c.nezabudal.entity.Loan;
 import sk.upjs.paz1c.nezabudal.entity.Person;
+import sk.upjs.paz1c.nezabudal.managers.LoanManager;
 import sk.upjs.paz1c.nezabudal.managers.PersonManager;
 import sk.upjs.paz1c.nezabudal.other.ObjectFactory;
 
@@ -32,5 +35,16 @@ public class DefaultPersonManager implements PersonManager {
     @Override
     public void delete(Person person) {
         personDao.delete(person);
+    }
+
+    @Override
+    public Person getByItem(Item item) {
+        LoanManager loanManager = ObjectFactory.INSTANCE.getLoanManager();
+        Loan loan = loanManager.getByItem(item);
+        
+        if (loan == null) {
+            return null;
+        }
+        return loan.getPerson();
     }
 }

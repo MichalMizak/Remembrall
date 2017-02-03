@@ -5,6 +5,7 @@ import sk.upjs.paz1c.nezabudal.dao.LoanDao;
 import sk.upjs.paz1c.nezabudal.other.ObjectFactory;
 import sk.upjs.paz1c.nezabudal.entity.Item;
 import sk.upjs.paz1c.nezabudal.entity.Loan;
+import sk.upjs.paz1c.nezabudal.entity.Person;
 import sk.upjs.paz1c.nezabudal.managers.LoanManager;
 
 /**
@@ -38,6 +39,11 @@ public class DefaultLoanManager implements LoanManager {
     @Override
     public void saveOrEdit(Loan loan) {
         loanDao.saveOrEdit(loan);
+    }
+
+    @Override
+    public List<Loan> getByPerson(Person person) {
+       return loanDao.getByPerson(person);
     }
 
 }

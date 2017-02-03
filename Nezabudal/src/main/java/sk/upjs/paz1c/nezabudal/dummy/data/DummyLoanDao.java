@@ -54,4 +54,9 @@ public class DummyLoanDao implements LoanDao {
     public void saveOrEdit(Loan loan) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public List<Loan> getByPerson(Person person) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

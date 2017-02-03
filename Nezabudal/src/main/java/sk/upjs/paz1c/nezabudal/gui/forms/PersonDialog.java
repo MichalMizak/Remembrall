@@ -11,8 +11,9 @@ import sk.upjs.paz1c.nezabudal.other.ObjectFactory;
 public class PersonDialog extends javax.swing.JDialog {
 
     PersonManager personManager = ObjectFactory.INSTANCE.getPersonManager();
-    
+
     Person person;
+
     /**
      * Creates new form PersonDialog
      */
@@ -20,13 +21,26 @@ public class PersonDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         person = new Person();
+        GuiUtilities.setPositionMiddle(parent, this);
+    }
+    
+    public PersonDialog(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+        initComponents();
+        person = new Person();
+        GuiUtilities.setPositionMiddle(parent, this);
     }
 
-    public PersonDialog(java.awt.Dialog parent, boolean modal, Person person) {
+    
+     public PersonDialog(java.awt.Frame parent, boolean modal, Person person) {
         super(parent, modal);
         initComponents();
         this.person = person;
-    }
+        GuiUtilities.setPositionMiddle(parent, this);
+        setTextFields(person);
+        addPersonButton.setText("Uprav osobu");
+     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -141,12 +155,12 @@ public class PersonDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_surnameTextFieldActionPerformed
 
     private void addPersonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addPersonButtonActionPerformed
-       
+
         person.setName(nameTextField.getText());
         person.setSurname(surnameTextField.getText());
         person.setEmail(emailTextField.getText());
         person.setPhoneNumber(phoneNumberTextField.getText());
-        
+
         personManager.saveOrEdit(person);
         setVisible(false);
     }//GEN-LAST:event_addPersonButtonActionPerformed
@@ -163,4 +177,11 @@ public class PersonDialog extends javax.swing.JDialog {
     private javax.swing.JLabel surnameLabel;
     private javax.swing.JTextField surnameTextField;
     // End of variables declaration//GEN-END:variables
+
+    private void setTextFields(Person person) {
+        nameTextField.setText(person.getName());
+        surnameTextField.setText(person.getSurname());
+        emailTextField.setText(person.getEmail());
+        phoneNumberTextField.setText(person.getPhoneNumber());
+    }
 }

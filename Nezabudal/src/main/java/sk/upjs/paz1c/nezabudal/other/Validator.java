@@ -4,9 +4,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
-import sk.upjs.paz1c.nezabudal.entity.Attribute;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;
+import sk.upjs.paz1c.nezabudal.entity.Loan;
+import sk.upjs.paz1c.nezabudal.entity.Person;
 import sk.upjs.paz1c.nezabudal.managers.CategoryManager;
 import sk.upjs.paz1c.nezabudal.managers.ItemManager;
 import sk.upjs.paz1c.nezabudal.managers.LoanManager;
@@ -65,7 +66,7 @@ public class Validator {
         return null;
     }
 
-   public static String categoryHasNoItems(Category category) {
+    public static String categoryHasNoItems(Category category) {
         List<Item> items = ITEM_MANAGER.getByCategory(category);
         if (items != null) {
             boolean hasNoItem = items.isEmpty();
@@ -77,6 +78,16 @@ public class Validator {
             return "Kategória musí byť prázdna!";
         }
         return null;
+    }
+
+    public static String personHasNoItems(Person person) {
+
+        List<Loan> loans = LOAN_MANAGER.getByPerson(person);
+        if (loans == null || loans.isEmpty()) {
+            return null;
+        } else {
+            return "Osoba nesmie vlastniť žiadne predmety!";
+        }
     }
 
     public static String validateItem(String name) {
@@ -97,7 +108,7 @@ public class Validator {
             return "Predmet nesmie byť zapožičaný";
         }
         // if (person == null || person.trim().equals("")) {
-           // return "Vyplňte riadok Osoba";
+        // return "Vyplňte riadok Osoba";
         //}
 
         return null;

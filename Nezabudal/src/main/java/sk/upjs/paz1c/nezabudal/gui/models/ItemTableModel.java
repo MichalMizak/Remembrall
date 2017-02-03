@@ -9,6 +9,8 @@ import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;
 import sk.upjs.paz1c.nezabudal.managers.AttributeManager;
 import sk.upjs.paz1c.nezabudal.managers.ItemManager;
+import sk.upjs.paz1c.nezabudal.managers.LoanManager;
+import sk.upjs.paz1c.nezabudal.managers.PersonManager;
 
 /**
  *
@@ -18,6 +20,8 @@ public class ItemTableModel extends AbstractTableModel {
 
     private final ItemManager itemManager = ObjectFactory.INSTANCE.getItemManager();
 
+    private final PersonManager personManager = ObjectFactory.INSTANCE.getPersonManager();
+    
     private AttributeManager attributeManager = ObjectFactory.INSTANCE.getAttributeManager();
 
     private List<Item> itemList = new ArrayList<>();
@@ -35,18 +39,20 @@ public class ItemTableModel extends AbstractTableModel {
     private int rowCount;
 
     private static final boolean EDITABILITY = false;
+    
+    private static final String NOT_BORROWED_MESSAGE = "Nikomu";
 
     public ItemTableModel(Category category) {
         refresh(true, true, true, category);
     }
 
-    public void refresh(boolean lentByMeCheckBox,  boolean lentToMeCheckBox,boolean notLentCheckBox, Category category) {
+    public void refresh(boolean lentByMeCheckBox, boolean lentToMeCheckBox, boolean notLentCheckBox, Category category) {
         this.category = category;
 
         fireTableDataChanged();
         setAttributeNameColumnTitles(attributeManager.getByCategory(category));
 
-        itemList = itemManager.getByCategory(lentByMeCheckBox, lentToMeCheckBox,notLentCheckBox, category);
+        itemList = itemManager.getByCategory(lentByMeCheckBox, lentToMeCheckBox, notLentCheckBox, category);
         setColumnCount();
         setRowCount();
 
@@ -67,20 +73,16 @@ public class ItemTableModel extends AbstractTableModel {
                 return item.getName();
             case 1:
                 return item.getDescription();
-            case 2:
-                return item.isIsBorrowed();
+            case 2: {
+                if (!item.isIsBorrowed()) {
+                    return NOT_BORROWED_MESSAGE;
+                } else {
+                    return personManager.getByItem(item).toString();
+                }
+            }
         }
         Attribute attributeAtColumn = attributeManager.getByNameId(attributeNameColumnTitles.get(columnIndex - columnTitles.length).getNameId(), item);
         return attributeAtColumn.getValue();
-    }
-
-    @Override
-    public Class<?> getColumnClass(int columnIndex) {
-        if (columnIndex == borrowedColumnIndex) {
-            return Boolean.class;
-        }
-
-        return super.getColumnClass(columnIndex);
     }
 
     @Override

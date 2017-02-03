@@ -7,6 +7,7 @@ import sk.upjs.paz1c.nezabudal.dao.LoanDao;
 import sk.upjs.paz1c.nezabudal.dao.rowmappers.LoanRowMapper;
 import sk.upjs.paz1c.nezabudal.entity.Item;
 import sk.upjs.paz1c.nezabudal.entity.Loan;
+import sk.upjs.paz1c.nezabudal.entity.Person;
 import sk.upjs.paz1c.nezabudal.managers.ItemManager;
 import sk.upjs.paz1c.nezabudal.other.ObjectFactory;
 
@@ -138,6 +139,29 @@ public class MysqlLoanDao implements LoanDao {
         }
     }
 
+    @Override
+    public List<Loan> getByPerson(Person person) {
+         String sql = "SELECT \n"
+                + "		id as loan_id,\n"
+                + "		specification as loan_specification,\n"
+                + "		lent_to_me as loan_lent_to_me,\n"
+                + "		person_id as loan_person,\n"
+                + "		item_id as loan_item_id,\n"
+                + "		since as loan_since,\n"
+                + "		until as loan_until\n"
+                + "	FROM loan"
+                + "     WHERE person_id = ?;";
+
+        List<Loan> loans = jdbcTemplate.query(sql, new LoanRowMapper(), person.getId());
+        if (loans.isEmpty()) {
+            return null;
+        }
+
+        setItemById(loans);
+        setPersonById(loans);
+        return loans;
+    }
+    
     // other
     private void setItemById(List<Loan> loans) {
         loans.forEach((loan) -> {
@@ -158,5 +182,7 @@ public class MysqlLoanDao implements LoanDao {
     private void setPersonById(Loan loan) {
         loan.setPerson(personManager.getById(loan.getPerson().getId()));
     }
+
+    
 
 }

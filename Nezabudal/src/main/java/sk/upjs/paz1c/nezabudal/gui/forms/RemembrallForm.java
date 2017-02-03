@@ -6,8 +6,10 @@ import java.awt.Window;
 import sk.upjs.paz1c.nezabudal.entity.Category;
 import sk.upjs.paz1c.nezabudal.entity.Item;
 import sk.upjs.paz1c.nezabudal.entity.Loan;
+import sk.upjs.paz1c.nezabudal.entity.Person;
 import sk.upjs.paz1c.nezabudal.gui.models.CategoryComboBoxModel;
 import sk.upjs.paz1c.nezabudal.gui.models.ItemTableModel;
+import sk.upjs.paz1c.nezabudal.gui.models.PersonComboBoxModel;
 import sk.upjs.paz1c.nezabudal.managers.LoanManager;
 import sk.upjs.paz1c.nezabudal.other.GuiObjectFactory;
 import sk.upjs.paz1c.nezabudal.other.ObjectFactory;
@@ -61,6 +63,10 @@ public class RemembrallForm extends javax.swing.JFrame {
         itemTable = new javax.swing.JTable();
         editCategoryButton = new javax.swing.JButton();
         editItemButton = new javax.swing.JButton();
+        addPersonButton = new javax.swing.JButton();
+        removePersonButton = new javax.swing.JButton();
+        editPersonButton = new javax.swing.JButton();
+        personComboBox = new javax.swing.JComboBox<>();
 
         jScrollPane2.setViewportView(jEditorPane1);
 
@@ -199,6 +205,29 @@ public class RemembrallForm extends javax.swing.JFrame {
             }
         });
 
+        addPersonButton.setText("Pridaj osobu");
+        addPersonButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addPersonButtonActionPerformed(evt);
+            }
+        });
+
+        removePersonButton.setText("Odstráň osobu");
+        removePersonButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removePersonButtonActionPerformed(evt);
+            }
+        });
+
+        editPersonButton.setText("Uprav osobu");
+        editPersonButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editPersonButtonActionPerformed(evt);
+            }
+        });
+
+        personComboBox.setModel(new PersonComboBoxModel());
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -213,19 +242,23 @@ public class RemembrallForm extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(categoryComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(addCategoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(lentByMeCheckBox)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(lentToMeCheckBox)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(notLentCheckBox))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(categoryComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(addCategoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(3, 3, 3)
-                                .addComponent(removeCategoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(editCategoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(notLentCheckBox)))
+                        .addGap(3, 3, 3)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(personComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(removeCategoryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(editCategoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(editPersonButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 787, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -233,7 +266,9 @@ public class RemembrallForm extends javax.swing.JFrame {
                     .addComponent(addItemButton, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
                     .addComponent(editItemButton, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
                     .addComponent(addLoanButton, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
-                    .addComponent(removeLoanButton, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE))
+                    .addComponent(removeLoanButton, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+                    .addComponent(addPersonButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(removePersonButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -247,12 +282,15 @@ public class RemembrallForm extends javax.swing.JFrame {
                     .addComponent(categoryComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(editCategoryButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(loanLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lentToMeCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lentByMeCheckBox)
-                    .addComponent(notLentCheckBox))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(loanLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lentToMeCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lentByMeCheckBox)
+                        .addComponent(notLentCheckBox)
+                        .addComponent(personComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(editPersonButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(addItemButton)
@@ -264,8 +302,12 @@ public class RemembrallForm extends javax.swing.JFrame {
                         .addComponent(addLoanButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(removeLoanButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(addPersonButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(removePersonButton)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -429,6 +471,30 @@ public class RemembrallForm extends javax.swing.JFrame {
 
     }//GEN-LAST:event_lentToMeCheckBoxStateChanged
 
+    private void addPersonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addPersonButtonActionPerformed
+        PersonDialog personDialog = new PersonDialog(this, true);
+        personDialog.setVisible(true);
+        itemTableRefresh();
+    }//GEN-LAST:event_addPersonButtonActionPerformed
+
+    private void removePersonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removePersonButtonActionPerformed
+        PersonRemoveDialog personRemoveDialog = new PersonRemoveDialog(this, true);
+        personRemoveDialog.setVisible(true);
+        itemTableRefresh();
+    }//GEN-LAST:event_removePersonButtonActionPerformed
+
+    private void editPersonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editPersonButtonActionPerformed
+        Person person = (Person) personComboBox.getSelectedItem();
+        if (person == null) {
+            WarningDialog warningDialog = new WarningDialog(this, true, "Musí existovať aspoň jedna osoba");
+            warningDialog.setVisible(true);
+            return;
+        }
+        PersonDialog personDialog = new PersonDialog(this, true, person);
+        personDialog.setVisible(true);
+        itemTableRefresh();
+    }//GEN-LAST:event_editPersonButtonActionPerformed
+
     private Category getSelectedCategory() {
         return (Category) getComboBoxModel().getSelectedItem();
     }
@@ -457,16 +523,6 @@ public class RemembrallForm extends javax.swing.JFrame {
 
     private ItemTableModel getItemTableModel() {
         return (ItemTableModel) itemTable.getModel();
-    }
-
-    static void setPositionMiddle(Window parent, Window child) {
-        Dimension dimParent = parent.getSize();
-        Dimension dimThis = child.getSize();
-
-        Point point = parent.getLocation();
-        point.setLocation(point.getX() + dimParent.getWidth() / 2 - dimThis.getWidth() / 2,
-                point.getY() + dimParent.getHeight() / 2 - dimThis.getHeight() / 2);
-        child.setLocation(point);
     }
 
     /**
@@ -518,11 +574,13 @@ public class RemembrallForm extends javax.swing.JFrame {
     private javax.swing.JButton addCategoryButton;
     private javax.swing.JButton addItemButton;
     private javax.swing.JButton addLoanButton;
+    private javax.swing.JButton addPersonButton;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<Category> categoryComboBox;
     private javax.swing.JLabel categoryLabel;
     private javax.swing.JButton editCategoryButton;
     private javax.swing.JButton editItemButton;
+    private javax.swing.JButton editPersonButton;
     private javax.swing.JTable itemTable;
     private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JProgressBar jProgressBar1;
@@ -532,9 +590,11 @@ public class RemembrallForm extends javax.swing.JFrame {
     private javax.swing.JCheckBox lentToMeCheckBox;
     private javax.swing.JLabel loanLabel;
     private javax.swing.JCheckBox notLentCheckBox;
+    private javax.swing.JComboBox<Person> personComboBox;
     private javax.swing.JButton removeCategoryButton;
     private javax.swing.JButton removeItemButton;
     private javax.swing.JButton removeLoanButton;
+    private javax.swing.JButton removePersonButton;
     // End of variables declaration//GEN-END:variables
 
 }

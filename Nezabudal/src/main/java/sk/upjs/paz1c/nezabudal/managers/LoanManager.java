@@ -4,6 +4,7 @@ import java.util.List;
 import sk.upjs.paz1c.nezabudal.dao.LoanDao;
 import sk.upjs.paz1c.nezabudal.entity.Item;
 import sk.upjs.paz1c.nezabudal.entity.Loan;
+import sk.upjs.paz1c.nezabudal.entity.Person;
 
 /**
  *
@@ -20,4 +21,6 @@ public interface LoanManager {
     void delete(Loan loan);
 
     void saveOrEdit(Loan loan);
+
+    List<Loan> getByPerson(Person person);
 }

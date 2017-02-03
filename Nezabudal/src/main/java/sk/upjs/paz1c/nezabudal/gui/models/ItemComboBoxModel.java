@@ -35,7 +35,7 @@ public class ItemComboBoxModel extends DefaultComboBoxModel<Item> {
         removeAllElements();
 
         List<Item> items = itemManager.getByCategory(category);
-        
+
         if (items == null) {
             return;
         }
@@ -48,6 +48,17 @@ public class ItemComboBoxModel extends DefaultComboBoxModel<Item> {
         removeAllElements();
 
         List<Item> items = itemManager.getItems();
+
+        for (Item item : items) {
+            addElement(item);
+        }
+    }
+
+    public void refreshNotBorrowed(Category category) {
+        removeAllElements();
+
+        // returns not borrowed items in a category
+        List<Item> items = itemManager.getByCategory(false, false, true, category);
 
         for (Item item : items) {
             addElement(item);

@@ -25,7 +25,6 @@ class GuiUtilities {
         child.setLocation(point);
     }
 
-
     private static double validateX(double x) {
         x = validateY(x);
         return x;

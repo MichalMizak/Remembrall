@@ -8,7 +8,9 @@ import sk.upjs.paz1c.nezabudal.entity.Item;
 import sk.upjs.paz1c.nezabudal.dao.ItemDao;
 import sk.upjs.paz1c.nezabudal.dao.LoanDao;
 import sk.upjs.paz1c.nezabudal.entity.Loan;
+import sk.upjs.paz1c.nezabudal.entity.Person;
 import sk.upjs.paz1c.nezabudal.managers.ItemManager;
+import sk.upjs.paz1c.nezabudal.managers.LoanManager;
 
 /**
  *
@@ -17,7 +19,7 @@ import sk.upjs.paz1c.nezabudal.managers.ItemManager;
 public class DefaultItemManager implements ItemManager {
 
     private ItemDao itemDao = ObjectFactory.INSTANCE.getItemDao();
-    //  private LoanDao loanDao = ObjectFactory.INSTANCE.getLoanDao();
+    // private LoanDao loanDao = ObjectFactory.INSTANCE.getLoanDao();
 
     // DAO methods
     @Override
@@ -61,7 +63,7 @@ public class DefaultItemManager implements ItemManager {
             boolean notLentCheckBox, Category category) {
         // System.out.println(lentByMeCheckBox + "=lentbyme, " + lentToMeCheckBox
         //       + "=lenttome, " + notLentCheckBox + "=notlent @DefaultItemManager");
-        List<Item> items = new ArrayList<>();
+        List<Item> result = new ArrayList<>();
         List<Item> notLentItems;
 
         if (notLentCheckBox) {
@@ -72,7 +74,7 @@ public class DefaultItemManager implements ItemManager {
 
         for (Item notLentItem : notLentItems) {
             if (notLentItem.getCategory().getId() == category.getId()) {
-                items.add(notLentItem);
+                result.add(notLentItem);
             }
         }
 
@@ -83,10 +85,38 @@ public class DefaultItemManager implements ItemManager {
             if ((loan.isLentToMe() && lentToMeCheckBox) || (!loan.isLentToMe() && lentByMeCheckBox)) {
                 Item item = loan.getItem();
                 if (item.getCategory().getId() == category.getId()) {
-                    items.add(loan.getItem());
+                    result.add(loan.getItem());
                 }
             }
         }
+        return result;
+    }
+
+    @Override
+    public List<Item> getByPerson(Person person) {
+        LoanManager loanManager = ObjectFactory.INSTANCE.getLoanManager();
+        List<Loan> loans = loanManager.getByPerson(person);
+        List<Item> items = new ArrayList<>();
+
+        for (Loan loan : loans) {
+            items.add(loan.getItem());
+        }
+
+        return items;
+    }
+
+    @Override
+    public List<Item> getByPerson(Person person, boolean isLentToMe) {
+        LoanManager loanManager = ObjectFactory.INSTANCE.getLoanManager();
+        List<Loan> loans = loanManager.getByPerson(person);
+        List<Item> items = new ArrayList<>();
+
+        for (Loan loan : loans) {
+            if (loan.isLentToMe() == isLentToMe) {
+                items.add(loan.getItem());
+            }
+        }
+
         return items;
     }
 }

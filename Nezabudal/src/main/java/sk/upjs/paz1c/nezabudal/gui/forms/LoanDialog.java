@@ -40,6 +40,9 @@ public class LoanDialog extends javax.swing.JDialog {
 
         editMode = false;
         loan = new Loan();
+
+        getItemComboBoxModel().refreshNotBorrowed(getSelectedCategory());
+
     }
 
     public LoanDialog(java.awt.Frame parent, boolean modal, Loan loan) {
@@ -49,10 +52,12 @@ public class LoanDialog extends javax.swing.JDialog {
         setTitle("Uprav pôžičku");
 
         this.loan = loan;
-        getItemComboBoxModel().setSelectedItem(loan.getItem());
+        editMode = true;
+
+        getItemComboBoxModel().refresh(getSelectedCategory());
+
         getLoanTableModel().refresh(loan);
         addLoanButton1.setText("Uprav pôžičku");
-        editMode = true;
     }
 
     /**
@@ -176,7 +181,12 @@ public class LoanDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void categoryComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryComboBoxActionPerformed
-        getItemComboBoxModel().refresh(getSelectedCategory());
+        if (editMode) {
+            getItemComboBoxModel().refresh(getSelectedCategory());
+        } else {
+            getItemComboBoxModel().refreshNotBorrowed(getSelectedCategory());
+        }
+
     }//GEN-LAST:event_categoryComboBoxActionPerformed
 
     private ItemComboBoxModel getItemComboBoxModel() {
@@ -254,9 +264,9 @@ public class LoanDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_addLoanButton1ActionPerformed
 
     private void personButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_personButtonActionPerformed
-       PersonDialog personDialog = new PersonDialog(this, true);
-       personDialog.setVisible(true);
-       ((PersonComboBoxModel)personComboBox.getModel()).refresh();
+        PersonDialog personDialog = new PersonDialog(this, true);
+        personDialog.setVisible(true);
+        ((PersonComboBoxModel) personComboBox.getModel()).refresh();
     }//GEN-LAST:event_personButtonActionPerformed
 
     private void createWarningDialog(String validation) {

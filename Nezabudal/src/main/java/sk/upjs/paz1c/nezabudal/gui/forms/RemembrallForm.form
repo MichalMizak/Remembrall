@@ -52,22 +52,28 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="categoryComboBox" min="-2" pref="183" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                              <Component id="addCategoryButton" min="-2" pref="165" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
                               <Component id="lentByMeCheckBox" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="lentToMeCheckBox" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="notLentCheckBox" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="categoryComboBox" min="-2" pref="183" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                              <Component id="addCategoryButton" min="-2" pref="165" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
-                              <Component id="removeCategoryButton" min="-2" pref="159" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="editCategoryButton" min="-2" pref="159" max="-2" attributes="0"/>
-                          </Group>
+                      </Group>
+                      <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="personComboBox" max="32767" attributes="0"/>
+                          <Component id="removeCategoryButton" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="editCategoryButton" alignment="0" min="-2" pref="159" max="-2" attributes="0"/>
+                          <Component id="editPersonButton" alignment="1" min="-2" pref="159" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="jScrollPane1" pref="787" max="32767" attributes="0"/>
@@ -79,6 +85,8 @@
                   <Component id="editItemButton" alignment="0" pref="159" max="32767" attributes="0"/>
                   <Component id="addLoanButton" alignment="0" pref="159" max="32767" attributes="0"/>
                   <Component id="removeLoanButton" alignment="0" pref="159" max="32767" attributes="0"/>
+                  <Component id="addPersonButton" max="32767" attributes="0"/>
+                  <Component id="removePersonButton" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -96,13 +104,17 @@
                   <Component id="editCategoryButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="loanLabel" alignment="3" min="-2" pref="14" max="-2" attributes="0"/>
-                  <Component id="lentToMeCheckBox" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                  <Component id="lentByMeCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="notLentCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="loanLabel" alignment="3" min="-2" pref="14" max="-2" attributes="0"/>
+                      <Component id="lentToMeCheckBox" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                      <Component id="lentByMeCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="notLentCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="personComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="editPersonButton" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="addItemButton" min="-2" max="-2" attributes="0"/>
@@ -114,9 +126,13 @@
                       <Component id="addLoanButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="removeLoanButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="addPersonButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="removePersonButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="jScrollPane1" pref="474" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="473" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -263,6 +279,40 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editItemButtonActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="addPersonButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Pridaj osobu"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addPersonButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="removePersonButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Odstr&#xe1;&#x148; osobu"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removePersonButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="editPersonButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Uprav osobu"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editPersonButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="personComboBox">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="new PersonComboBoxModel()" type="code"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Person&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>
