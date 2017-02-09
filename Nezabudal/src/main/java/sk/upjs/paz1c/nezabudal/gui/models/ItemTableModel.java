@@ -21,7 +21,7 @@ public class ItemTableModel extends AbstractTableModel {
     private final ItemManager itemManager = ObjectFactory.INSTANCE.getItemManager();
 
     private final PersonManager personManager = ObjectFactory.INSTANCE.getPersonManager();
-    
+
     private AttributeManager attributeManager = ObjectFactory.INSTANCE.getAttributeManager();
 
     private List<Item> itemList = new ArrayList<>();
@@ -39,7 +39,7 @@ public class ItemTableModel extends AbstractTableModel {
     private int rowCount;
 
     private static final boolean EDITABILITY = false;
-    
+
     private static final String NOT_BORROWED_MESSAGE = "Nikomu";
 
     public ItemTableModel(Category category) {
@@ -77,7 +77,13 @@ public class ItemTableModel extends AbstractTableModel {
                 if (!item.isIsBorrowed()) {
                     return NOT_BORROWED_MESSAGE;
                 } else {
-                    return personManager.getByItem(item).toString();
+                    LoanManager loanManager = ObjectFactory.INSTANCE.getLoanManager();
+                    String personLoanInfo = "";
+                    if (loanManager.getByItem(item).isLentToMe()) {
+                        personLoanInfo = "Od ";
+                    }
+                    personLoanInfo = personLoanInfo.concat(personManager.getByItem(item).toString());
+                    return personLoanInfo;
                 }
             }
         }
